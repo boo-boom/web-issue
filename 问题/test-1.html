@@ -1,97 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div>
-        <button onclick="plus()">&nbsp; + &nbsp;</button>
-        <p id="p">0</p>
+      <button onclick="plus()">&nbsp; + &nbsp;</button>
+      <p id="p">0</p>
     </div>
-</body>
-<script>
+  </body>
+  <script>
     // 数组排序
     // 冒泡排序
     var arr = [3, 1, 4, 6, 2, 5];
     for (var i = 0; i < arr.length; i++) {
-        for (var j = 0; j < arr.length - i; j++) {
-            if (arr[j] >= arr[j + 1]) {
-                var t = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = t;
-            }
+      for (var j = 0; j < arr.length - i; j++) {
+        if (arr[j] >= arr[j + 1]) {
+          var t = arr[j];
+          arr[j] = arr[j + 1];
+          arr[j + 1] = t;
         }
+      }
     }
     console.log(arr);
 
     // sort
     var arr = [3, 1, 4, 6, 2, 5];
-    function compare(a, b){ return b - a };
-    console.log(arr.sort(compare))
+    function compare(a, b) {
+      return b - a;
+    }
+    console.log(arr.sort(compare));
 
     // 随机排序数组
     for (var i = 0; i < arr.length; i++) {
-        var T = arr[i];
-        var J = random(0, arr.length - 1);
-        arr[i] = arr[J];
-        arr[J] = T;
+      var T = arr[i];
+      var J = random(0, arr.length - 1);
+      arr[i] = arr[J];
+      arr[J] = T;
     }
     console.log(arr);
 
     function random(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
+      return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-    var str1 = 'abcba';
-    var str2 = str1.split('').reverse().join('');
+    var str1 = "abcba";
+    var str2 = str1
+      .split("")
+      .reverse()
+      .join("");
     if (str1 === str2) {
-        console.log('str1是回文');
+      console.log("str1是回文");
     } else {
-        console.log('str1不是回文');
+      console.log("str1不是回文");
     }
 
     /* 每秒打印一次for循环数据 */
-    /* for (var i = 0; i <= 100; i++) {
-        (function (i) {
-            setTimeout(function () {
-                console.log(i);
-            }, 1000 * i);
-        })(i);
-    }
-*/
+    // for (var i = 0; i <= 100; i++) {
+    //   (function(i) {
+    //     setTimeout(function() {
+    //       console.log(i);
+    //     }, 1000 * i);
+    //   })(i);
+    // }
+
     var data = {
-        user: 'userName',
-        pass: '12121',
-        obj: {
-            user: 'userName',
-            pass: '12121',
-        },
-        arr: [
-            /*  {
-                 user: 'userName',
-                 pass: '12121',
-             }, */
-            ['userName', '12121']
-        ]
+      user: "userName",
+      pass: "12121",
+      obj: {
+        user: "userName",
+        pass: "12121"
+      },
+      arr: [
+        // {
+        //   user: "userName",
+        //   pass: "12121"
+        // },
+        ["userName", "12121"]
+      ]
     };
     for (var k in data) {
-        if (Object.prototype.toString.call(data[k]) === '[object Array]') {
-            console.log(data[k]);
-        }
+      if (Object.prototype.toString.call(data[k]) === "[object Array]") {
+        console.log(data[k]);
+      }
     }
 
     function fun(n, o) {
-        console.log(o);
-        return {
-            fun: function (m) {
-                return fun(n, m);
-            }
+      console.log(o);
+      return {
+        fun: function(m) {
+          return fun(n, m);
         }
+      };
     }
 
     var a = fun(0).fun(1);
@@ -100,47 +104,47 @@
     }} */
 
     /* ----------------------------------------------- */
-    var name = 'World!';
+    var name = "World!";
 
     function a1() {
-        // 先查找局部变量在查找全局变量
-        // 变量提升：name 判断时局部变量还没有赋值所以为undefined
-        if (typeof name === 'undefined') {
-            var name = 'Jack';
-            console.log('Goodbye ' + name);
-        } else {
-            console.log('Hello ' + name);
-        }
-    };
+      // 先查找局部变量在查找全局变量
+      // 变量提升：name 判断时局部变量还没有赋值所以为undefined
+      if (typeof name === "undefined") {
+        var name = "Jack";
+        console.log("Goodbye " + name);
+      } else {
+        console.log("Hello " + name);
+      }
+    }
     a1(); // Goodbye Jack
 
     /* ----------------------------------------------- */
     function fn() {
-        // 先执行构造函数内的方法再执行原型上的方法
-        this.a = 0;
-        this.b = function () {
-            //alert(this.a)
-        }
+      // 先执行构造函数内的方法再执行原型上的方法
+      this.a = 0;
+      this.b = function() {
+        //alert(this.a)
+      };
     }
     fn.prototype = {
-        b: function () {
-            this.a = 20;
-            //alert(this.a);
-        },
-        c: function () {
-            this.a = 30;
-            //alert(this.a);
-        }
-    }
+      b: function() {
+        this.a = 20;
+        //alert(this.a);
+      },
+      c: function() {
+        this.a = 30;
+        //alert(this.a);
+      }
+    };
     var myfn = new fn();
     myfn.b();
     myfn.c();
     myfn.b();
 
     /* ---------------------------------------------- */
-    (function () {
-        // a:局部变量  b:全局变量
-        var ta = tb = 3;
+    (function() {
+      // a:局部变量  b:全局变量
+      var ta = (tb = 3);
     })();
     //console.log(ta);     // undefined
     //console.log(tb);     // 3
@@ -148,87 +152,77 @@
     /* ---------------------------------------------- */
     // 这两个返回一样吗
     function foo1() {
-        return {
-            bar: "hello"
-        };
+      return {
+        bar: "hello"
+      };
     }
 
     function foo2() {
-        return {
-            bar: "hello"
-        };
+      return {
+        bar: "hello"
+      };
     }
-
 
     var aaa = 1;
     function plus() {
-        watchVal.val = ++aaa;
-        let screen = document.getElementById('p');
-        screen.innerHTML = watchVal.value;
-        console.log(watchVal.value)
+      watchVal.val = ++aaa;
+      let screen = document.getElementById("p");
+      screen.innerHTML = watchVal.value;
+      console.log(watchVal.value);
     }
 
     var watchVal = {
-        value: 0,
-        get val() {
-            console.log('取值', this.value);
-            return this.value;
-        },
-        set val(vals) {
-            this.value = vals;
-            console.log('存过后的值', this.value);
-        }
-    }
+      value: 0,
+      get val() {
+        console.log("取值", this.value);
+        return this.value;
+      },
+      set val(vals) {
+        this.value = vals;
+        console.log("存过后的值", this.value);
+      }
+    };
 
     /* filter */
-    var abb = [1,1,3,4];
-    var acc = abb.filter(function(item){
-        return item == 1;
+    var abb = [1, 1, 3, 4];
+    var acc = abb.filter(function(item) {
+      return item == 1;
     });
     console.log(acc);
     /* map */
-    var users = [
-        {id: 0, name: "张111", "email": "zhang@email.com"},
-        {id: 1, name: "江222", "email": "jiang@email.com"},
-        {id: 2, name: "李333", "email": "li@email.com"}
-    ];
-    var desc = [
-        {id: 2, info: "我是张111", age: 23},
-        {id: 1, info: "我是江222", age: 25},
-        {id: 0, info: "我是李333", age: 29}
-    ];
-    var newArr = users.map(function (v, i) {
-        var _obj = {};
-        _obj.email = v.email;
-        desc.map(function(vv, ii){
-            if(v.id == vv.id){
-                _obj.info = vv.info;
-            }
-        });
-        return _obj;
+    var users = [{ id: 0, name: "张111", email: "zhang@email.com" }, { id: 1, name: "江222", email: "jiang@email.com" }, { id: 2, name: "李333", email: "li@email.com" }];
+    var desc = [{ id: 2, info: "我是张111", age: 23 }, { id: 1, info: "我是江222", age: 25 }, { id: 0, info: "我是李333", age: 29 }];
+    var newArr = users.map(function(v, i) {
+      var _obj = {};
+      _obj.email = v.email;
+      desc.map(function(vv, ii) {
+        if (v.id == vv.id) {
+          _obj.info = vv.info;
+        }
+      });
+      return _obj;
     });
     console.log(newArr);
 
-
-    var g = '全局';
-    function fn1(){
-        var g = '局部';
-        function fn2(){
-            var g = '嵌套';
-            return g;
-        }
-        return fn2();
+    var g = "全局";
+    function fn1() {
+      var g = "局部";
+      function fn2() {
+        var g = "嵌套";
+        return g;
+      }
+      return fn2();
     }
     console.log(fn1());
 
-    function fn3(){
-        var i1 = 0;
-        if(true){
-            for(var j1=0;j1<5;j1++){
-                var k1 = 0;
-            }
+    function fn3() {
+      var i1 = 0;
+      if (true) {
+        for (var j1 = 0; j1 < 5; j1++) {
+          var k1 = 0;
         }
-        console.log(i1, j1, k1);
+      }
+      console.log(i1, j1, k1);
     }
     fn3();
 
@@ -258,13 +252,13 @@
     } */
 
     var test1 = function(n) {
-        function Test1(){
-            this.name = n;
-            console.log(this);
-        };
-        return new Test1();
+      function Test1() {
+        this.name = n;
+        console.log(this);
+      }
+      return new Test1();
     };
-    test1('213');
+    test1("213");
 
     /* var img = ['img1.jpg','img1.jpg','img1.jpg'];
     $.each(img, function(i, src){
@@ -274,5 +268,5 @@
         });
         imgObj.src = src;
     }); */
-</script>
+  </script>
 </html>
