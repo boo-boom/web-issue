@@ -1,0 +1,82 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+body{
+  font-family: Arial,"Microsoft YaHei",sans-serif;
+}
+html,body{
+  height: 100%;
+  overflow: hidden;
+}
+#container,
+.sections,
+.section{
+  height: 100%;
+}
+.sections{
+  position: relative;/*同时使用translate与.position()时必须添加*/
+}
+#section1,
+#section2,
+#section3,
+#section4 {
+  background: #000 no-repeat 50% 50%;
+  background-size: cover;
+  text-align: center;
+  color: #ffffff;
+}
+#section1{
+  background-image: url(../img/1.jpg);
+}
+#section2{
+  background-image: url(../img/2.jpg);
+}
+#section3{
+  background-image: url(../img/3.jpg);
+}
+#section4{
+  background-image: url(../img/4.jpg);
+}
+.left{
+  float: left;
+  width: 25%;
+}
+.pages{
+  position: fixed;
+  z-index: 999;
+  & > ul{
+    list-style: none;
+    & > li{
+      width: 10px;
+      height: 10px;
+      background: #2c9ef4;
+      border-radius: 50%;
+      margin: 10px;
+      &.active{
+        border: 2px solid #fff;
+        box-sizing: border-box;
+      }
+    }
+  }
+  &.vertical{
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+  }
+  &.herizontal{
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    & > ul{
+      & > li{
+        float: left;
+      }
+    }
+  }
+}
+
+
+
+
+

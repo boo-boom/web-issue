@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>全屏滚动</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no"/>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="container">
+    <div class="sections">
+        <div class="section" id="section1">
+            <h3>this is the page #1</h3>
+        </div>
+        <div class="section" id="section2">
+            <h3>this is the page #2</h3>
+        </div>
+        <div class="section" id="section3">
+            <h3>this is the page #3</h3>
+        </div>
+        <div class="section" id="section4">
+            <h3>this is the page #4</h3>
+        </div>
+    </div>
+</div>
+<script src="./../jquery.min.js"></script>
+<script src="js/pageswitch.js"></script>
+<script>
+    $('#container').PageSwitch({
+        direction: 'vertical',
+        pagination: true,
+        loop: false,
+        callback: function () {
+            console.log('执行完成');
+        }
+    });
+</script>
+</body>
+</html>
