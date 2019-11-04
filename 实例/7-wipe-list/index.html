@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="./../jquery.min.js"></script>
+    <script type="text/javascript" src="js/vue.min.js"></script>
+    <script type="text/javascript" src="js/wipe-list.js"></script>
+
+</head>
+<body>
+<div id="app">
+    <div class="wipe-list">
+        <div class="wipe-item" v-for="(item,index) in list">
+            <div class="l">{{item}}</div>
+            <div class="delete" v-on:touchstart="fn2(index)">删除</div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            list: ['这是一个列表1！','这是一个列表2！','这是一个列表3！']
+        },
+        methods: {
+            fn1: function () {
+                $('.wipe-item').WipeList();
+            },
+            fn2: function (index) {
+                this.list.splice(index,1);
+                //$('.wipe-item').removeAttr('style');
+                $('.wipe-item').css({
+                    'transform': 'translateX(0)'
+                });
+            }
+        }
+    });
+    vm.fn1();
+</script>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body, ul, li {
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            list-style: none;
+        }
+        .rating {
+            width: 130px;
+            height: 26px;
+            margin: 100px auto;
+        }
+        .rating-item {
+            float: left;
+            width: 26px;
+            height: 26px;
+            cursor: pointer;
+            background: url("img/stars.png") no-repeat;
+            background-size: 100% auto;
+        }
+    </style>
+</head>
+<body>
+<!--第一种实现方式-->
+<ul class="rating" id="rating1">
+    <li class="rating-item" title="很不好"></li>
+    <li class="rating-item" title="不好"></li>
+    <li class="rating-item" title="一般"></li>
+    <li class="rating-item" title="好"></li>
+    <li class="rating-item" title="很好"></li>
+</ul>
+<ul class="rating" id="rating2">
+    <li class="rating-item" title="很不好"></li>
+    <li class="rating-item" title="不好"></li>
+    <li class="rating-item" title="一般"></li>
+    <li class="rating-item" title="好"></li>
+    <li class="rating-item" title="很好"></li>
+</ul>
+</body>
+<script src="./../js/jquery.min.js"></script>
+<script>
+
+    var rating = (function () {
+        var defaults = {
+            num: 0
+        };
+
+        var init = function (el, options) {
+            var $el = $(el);
+            var $item = $el.find('.rating-item');
+            var option = $.extend({}, defaults, options);
+            lightOn($item, option.num);
+            event($el, $item, option);
+        };
+
+        var lightOn = function ($item, num) {
+            $item.each(function (index) {
+                if(index < num){
+                    $(this).css('background-position', '0 -32px');
+                }else{
+                    $(this).css('background-position', '0 0');
+                }
+            })
+        };
+
+        var event = function ($el, $item, option) {
+            $el.on('mouseover', '.rating-item', function () {
+                lightOn($item, $(this).index() + 1);
+            }).on('mouseout', function () {
+                lightOn($item, option.num);
+            }).on('click', '.rating-item', function () {
+                option.num = $(this).index() + 1;
+            });
+        };
+
+        $.fn.extend({
+            rating: function (options) {
+                return this.each(function () {
+                    init(this, options);
+                })
+            }
+        });
+
+        return {
+            init: init
+        }
+    })();
+
+    rating.init('#rating1', {
+        num: 2
+    });
+
+    $('#rating2').rating({
+        num: 3
+    });
+
+</script>
+</html>

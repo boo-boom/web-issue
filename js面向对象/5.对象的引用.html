@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        var a = 5;
+        var b = 5;
+        alert(a == b);      //true  基础类型比较：只要值相等即可
+
+        var a1 = [1,2,3];       //a1与b1在内存中的引用的地址不同，只是值相同
+        var b1 = [1,2,3];
+        alert(a1 == b1);      //false   对象类型比较：值与引用都相等
+
+        var a1_1 = [1,2,3];
+        var b1_1 = a1_1;
+        alert(a1_1 == b1_1);      //true   对象类型比较：值与引用都相等
+
+        var a2 = 5;
+        var b2 = a2;
+        b2 += 3;
+        alert(b2);      //8     基础类型：赋值的时候只是值的复制，b2变化a2不会变
+        alert(a2);      //5
+
+        var a3 = [1,2,3];
+        var b3 = a3;
+        b3.push(4);
+        alert(b3);      //[1-小米吸顶盒特效,2,3,4]     对象类型：赋值不仅是值的复制，也是引用的传递，b3改变a3也会变
+        alert(a3);      //[1-小米吸顶盒特效,2,3,4]
+
+        var a4 = [1,2,3];
+        var b4 = a4;
+        b4 = [1,2,3,4];
+        alert(b4);      //[1-小米吸顶盒特效,2,3,4]     b4在内存中的值为[1-小米吸顶盒特效,2,3]，但重新赋值之后b4和a4没有复制和引用，即没有关联
+        alert(a4);      //[1-小米吸顶盒特效,2,3]
+    </script>
+</head>
+<body>
+
+</body>
+</html>

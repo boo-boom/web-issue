@@ -1,0 +1,372 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>index</title>
+		<style>
+			*{margin:0px;padding:0px;}
+			li{list-style:none;}
+			#calendar{
+				width:567px;
+				height:455px;
+				background:url(./images/bg1.jpg) no-repeat 0px 0px;
+				margin:20px auto;
+				overflow:hidden;
+				font-family:'微软雅黑';
+			}
+			#calendar .select{
+				width:143px;
+				height:38px;
+				margin:14px auto;
+				
+			}
+			#calendar .select .time{
+				width:143px;
+				height:32px;
+				padding-top:6px;
+				background:url(./images/bg.jpg) no-repeat -12px -12px;
+				position:relative;
+				z-index:1;
+			}
+			#calendar .select .time a{
+				display:block;
+				width:15px;
+				height:27px;
+				float:left;
+				margin-left:2px;
+			}
+			#calendar .select .time .btnPre:hover{
+				background:url(./images/bg.jpg) no-repeat -14px -61px;
+			}
+			#calendar .select .time .btnNext:hover{
+				background:url(./images/bg.jpg) no-repeat -138px -61px;
+			}
+			#calendar .select .time .year{
+				width:64px;
+				height:27px;
+				float:left;
+				margin-left:2px;
+				position:relative;
+				z-index:1;
+			}
+			#calendar .select .time .month{
+				width:39px;
+				height:27px;
+				float:left;
+				margin-left:2px;
+				position:relative;
+				z-index:1;
+			}
+			#calendar .select .time span{
+				display:block;
+				width:100%;
+				height:27px;
+				line-height:27px;
+				color:#503f25;
+				font-size:12px;
+				text-indent:3px;
+				cursor:pointer;
+			}
+			#calendar .select .time span i{
+				font-style:normal;
+			}
+			#calendar .select .time select{
+				position:absolute;
+				width:64px;
+				top:27px;
+				border:0px;
+				display:none;
+				z-index:1;
+			}
+			#calendar table{
+				width:358px;
+				height:294px;
+				margin:50px auto;
+				position:relative;
+				border-collapse: collapse;
+				z-index:0;
+			}
+			#calendar table thead th{
+				width:50px;
+				height:32px;
+				background:#fbfbf9;
+				font-size:14px;
+				font-weight:100;
+			}
+			#calendar table thead th.red{
+				color:#ba4f2d;
+			}
+			#calendar table tbody td{
+				text-align:center;
+				width:50px;
+				height:51px;
+				cursor:pointer;
+				font-family:Arial;
+			}
+			#calendar table tbody td span{
+				color:#ccc;
+			}
+			#calendar table tbody td:hover{
+				background:url(./images/bg.jpg) no-repeat -436px -235px;
+			}
+			#calendar table tbody td.active{
+				color:#000;
+				background:url(./images/bg.jpg) no-repeat -384px -235px;
+			}
+		</style>
+		<script type="text/javascript">
+			var monthDays = [31,28,31,30,31,30,31,31,30,31,30,31];
+			window.onload=function(){
+				var oCalendar = document.getElementById('calendar');
+				var oBtnPre = document.getElementById('btnPre');
+				var oBtnNext = document.getElementById('btnNext');
+				var aTd = oCalendar.getElementsByTagName('td');
+				var aSelect = oCalendar.getElementsByTagName('select');
+				var aCurrent = getByClass('current',oCalendar);
+				var iYear	= new Date().getFullYear();
+				var iMonth	= new Date().getMonth();
+				var iDay = new Date().getDate();
+				//初始化设置当前时间的日历
+				setOrderData(iYear,iMonth)
+				//创建选项
+				createOption(iYear);
+				for(var i=0;i<aCurrent.length;i++){
+					aCurrent[i].index = i;
+					aCurrent[i].onclick=function(){
+						var index =  this.index;
+						var oI = this.getElementsByTagName('i')[0];
+						aSelect[index].style.display = 'block';
+						aSelect[index].onchange=function(){
+							this.style.display = 'none';
+							if(index == 0){
+								iYear = Number(this.value);
+							}else{
+								iMonth = Number(this.value);
+							}
+							setOrderData()
+						}
+					}
+				}
+				/**
+				 * 设置排列数据
+				 */
+				function setOrderData(){
+					document.getElementById('monthNum').innerHTML = iMonth+1;
+					document.getElementById('yearNum').innerHTML = iYear;
+					var iPreDays = getMonthDays(iYear,iMonth-1);
+					var iCurDays = getMonthDays(iYear,iMonth);
+					var iNextDays = getMonthDays(iYear,iMonth+1);
+					var iFirstWeek = new Date(iYear,iMonth,1).getDay();
+					var aData = [];
+					emptyClass()
+					for(var i=iFirstWeek-2;i>-1;i--){
+						aData.push('<span>'+(iPreDays-i)+'</span>');
+					}
+					for(var i=1;i<=iCurDays;i++){
+						if(i==iDay){
+							aTd[aData.length].className = 'active';
+						}
+						aData.push(i);
+					}
+					var iLackNum = aTd.length-aData.length;
+					for(var i=1;i<=iLackNum;i++){
+						aData.push('<span>'+i+'</span>')
+					}
+					for(var i=0;i<aTd.length;i++){
+						aTd[i].innerHTML = aData[i];
+						aTd[i].index = i;
+						aTd[i].onclick=function(){
+							iDay =this.innerHTML.match(/\d+/);
+							emptyClass()
+							if(this.index<iFirstWeek-1){
+								iMonth--;
+								changeDate()
+							}else if(this.index >iFirstWeek+iCurDays-2){
+								iMonth++;
+								changeDate()
+							}else{
+								this.className = 'active';
+							}
+						}
+					}
+				}
+				/**
+				 * 清空td的类名
+				 */
+				function emptyClass(){
+					for(var n=0;n<aTd.length;n++){
+						aTd[n].className = '';
+					}
+				}
+				//选择上一月按钮点击
+				oBtnPre.onclick=function(){
+					iMonth--;
+					changeDate()
+				}
+				//选择下一月按钮点击
+				oBtnNext.onclick=function(){
+					iMonth++;
+					changeDate()
+				}
+				/**
+				 * 切换日期
+				 */
+				function changeDate(){
+					if(iMonth<0){
+						iMonth = 11;
+						iYear--;
+					}
+					if(iMonth>11){
+						iMonth=0;
+						iYear++;
+					}
+					setOrderData();
+				}
+			}
+			/**
+			 * 获取每月天数
+			 */
+			function getMonthDays(iYear,iMonth){
+				if(iMonth<0){
+					iMonth=11;iYear--
+				}
+				if(iMonth>11){
+					iMonth=0;iYear++
+				}
+				if (1 == iMonth){
+					return ((0 == iYear % 4) && (0 != (iYear % 100))) || (0 == iYear % 400) ? 29 : 28; 
+				}else{ 
+					return monthDays[iMonth];
+				}
+			}
+			/***
+			 * 	创建选项
+			 */
+			function createOption(iYear){
+				var oYearSel = document.getElementById('yearSelect');
+				var oMonthSel = document.getElementById('monthSelect');
+				for(var i=1900;i<=2050;i++){
+					var oOption = document.createElement('option');
+					oOption.innerHTML = i;
+					oOption.value = i;
+					if(iYear == i){
+						oOption.selected = true;
+					}
+					oYearSel.appendChild(oOption);
+				}
+				for(var i=1;i<=12;i++){
+					var oOption = document.createElement('option');
+					oOption.innerHTML = i+'月';
+					oOption.value = i-1;
+					oMonthSel.appendChild(oOption);
+				}
+			}
+			/**
+			 * sName 类名
+			 * oParent 父级
+			 */
+			function getByClass(sName,oParent){
+				var oParent = oParent || document;
+				var obj = oParent.getElementsByTagName('*');
+				var re = new RegExp('\\b'+sName+'\\b','i');
+				var result = [];
+				for(var i=0;i<obj.length;i++){
+					if(re.test(obj[i].className)){
+						result.push(obj[i]);
+					}
+				}
+				return result;
+			}
+		</script>
+	</head>
+	<body>
+		
+		<div id="calendar">
+			<div class='select'>
+				<div class='time' >
+					<a href="javascript:void(0);" class='btnPre' id="btnPre"> </a>
+					<div class='year'>
+						<span class='current'>
+							<i id="yearNum">2013</i>年
+						</span>
+						<select id="yearSelect" size="12" >
+							
+						</select>
+					</div>
+					<div class='month'>
+						<span class='current'>
+							<i id="monthNum">5</i>月
+						</span>
+						<select id="monthSelect" size="12">
+							
+						</select>
+					</div>
+					<a href="javascript:void(0);" class='btnNext' id="btnNext"> </a>
+				</div>
+			</div>
+			<table border="1" bordercolor="#f0f0f0">
+				<thead>
+					<tr>
+						<th>一</th>
+						<th>二</th>
+						<th>三</th>
+						<th>四</th>
+						<th>五</th>
+						<th class='red'>六</th>
+						<th class='red'>日</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>
+

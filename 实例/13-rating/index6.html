@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body, ul, li {
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            list-style: none;
+        }
+        .rating {
+            width: 130px;
+            height: 26px;
+            margin: 100px auto;
+        }
+        .rating-item {
+            float: left;
+            width: 26px;
+            height: 26px;
+            cursor: pointer;
+            background: url("img/stars.png") no-repeat;
+            background-size: 100% auto;
+        }
+    </style>
+</head>
+<body>
+<!--第一种实现方式-->
+<ul class="rating" id="rating1">
+    <li class="rating-item" title="很不好"></li>
+    <li class="rating-item" title="不好"></li>
+    <li class="rating-item" title="一般"></li>
+    <li class="rating-item" title="好"></li>
+    <li class="rating-item" title="很好"></li>
+    <li class="text"></li>
+</ul>
+<ul class="rating" id="rating2">
+    <li class="rating-item" title="很不好"></li>
+    <li class="rating-item" title="不好"></li>
+    <li class="rating-item" title="一般"></li>
+    <li class="rating-item" title="好"></li>
+    <li class="rating-item" title="很好"></li>
+    <li class="text"></li>
+</ul>
+</body>
+<script src="./../js/jquery.min.js"></script>
+<script src="js/rating.js"></script>
+<script>
+    var r1 = new Rating('#rating1', {
+        num: 2
+    });
+</script>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        //写法
+       function 构造函数(值) {
+           this.属性 = 值;
+       }
+       构造函数.原型.方法 = function () {
+           console.log(this.属性);
+       };
+       //使用
+       var 对象1 = new 构造函数(值);
+       对象1.方法();
+    </script>
+</head>
+<body>
+
+</body>
+</html>

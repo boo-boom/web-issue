@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .div1{
+            width: 200px;
+            height: 200px;
+            background: #f60;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <div class="div1"></div>
+</body>
+<script>
+    window.onload = function(){
+        var oDiv = document.querySelector('.div1');
+        oDiv.onmouseover = function(){
+            startMove(100);
+        };
+        oDiv.onmouseout = function(){
+            startMove(30);
+        };
+
+        var timer = null;
+        var alpha = 30;
+        function startMove(iTarget){
+            clearInterval(timer);
+            var oDiv = document.querySelector('.div1');
+            timer = setInterval(function(){
+                var speed = 0;
+                if(alpha > iTarget){
+                    speed = -10;
+                }else{
+                    speed = 10;
+                }
+                if(alpha == iTarget){
+                    clearInterval(timer);
+                }else{
+                    alpha += speed;
+                    oDiv.style.opacity = alpha / 100;
+                }
+            }, 30);
+        };
+    };
+</script>
+</html>

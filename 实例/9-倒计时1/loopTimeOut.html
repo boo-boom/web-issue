@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="js/vue.min.js"></script>
+    <style>
+        span {
+            background-color: black;
+            border-radius: 4px;
+            color: white;
+            padding: 0 2px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <p v-for="(item,index) in items">
+        <span>{{item.days | addZero}}</span>
+        天
+        <span>{{item.hours | addZero}}</span>
+        时
+        <span>{{item.minutes | addZero}}</span>
+        分
+        <span>{{item.seconds | addZero}}</span>
+        秒
+        <button v-on:click="pause(index)">暂停</button>
+        <button v-on:click="start(index)">开始</button>
+    </p>
+    <button v-on:click="pull">下拉加载</button>
+    <button v-on:click="mySwitch">切换</button>
+</div>
+</body>
+<script type="text/javascript">
+    function appendZero(obj) {
+        if(0 <= obj && obj < 10) {
+            return '0' + obj;
+        } else {
+            return obj;
+        }
+    };
+
+    Vue.filter("addZero", function(value) {
+        return appendZero(value);
+    });
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            items: [{id: 1, total: 86420, days: 0, hours: 0, minutes: 0, seconds: 0, timeOn: false},
+                {id: 2, total: 62300, days: 0, hours: 0, minutes: 0, seconds: 0, timeOn: false},
+                {id: 3, total: 12300, days: 0, hours: 0, minutes: 0, seconds: 0, timeOn: false},
+                {id: 4, total: 13300, days: 0, hours: 0, minutes: 0, seconds: 0, timeOn: false}
+            ],
+            items2: [{id: 5, total: 17300, days: 0, hours: 0, minutes: 0, seconds: 0, timeOn: false},
+                {id: 6, total: 5300, days: 0, hours: 0, minutes: 0, seconds: 0, timeOn: false},
+                {id: 7, total: 22300, days: 0, hours: 0, minutes: 0, seconds: 0, timeOn: false}
+            ],
+            itemSwitch: [{id: 1, total: 17300, days: 0, hours: 0, minutes: 0, seconds: 0, timeOn: false},
+                {id: 2, total: 5300, days: 0, hours: 0, minutes: 0, seconds: 0, timeOn: false}
+            ]
+        },
+        methods: {
+            calTimeOut: function(obj) {
+                for(var i = 0; i < this.items.length; i++) {
+                    this.fn(i);
+                }
+            },
+            fn: function(i) {
+                var that = this;
+                if (!this.items[i].timeOn) {
+                    this.items[i].timeOn = true;
+                    this.items[i].timer = setInterval(function(){
+                        var remain = 0;
+                        var totalSeconds = that.items[i].total;
+
+                        that.items[i].days = parseInt(totalSeconds / 86400);
+                        remain = totalSeconds - that.items[i].days * 86400;
+                        that.items[i].hours = parseInt(remain / 3600)
+                        remain = remain - that.items[i].hours * 3600;
+                        that.items[i].minutes = parseInt(remain / 60);
+                        that.items[i].seconds = remain - that.items[i].minutes * 60;
+                        that.items[i].total = that.items[i].total - 1;
+                    },1000)
+                }
+            },
+            pull: function() {
+                this.items = this.items.concat(this.items2);
+                this.calTimeOut();
+            },
+            mySwitch: function() {
+                for(var i = 0; i < this.items.length; i++) {
+                    clearInterval(this.items[i].timer);
+                    this.items[i].timeOn = false;
+                }
+                this.items = this.itemSwitch;
+                this.calTimeOut();
+            }
+        }
+    });
+
+    vm.calTimeOut();
+</script>
+</html>

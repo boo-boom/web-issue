@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="div1">click!!!</div>
+    <input type="text" id="inp1">
+</body>
+<script>
+    /*---------------------------随机函数-------------------------*/
+    var arr = ['1a', '2b', '3c', '4d'];
+
+    console.log(randomArr(arr));
+    console.log(randomNum(1, 3));
+
+    function randomArr(arr) {
+        for (var i = 0; i < arr.length; i++) {
+            var r = randomNum(0, arr.length - 1);
+            var t = arr[i];
+            arr[i] = arr[r];
+            arr[r] = t;
+        };
+        return arr;
+    };
+
+    function randomNum(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    };
+
+    /*---------------------------函数节流-------------------------*/
+    // this => div1
+    document.getElementById('div1').onclick = function(){
+        console.log(this);
+    };
+    
+    // 箭头函数不会改变this指向  windows
+    // document.getElementById('div1').onclick = () => {
+    //     console.log(this);
+    // };
+
+    document.getElementById('inp1').oninput = throttle(function(){
+        console.log(this.value);
+    }, 300);
+
+    function throttle(fn, delay){
+        var timer = null;
+        return function(){
+            var self = this;
+            var args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function(){
+                fn.apply(self, args);
+            }, delay);
+        }
+    };
+
+    /*---------------------------apply call-------------------------*/
+    function T1(name, age){
+        this.name = name;
+        this.age = age;
+    };
+    function T2(name, age){
+        // T1.apply(this, arguments);      // apply 参数为一个数组集合
+        T1.call(this, arguments);          // call 参数按顺序接收
+        console.log(arguments);
+    };
+    var t1 = new T1();
+    var t2 = new T2('小红', 12);
+
+    /*-----------------------apply call 参数接收----------------------*/
+    function add(j, k) {
+        return j + k;
+    };
+    function sub(j, k) {
+        return j - k;
+    };
+    console.log(add(5, 8));
+    console.log(add.call(sub, 5, 8));
+    console.log(add.apply(sub, [5, 8]));
+
+    /*-----------------------------原型继承---------------------------*/
+    function Parent(name, age){
+        this.name = name;
+        this.age = age;
+    };
+    Parent.prototype.showName = function(){
+        console.log(this.name, this.age);
+    };
+
+    function Child(name, age){
+        Parent.apply(this, arguments);
+    };
+    Child.prototype = new Parent();
+    Child.prototype.constructor = Child;
+
+    var child = new Child('小华11', 20);
+    child.showName();
+
+    /*-----------------------------原型继承封装---------------------------*/
+    function extend(parentClass, childClass){
+        var F = function F(){};
+        F.prototype = parentClass.prototype;
+        childClass.prototype = new F();
+        childClass.prototype.constructor = childClass;
+    };
+
+    function P1(){ };
+    P1.prototype.showClass = function(){
+        console.log(this.name);
+    };
+
+    function C1(){
+        this.name = 'abc';
+    };
+    extend(P1, C1);
+
+    var c1 = new C1();
+    c1.showClass();
+
+
+    var test_a = {
+        name: 'this is a',
+        num: 0,
+        fn: function(a, b){
+            console.log(this.name, (a + b));
+        }
+    };
+    var test_b = {
+        name: 'this is b'
+    };
+    // call和apply都是改变上下文中的this并立即执行这个函数
+    // bind方法可以让对应的函数想什么时候调就什么时候调用，并且可以将参数在执行的时候添加
+    test_a.fn.call(test_b, 2, 3);       // 改变test_a.fn的上下文的this为test_b
+    test_a.fn.apply(test_b, [2, 3]);
+    test_a.fn.bind(test_b, 2, 3)();
+    
+</script>
+
+</html>

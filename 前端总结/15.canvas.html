@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <canvas id="canvas" style="display: block;margin: 0 auto;border: 1px solid #aaa;">
+        浏览器不支持canvas
+    </canvas> -->
+
+    <h4>裁剪：</h4>
+    <canvas id="canvas" style="border: 1px solid;"></canvas>
+    <canvas id="canvas1" style="border: 1px solid;"></canvas>
+
+</body>
+<script>
+    // var canvas = document.getElementById('canvas')
+    // var ctx = canvas.getContext('2d')
+    // var image = new Image()
+
+    // window.onload = function(){
+    //     canvas.width = 360
+    //     canvas.height = 600
+    //     image.src = 'http://imgcms.yit.com/cmsres/20180522/6e27cd5a-6f9a-4bf7-9389-cf5b474d76f1_1920X1080.jpeg'
+    //     // image.src = 'https://asset-i13.yit.com/FOODVIDEO/IMAGES/5fc9b21299cd558e24fcef46774966e8_32X32.png'
+    //     image.onload = function () {
+    //         image.width = 1920
+    //         image.height = 1080
+    //         var sx = image.width / 2 - canvas.width / 2
+    //         var sy = image.height / 2 - canvas.height / 2
+    //         console.log(sx, sy)
+    //         // 9个参数 =》(url, img-x, img-y, img-w, img-h, canvas-x, canvas-y, canvas-w, canvas-h)
+    //         // 5个参数 =》(url, canvas-x, canvas-y, canvas-w, canvas-h)
+    //         ctx.drawImage(image, -sx, -sy, image.width, image.height)
+    //     }
+    // }
+
+
+    var canvas = document.querySelector("#canvas");
+    var context = canvas.getContext("2d");
+    var img = new Image();
+    img.src = 'http://imgcms.yit.com/cmsres/20180522/6e27cd5a-6f9a-4bf7-9389-cf5b474d76f1_1920X1080.jpeg';
+    img.onload = function () {
+        // 首先是先画一个圆形，因为现在我们不是画圆角矩形
+        // 的做法，我们直接使用 `arc` 接口
+        context.save();
+        context.arc(100, 100, 50, 0, 2 * Math.PI);
+        // 从画布上裁剪出这个圆形
+        context.clip();
+        context.drawImage(img, 50, 50, 100, 100);
+
+        // 封装了一个简单的方法
+        function circleImg(ctx, img, x, y, r) {
+            ctx.save();
+            var d = 2 * r;
+            var cx = x + r;
+            var cy = y + r;
+            ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+            ctx.clip();
+            ctx.drawImage(img, x, y, d, d);
+            ctx.restore();
+        }
+        var canvas1 = document.querySelector("#canvas1");
+        var context1 = canvas1.getContext("2d");
+        context.clip();
+        circleImg(context1, img, 100, 20, 50);
+    }
+</script>
+
+</html>

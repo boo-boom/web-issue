@@ -1,0 +1,26 @@
+.main{
+	/* width: 1086px; */
+	margin: 0 auto;
+	/* overflow: hidden; */
+	position: relative;
+}
+.box{
+	float: left;
+	padding: 8px;
+}
+.box .pic{
+	width: 165px;
+	height: auto;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	box-shadow: 0 0 10px #ddd;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+.box .pic > img{
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 2px;
+}

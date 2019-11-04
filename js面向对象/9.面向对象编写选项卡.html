@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #div1 div{width: 200px;height: 200px;border: 1px solid red;display: none;}
+        .active{background: red;}
+    </style>
+    <script>
+        /*window.onload = function () {
+            var oParent = document.getElementById('div1');
+            var aInput = oParent.getElementsByTagName('input');
+            var aDiv = oParent.getElementsByTagName('div');
+
+            for(var i=0;i<aInput.length;i++){
+                aInput[i].index = i;
+                aInput[i].onclick = function () {
+                    for(var i=0;i<aInput.length;i++){
+                        aInput[i].className = '';
+                        aDiv[i].style.display = 'none';
+                    }
+                    this.className = 'active';
+                    aDiv[this.index].style.display = 'block';
+                }
+            }
+        };*/
+
+        /*
+        * 1-小米吸顶盒特效.先变形
+        * 尽量不要出现函数嵌套函数
+        * 可以有全局变量
+        * 把onload中不是赋值的语句放到单独函数中*/
+
+        //可以有全局变量
+        var oParent = null;
+        var aInput = null;
+        var aDiv = null;
+
+        window.onload = function () {
+            //把onload中不是赋值的语句放到单独函数中(只留赋值的语句)
+            oParent = document.getElementById('div1');
+            aInput = oParent.getElementsByTagName('input');
+            aDiv = oParent.getElementsByTagName('div');
+
+            init();
+        };
+        //初始化
+        function init() {
+            for(var i=0;i<aInput.length;i++){
+                aInput[i].index = i;
+                aInput[i].onclick = change;
+            }
+        }
+        //尽量不要出现函数嵌套函数(将函数单独写在外面)
+        function change() {
+            for(var i=0;i<aInput.length;i++){
+                aInput[i].className = '';
+                aDiv[i].style.display = 'none';
+            }
+            this.className = 'active';
+            aDiv[this.index].style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+    <div id="div1">
+        <input class="active" type="button" value="111">
+        <input type="button" value="222">
+        <input type="button" value="333">
+        <div style="display: block;">111111</div>
+        <div>222222</div>
+        <div>333333</div>
+    </div>
+</body>
+</html>

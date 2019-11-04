@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .tab .tab-title:after{content: '';display: block;clear: both;width: 0;height: 0;line-height: 0;overflow: hidden;}
+        .tab .title-btn{width: 60px;margin-right: 10px;text-align: center;cursor: pointer;float: left;}
+        .tab .info{width: 200px;height: 200px;border: 1px solid red;display: none;}
+        .tab .tab-title .active{background: red;color: #ffffff;}
+        .tab .tab-main .active{display: block;}
+    </style>
+    <script src="js/common.js"></script>
+    <script>
+        window.onload = function () {
+            var tab = new Tab('tab1');
+            tab.init();
+            tab.autoPlay();
+        };
+
+        function Tab(id) {
+            this.oParent = document.getElementById(id);
+            this.aBtn = this.oParent.querySelector('.tab-title').querySelectorAll('.title-btn');
+            this.aInfo = this.oParent.querySelector('.tab-main').querySelectorAll('.info');
+            this.iNow = 0;
+        }
+
+        Tab.prototype.init = function () {
+            var This = this;
+            for(var i=0;i<this.aBtn.length;i++){
+                this.aBtn[i].index = i;
+                this.aBtn[i].onclick = function () {
+                    This.change(this);
+                    This.iNow = this.index;
+                };
+            }
+        };
+
+        Tab.prototype.change = function (obj) {
+            for(var i=0;i<this.aBtn.length;i++){
+                removeClass(this.aBtn[i],'active');
+                removeClass(this.aInfo[i],'active');
+            }
+            addClass(obj,'active');
+            addClass(this.aInfo[obj.index],'active');
+            //this.className += ' '+'active';     //添加class
+        };
+
+        Tab.prototype.autoPlay = function () {
+            var This = this;
+            setInterval(function () {
+                if(This.iNow === This.aBtn.length-1){
+                    This.iNow = 0;
+                }else{
+                    This.iNow++;
+                }
+                for(var i=0;i<This.aBtn.length;i++){
+                    removeClass(This.aBtn[i],'active');
+                    removeClass(This.aInfo[i],'active');
+                }
+                addClass(This.aBtn[This.iNow],'active');
+                addClass(This.aInfo[This.iNow],'active');
+            },3000);
+        }
+    </script>
+</head>
+<body>
+    <div class="tab" id="tab1">
+        <div class="tab-title">
+            <div class="title-btn active">111</div>
+            <div class="title-btn">222</div>
+            <div class="title-btn">333</div>
+        </div>
+        <div class="tab-main">
+            <div class="info active">111111</div>
+            <div class="info">222222</div>
+            <div class="info">333333</div>
+        </div>
+    </div>
+</body>
+</html>

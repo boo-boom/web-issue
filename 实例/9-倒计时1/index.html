@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Title</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        span {
+            background-color: black;
+            border-radius: 4px;
+            color: white;
+            padding: 0 2px;
+        }
+        .wipe-item {
+            display: flex;
+        }
+        .wipe-item .time {
+            flex: 0 0 300px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!--<ul>
+        <li v-for="item in list">
+            <i>{{item.name}}</i>||
+            <span v-if="item.time">{{item.time.d}}</span>天
+            <span v-if="item.time">{{item.time.h}}</span>时
+            <span v-if="item.time">{{item.time.m}}</span>分
+            <span v-if="item.time">{{item.time.s}}</span>秒
+        </li>
+    </ul>-->
+    <input type="button" value="分类1" @click="tabClass(0)"/>
+    <input type="button" value="分类2" @click="tabClass(1)"/>
+    <input type="button" value="分类3" @click="tabClass(3)"/>
+    <div class="wipe-list">
+        <div class="wipe-item" v-for="(item,index) in dataList">
+            <div class="l">{{item.goods_name}}</div>
+            <div class="time">
+                <span v-if="item.msTime">{{item.msTime.d}}</span>天
+                <span v-if="item.msTime">{{item.msTime.h}}</span>时
+                <span v-if="item.msTime">{{item.msTime.m}}</span>分
+                <span v-if="item.msTime">{{item.msTime.s}}</span>秒
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+<script src="./../jquery.min.js"></script>
+<script src="js/vue.min.js"></script>
+<script src="js/countdown.js"></script>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            list: [
+                {name: '001', msTime: 1380553},
+                {name: '002', msTime: 1580553},
+                {name: '003', msTime: 1680553}
+            ],
+            dataList: [],
+            curpage: 1,
+            page: 2,
+            isVR: 2,
+            setIntervalArr: []
+        },
+        methods: {
+            fnTime: function () {
+                /*$.countdown(1680553, function (ret) {
+                 vm.a = ret;
+                 });
+                 for (var i = 0; i < this.list.length; i++) {
+                 this.$set(this.list[i], 'time', '');
+                 $.countdown(this.list[i].msTime, function (ret) {
+                 vm.list[ret.index].time = ret;
+                 }, i);
+                 }*/
+            },
+            calTimeOut: function () {
+                for (var i = 0; i < vm.dataList.length; i++) {
+
+                }
+            },
+            getData: function () {
+                $.ajax({
+                    url: 'http://192.168.1.138/mobile/index.php?act=tuangou&op=list',
+                    data: {curpage: vm.curpage, page: vm.page, is_vr: vm.isVR},
+                    dataType: 'json',
+                    type: 'get',
+                    success: function (ret) {
+                        vm.dataList = vm.dataList.concat(ret.datas.goods_list);
+                        for (var i = 0; i < vm.dataList.length; i++) {
+                            vm.$set(vm.dataList[i], 'msTime', {});
+                            (function (index) {
+                                vm.setIntervalArr[i] = setInterval(function () {
+                                    vm.dataList[index].time--;
+                                    vm.dataList[index].msTime = endTime(vm.dataList[index].time);
+                                    console.log(JSON.stringify(vm.dataList[0].msTime));
+                                }, 1000);
+                            })(i);
+                        }
+                    }
+                });
+            },
+            tabClass: function (type) {
+                for (var i = 0; i < vm.setIntervalArr.length; i++) {
+                    clearInterval(vm.setIntervalArr[i]);
+                }
+                this.isVR = type;
+                this.curpage = 1;
+                this.dataList = [];
+                this.getData();
+            }
+        }
+    });
+    //vm.fnTime();
+    vm.getData();
+
+    //console.log(endTime(85513721));
+    //endTime(85513721);
+    function endTime(allTime) {
+        var t = {};
+        if (allTime <= 0) {
+            return false;
+        } else {
+            var px_d = 60 * 60 * 24,
+                px_h = 60 * 60,
+                px_m = 60;
+            var d = addZero(Math.floor(allTime / px_d)),
+                h = addZero(Math.floor((allTime - d * px_d) / px_h)),
+                m = addZero(Math.floor((allTime - d * px_d - h * px_h) / px_m)),
+                s = addZero(Math.floor(allTime - d * px_d - h * px_h - m * px_m));
+            t = {d: d, h: h, m: m, s: s};
+            return t;
+        }
+    }
+    function addZero(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+</script>
+</html>

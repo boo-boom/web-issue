@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+</body>
+<script src="./jquery.min.js"></script>
+<script>
+    /* 
+    简单工厂 抽象工厂
+    模式作用：
+        1.对象的构建十分复杂
+        2.需要依赖具体的环境创建不同实例
+        3.处理大量有相同属性的小对象
+    注意事项：
+        1.不能滥用工厂，有时候指挥增加代码的复杂度
+    */
+    var gongchang = {};
+    gongchang.chanyifu = function(){
+        this.gongren = 50;
+    };
+    gongchang.chanxiezi = function(){
+        alert('产鞋子');
+    };
+    gongchang.yunshu = function(){
+        alert('运输');
+    };
+    // 通过厂长这个接口执行对应的流程
+    gongchang.changzhang = function(para){
+        return new gongchang[para]();
+    };
+    var me = gongchang.changzhang('chanyifu');
+    alert('工人：'+me.gongren);
+</script>
+</html>

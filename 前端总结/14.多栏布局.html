@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .masonry {
+            padding: 20px;
+            -webkit-column-count: 2;
+            column-count: 2;
+            -webkit-column-gap: 20px;
+            column-gap: 20px;
+        }
+
+        .column {
+            -webkit-column-break-inside: avoid;
+            page-break-inside: avoid;
+            break-inside: avoid;
+            padding-bottom: 20px;
+        }
+        .box{
+            border: 1px solid red;
+            background: #eee;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="btn">click!!!</div>
+    <div class="masonry">
+        <div class="column">
+            <div class="box">
+                <h1>123</h1>
+                <h1>123</h1>
+                <h1>123</h1>
+                <h1>123</h1>
+                <h1>123</h1>
+            </div>
+        </div>
+        <div class="column">
+            <div class="box">
+                <h1>123</h1>
+                <h1>123</h1>
+                <h1>123</h1>
+            </div>
+        </div>
+        <div class="column">
+            <div class="box">
+                <h1>123</h1>
+                <h1>123</h1>
+                <h1>123</h1>
+            </div>
+        </div>
+        <div class="column">
+            <div class="box">
+                <h1>123</h1>
+                <h1>123</h1>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="jquery.min.js"></script>
+<script>
+var btn = $('#btn');
+var masonry = $('.masonry');
+btn.click(function(){
+    console.log(123);
+    masonry.append('<div class="column">'
+                    +'<div class="box">'
+                    +'<h1>123</h1>'
+                    +'<h1>123</h1>'
+                    +'<h1>123</h1>'
+                    +'<h1>123</h1>'
+                    +'<h1>123</h1>'
+                    +'</div>'
+                    +'</div>');
+});
+</script>
+</html>

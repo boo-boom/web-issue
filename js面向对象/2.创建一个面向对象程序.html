@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        //var obj = {}; //等同于new Object()
+
+        /*一个完整的面向对象程序*/
+        var obj = new Object();    //创建一个空对象
+        obj.name = '小明';                //创建一个属性
+        obj.showName = function () {        //创建一个方法
+            //alert(obj.name);
+            alert(this.name);       //this指向调用方法的对象
+        };
+        obj.showName();     //程序调用
+
+        var obj2 = new Object();
+        obj2.name = '小强';
+        obj2.showName = function () {
+            alert(this.name);
+        };
+        obj2.showName();
+    </script>
+</head>
+<body>
+
+</body>
+</html>

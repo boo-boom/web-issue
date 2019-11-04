@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /*
+        变量类型:
+            1.值类型
+            2.引用类型（对象，数组，函数）
+            3.typeof运算符
+            4.字符串拼接
+    */
+
+    // 值类型
+    // var a = 100;
+    // var b = a;
+    // a = 200;
+    // console.log(b);     // 100
+
+    // 引用类型
+    // var a = {age: 20};
+    // var b = a;
+    // b.age = 30;
+    // console.log(a.age);    // 30
+
+    // typeof运算符
+    console.log(typeof undefined);      // undefined
+    console.log(typeof 'abc');          // string
+    console.log(typeof 123);            // number
+    console.log(typeof true);           // boolean
+    console.log(typeof {});             // object
+    console.log(typeof []);             // object
+    console.log(typeof null);           // object
+    console.log(typeof console.log);    // function
+
+    // 字符串拼接
+    var a = 100 + 10;       // 110
+    var b = 100 + '10';     // '10010'
+
+    // 判断类型 
+    console.log([1,2] instanceof Array);
+    console.log(Object.prototype.toString.call([1,2,3]));       // [object Array]
+    // 数组内元素比较 null相当于window
+    console.log(Math.min.apply(null, [1,2,3]));
+</script>
+</html>

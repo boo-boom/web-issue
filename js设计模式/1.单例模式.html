@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input id="aBtn" type="button" value="A">
+    <input id="bBtn" type="button" value="B">
+</body>
+<script src="./jquery.min.js"></script>
+<script>
+    /* 
+    单例模式：
+        一个类只有一个实例；
+        判断实例是否存在，存在则返回，不存在则创建再返回；
+        单例从全局命名空间只提供一个访问点来访问该对象；
+    模式作用：
+        1.模块间通讯
+        2.系统中某个类的对象只能存在一个
+        3.保护自己的属性与方法
+    注意事项：
+        1.this的使用 =》①谁调用指向谁 ②谁new就指向哪个对象
+        2.闭包容易造成内存泄露，不需要的赶快干掉
+        3.有节制的使用new
+    */
+    var a = {
+        val: 'btnA',
+        init: function(){
+            this.render();
+            this.bind();
+        },
+        render: function(){
+            var self = this;
+            self.btn = $('#aBtn');
+        },
+        bind: function(){
+            var self = this;
+            self.btn.on('click', function(){
+                self.test();
+            });
+        },
+        test: function(){
+            this.btn.val(b.val);
+        }
+    };
+    var b = {
+        val: 'btnB',
+        init: function(){
+            this.render();
+            this.bind();
+        },
+        render: function(){
+            var self = this;
+            self.btn = $('#bBtn');
+        },
+        bind: function(){
+            var self = this;
+            self.btn.on('click', function(){
+                self.test();
+            });
+        },
+        test: function(){
+            this.btn.val(a.val);
+        }
+    };
+    a.init();
+    b.init();
+</script>
+</html>

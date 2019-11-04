@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        /*constructor:
+        * 查看对象的构造函数*/
+        function Aaa() {}
+        var a1 = new Aaa();
+        alert(a1.constructor);      //Aaa
+        /*每当程序执行时，程序会自动添加：
+        * Aaa.prototype.constructor = Aaa;*/
+
+        //可用作判断
+        var arr = [];
+        alert(arr.constructor == Array);    //true
+
+        //属性简写的时候需注意将constructor的指向正确的位置
+        function Bbb() { }
+        /*Bbb.prototype.name = '小明';
+        Bbb.prototype.age = 20;*/
+        Bbb.prototype = {
+            constructor: Bbb,
+            name: '小明',
+            age: 20
+        };
+        var b1 = new Bbb();
+        alert(b1.constructor);
+    </script>
+</head>
+<body>
+
+</body>
+</html>

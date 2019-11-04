@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script src="./jquery.min.js"></script>
+<script>
+    /*
+        模式作用：
+            1.用于创建特定类型的对象
+            2.第一次声明时给对象赋值
+            3.自己声明构造函数，赋予属性和方法
+        注意事项：
+            1.声明函数时处理业务逻辑
+            2.区分和单例的区别，配合单例实现初始化
+            3.构造函数第一个字母大写（建议）
+            4.注意new的成本 =》将共用的属性与方法放到原型链上，避免重复声明
+    */
+
+    // 单例模式 + 构造函数模式
+    var AA = {
+        Class: function (name, age) {
+            this.name = name;
+            this.age = age;
+            this.showStudent = function () {
+                alert('姓名：' + this.name + '；年龄：' + this.age + ';');
+            }
+        }
+    };
+    
+    var class1 = new AA.Class('xiaoming', 10).showStudent();
+    var class2 = new AA.Class('xiaohong', 12).showStudent();
+</script>
+
+</html>

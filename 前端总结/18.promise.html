@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+function loadImg(src) {
+    let promise = new Promise(function(resolve, reject) {
+        let img = document.createElement('img')
+        img.onload = function() {
+            resolve(img)
+        }
+        img.onerror = function() {
+            reject('图片加载失败')
+        }
+        img.src = src
+    })
+    return promise
+}
+
+const src = 'http://p7vwphb8w.bkt.clouddn.com/wAjMkCKpqwJpSRmBtUVBK.jpg'
+loadImg(src).then(img => {
+    console.log(img)
+    return img
+}).then(img => {
+    console.log(img.width)
+    return img
+}).then(img => {
+    console.log(img.height)
+})
+
+</script>
+</html>

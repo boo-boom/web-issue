@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body, ul, li {
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            list-style: none;
+        }
+        .rating {
+            width: 130px;
+            height: 26px;
+            margin: 100px auto;
+        }
+        .rating-item {
+            float: left;
+            width: 26px;
+            height: 26px;
+            cursor: pointer;
+            background: url("img/stars.png") no-repeat;
+            background-size: 100% auto;
+        }
+    </style>
+</head>
+<body>
+<!--第一种实现方式-->
+<ul class="rating" id="rating1">
+    <li class="rating-item" title="很不好"></li>
+    <li class="rating-item" title="不好"></li>
+    <li class="rating-item" title="一般"></li>
+    <li class="rating-item" title="好"></li>
+    <li class="rating-item" title="很好"></li>
+</ul>
+<ul class="rating" id="rating2">
+    <li class="rating-item" title="很不好"></li>
+    <li class="rating-item" title="不好"></li>
+    <li class="rating-item" title="一般"></li>
+    <li class="rating-item" title="好"></li>
+    <li class="rating-item" title="很好"></li>
+</ul>
+</body>
+<script src="./../js/jquery.min.js"></script>
+<script>
+
+    var rating = (function () {
+        // 高亮
+        var lightOn = function ($item, num) {
+            $item.each(function (index) {
+                if (index < num) {
+                    $(this).css('background-position', '0 -32px');
+                } else {
+                    $(this).css('background-position', '0 0');
+                }
+            })
+        };
+
+        var init = function(el, num) {
+            var $rating = $(el),
+                $item = $rating.find('.rating-item');
+
+            // 初始化
+            lightOn($item, num);
+
+            // 事件绑定
+            $rating.on('mouseover', '.rating-item', function () {
+                lightOn($item, $(this).index() + 1);
+            }).on('click', '.rating-item', function () {
+                num = $(this).index() + 1
+            }).on('mouseout', function () {
+                lightOn($item, num);
+            });
+
+        };
+
+        // jq插件
+        $.fn.extend({
+            rating: function (num) {
+                return this.each(function () {
+                    init(this, num);
+                })
+            }
+        });
+
+        return {
+            init: init
+        }
+    })();
+
+    rating.init('#rating1', 1);
+    // rating.init('#rating2', 2);
+
+    $('#rating2').rating(3).css('border','1px solid red');
+
+</script>
+</html>

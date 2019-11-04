@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="inp">
+    <p id="text"></p>
+
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ul>
+</body>
+<script>
+    var inp = document.getElementById('inp');
+    var text = document.getElementById('text');
+
+    inp.oninput = debounce(function(){
+        // text.innerHTML = this.value;
+        setInner(this);
+    }, 300);
+
+    function setInner(obj){
+        text.innerHTML = obj.value;
+    }
+
+    function debounce(func, delay){
+        var timer = null;
+        return function(){
+            var _self = this;
+            var _arg = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function(){
+                func.apply(_self, _arg);
+            }, delay);
+        };
+    }
+
+    var oLi = document.querySelectorAll('li');
+    console.log(oLi);
+    for(var i=0;i<oLi.length;i++){
+        oLi[i].onmouseover = function(){
+            a();
+        }
+    }
+    function a(){
+        console.log(1111);
+    }
+</script>
+</html>

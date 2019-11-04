@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        window.onload = function () {
+            var name = null;
+            name = 123;
+            console.log(typeof name);
+
+            function fn1() {
+                //利用arguments实现方法重载效果
+                var len = arguments.length;
+                if (len === 1) {
+                    console.log(arguments[0]);
+                } else if (len === 2) {
+                    console.log(arguments[0] + ':::' + arguments[1]);
+                }
+            }
+
+            fn1('aaa');
+            fn1('aa', 'bb');
+
+            //匿名函数自执行
+            (function () {
+                var a = 'qwer';
+                console.log(a);
+            })();
+
+            //获取节点文本
+            var div1 = document.getElementById('div1');
+            var str = div1.firstChild.nodeValue;
+            if (str.indexOf('节点') !== -1) {
+                console.log(trim(str).length);
+            }
+            //去除空格
+            function trim(str) {
+                return str.replace(/(^\s*)|(\s*$)/g, "");
+            }
+
+            //批量创建节点
+            var ul1 = document.getElementById('ul1');
+            var arr1 = ['001', '002', '003'];
+            for (var i = 0; i < arr1.length; i++) {
+                var lii = document.createElement('li');
+                var textt = document.createTextNode(arr1[i]);
+                lii.setAttribute('name', arr1[i]);
+                lii.appendChild(textt);
+                ul1.appendChild(lii);
+            }
+
+            //事件绑定
+            //false:冒泡型==》从里至外执行       true:捕捉型==》从外至里执行
+            var btn1 = document.getElementById('btn1');
+            var p1 = document.getElementById('p1');
+            var span1 = document.getElementById('span1');
+            btn1.addEventListener('click', function () {
+                console.log('div');
+            }, false);
+            p1.addEventListener('click', function () {
+                console.log('p');
+            }, false);
+            span1.addEventListener('click', function () {
+                console.log('span');
+            }, false);
+
+            //获取时间
+            showtime();
+            function showtime() {
+                var timer = new Date();
+                var year = timer.getFullYear();
+                var month = timer.getMonth() + 1;
+                var date = timer.getDate();
+                var hours = timer.getHours();
+                var minutes = timer.getMinutes();
+                var seconds = timer.getSeconds();
+                var s = year + '-' + month + '-' + date + ' ' + hours + ':' + minutes + ':' + seconds;
+                console.log(s);
+            }
+
+            //闭包: 两个函数彼此嵌套，内部函数就是闭包.形成闭包条件是内部函数需要通过return给返回出来
+            function bb1(s) {
+                var str = '这是一个闭包！';
+
+                function bb2() {
+                    console.log(str + ':::' + s);
+                }
+
+                return bb2;
+            }
+
+            //同一个闭包机制可以创建多个闭包函数出来，它们彼此没有联系，都是独立的。
+            var bbA = bb1('a');
+            var bbB = bb1('b');
+            var bbC = bb1('c');
+            bbA();
+            bbB();
+            bbC();
+
+            //闭包实例(每一个闭包函数中的 i 都是独立的)
+            var bbArr = [];
+            for (var i = 0; i < 4; i++) {
+                bbArr[i] = f1(i);
+            }
+            function f1(num) {
+                function f2() {
+                    console.log(num);
+                }
+
+                return f2;
+            }
+
+            bbArr[2]();
+            bbArr[3]();
+
+            //创建对象
+            //1.字面量方式创建
+            var obj1 = {name: 'name11'};
+            //2.构造函数方式创建
+            function objtest(a1) {
+                this.age = 1;
+                //console.log(a1);
+            }
+
+            var obj2 = new objtest('abc');
+            obj2.age = 222;
+            obj2['fnObj'] = function () {
+                console.log('构造函数');
+            };
+            console.log(obj2.constructor);  //获取构造器
+            //3.Object方式创建
+            var obj3 = new Object();
+            console.log(obj3);
+            obj3.a = 'aaa';
+
+            //call apply
+            function fn3(a, b) {
+                console.log(this.name + ':::call与apply' + ':::call传来的参数1：' + a + ':::call参数2：' + b);
+            }
+
+            var fn3Sty1 = {name: 'fn3Sty111'};
+            var fn3Sty2 = {name: 'fn3Sty222'};
+            fn3.call(fn3Sty1, '参数1', '参数2');
+
+            //闭包实例
+            var ul2 = document.getElementById('ul2');
+            var li2 = ul2.getElementsByTagName('li');
+            for (var i = 0; i < li2.length; i++) {
+                li2[i].onclick = function (n) {
+                    return function () {
+                      console.log(li2[n].firstChild.nodeValue);
+                    };
+                }(i);
+            }
+
+        };
+    </script>
+</head>
+<body>
+<div id="div1">
+    文本节点
+</div>
+<ul id="ul1">
+
+</ul>
+<div id="btn1" style="width: 200px;height: 200px;background:#ff8475;">
+    <p id="p1" style="width: 160px;height: 160px;background:#daffb9;">
+        <span id="span1" style="display:block;width: 130px;height: 130px;background:#e8acff;">事件绑定</span>
+    </p>
+</div>
+<ul id="ul2">
+    <li>列表001</li>
+    <li>列表002</li>
+    <li>列表003</li>
+</ul>
+</body>
+</html>

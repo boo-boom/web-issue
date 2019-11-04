@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        /*原型链：实例对象与原型之间的链接，叫做原型链*/
+        /*原型链最外层：Object.prototype*/
+        function fn1() {
+            this.num = 20;      //优先级高于原型中的属性fn1.prototype.num = 10; 先查找内部，没有再查找原型链
+        }
+        fn1.prototype.num = 10;
+        Object.prototype.num = 30;
+
+        var a1 = new fn1();
+        alert(a1.num);
+    </script>
+</head>
+<body>
+
+</body>
+</html>

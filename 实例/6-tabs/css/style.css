@@ -1,0 +1,43 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background: #404040;
+}
+.tab .tab-nav{
+    list-style: none;
+    font-size: 0;
+}
+.tab .tab-nav > li{
+    display: inline-block;
+    background: #aaaaaa;
+    font-size: 14px;
+    padding: 5px 15px;
+    margin-right: 10px;
+    border-radius: 5px 5px 0 0;
+}
+.tab .tab-nav > li.active{
+    background: #ffffff;
+}
+.tab .tab-nav > li > a{
+    text-decoration: none;
+    color: #333333;
+}
+.tab .content-wrap{
+    width: 300px;
+    height: 170px;
+    border: 10px solid #ffffff;
+    position: relative;
+}
+.tab .content-wrap .content-item{
+    position: absolute;
+    display: none;
+}
+.tab .content-wrap .content-item > img{
+    width: 100%;
+    display: block;
+}
+.tab .content-wrap .content-item.current{
+    display: block;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/lottery.css">
+</head>
+
+<body>
+    <div class="lottery" id="lottery">
+        <input class="lottery-btn" type="button" value="抽奖" />
+        <ul>
+            <li>1等奖</li>
+            <li>2等奖</li>
+            <li>3等奖</li>
+            <li>4等奖</li>
+            <li>5等奖</li>
+            <li>6等奖</li>
+            <li>7等奖</li>
+            <li>8等奖</li>
+            <li>9等奖</li>
+            <li>10等奖</li>
+            <li>11等奖</li>
+            <li>12等奖</li>
+        </ul>
+    </div>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/lottery-jqeruy.js"></script>
+<script>
+    var lottery = new Lottery('#lottery', {
+        lotteryEnd: function(index){
+            console.log('恭喜中了'+index+'等奖');
+        }
+    });
+    $('.lottery-btn').on('click', function () {
+        lottery.start();
+    });
+</script>
+
+</html>

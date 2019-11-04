@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /*
+          对小数相加减进行处理
+          首先找出数字中最长的小数位,然后取最大的幂次方,在进行相加减,比如
+          1.1+2.2+3.33 = (1.1*100 + 2.2*100+3.33*100)/100 = 6.63,减法同理
+          参数中可能是数组,也有可能是多个参数
+          Decimal.sum([0.1,0.2,0.3,0.623,123123.213123]);
+          Decimal.sum(0.1,0.2,0.3,0.623);
+        */
+    var Decimal = {
+        isSub: false,
+        Init: function () {
+            var r1, m, arr = [],
+                total = 0;
+            var _this = this;
+            var arg = arguments;
+            var _arguments = undefined;
+            if (arguments[0] instanceof Array) {
+                _arguments = arguments[0];
+            } else {
+                _arguments = arguments;
+            }
+            //对参数进行循环,取出各数值的小数点位数
+            for (var i = 0, len = _arguments.length; i < len; i++) {
+                try {
+                    r1 = _arguments[i].toString().split(".")[1].length
+                } catch (e) {
+                    r1 = 0;
+                }
+                arr.push(r1);
+            }
+            m = Math.pow(10, Math.max.apply(this, arr));
+
+            for (var i = 0, len = _arguments.length; i < len; i++) {
+                if (_this.isSub) {
+                    if (i == 0) {
+                        total += (_arguments[0] * m) | 0;
+                    } else {
+                        total += (-_arguments[i] * m) | 0;
+                    }
+                } else {
+                    total += _arguments[i] * m;
+                }
+            }
+            return total / m;
+        },
+        sum: function () {
+            this.isSub = false;
+            return this.Init.apply(this, arguments);
+        },
+        sub: function () {
+            this.isSub = true;
+            return this.Init.apply(this, arguments)
+        }
+    }
+    console.log(Decimal.sum(0.1, 0.2))
+    console.log(0.1 + 0.2)
+
+    function addNum(num1, num2) {
+        var sq1, sq2, m;
+        try {
+            sq1 = num1.toString().split(".")[1].length;
+        } catch (e) {
+            sq1 = 0;
+        }
+        try {
+            sq2 = num2.toString().split(".")[1].length;
+        } catch (e) {
+            sq2 = 0;
+        }
+        m = Math.pow(10, Math.max(sq1, sq2));
+        return (num1 * m + num2 * m) / m;
+    }
+    console.log(addNum(0.1, 0.2))
+    console.log(0.1 + 0.2)
+
+</script>
+
+</html>

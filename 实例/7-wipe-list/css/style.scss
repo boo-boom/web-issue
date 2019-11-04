@@ -1,0 +1,37 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.wipe-list {
+  overflow: hidden;
+  .wipe-item {
+    width: -webkit-calc(100% + 100px);
+    width: -moz-calc(100% + 100px);
+    width: calc(100% + 100px);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 50px;
+    padding-left: 15px;
+    background: #ffffff;
+    border-bottom: 1px solid #ccc;
+    .l {
+      -webkit-box-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+    }
+    .delete {
+      -webkit-box-flex: 0;
+      -ms-flex: 0 0 100px;
+      flex: 0 0 100px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      color: #fff;
+      background: #ff5159;
+    }
+  }
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body, ul, li {
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            list-style: none;
+        }
+        .rating {
+            width: 130px;
+            height: 26px;
+            margin: 100px auto;
+        }
+        .rating-item {
+            float: left;
+            width: 26px;
+            height: 26px;
+            cursor: pointer;
+            background: url("img/stars.png") no-repeat;
+            background-size: 100% auto;
+        }
+    </style>
+</head>
+<body>
+<!--第一种实现方式-->
+<ul class="rating" id="rating1">
+    <li class="rating-item" title="很不好"></li>
+    <li class="rating-item" title="不好"></li>
+    <li class="rating-item" title="一般"></li>
+    <li class="rating-item" title="好"></li>
+    <li class="rating-item" title="很好"></li>
+    <li class="text"></li>
+</ul>
+<ul class="rating" id="rating2">
+    <li class="rating-item" title="很不好"></li>
+    <li class="rating-item" title="不好"></li>
+    <li class="rating-item" title="一般"></li>
+    <li class="rating-item" title="好"></li>
+    <li class="rating-item" title="很好"></li>
+    <li class="text"></li>
+</ul>
+</body>
+<script src="./../js/jquery.min.js"></script>
+<script>
+
+    var rating = (function () {
+        // 点亮整颗（构造函数）
+        var LightEntire = function (el, options) {
+            this.$el = $(el);
+            this.$item = this.$el.find('.rating-item');
+            this.opts = options;
+        };
+
+        LightEntire.prototype.init = function () {
+            this.lightOn(this.opts.num);
+            if(!this.opts.readOnly){
+                this.bindEvent();
+            }
+        };
+
+        LightEntire.prototype.lightOn = function (num) {
+            num = parseInt(num);
+            this.$item.each(function (index) {
+                if(index < num){
+                    $(this).css('background-position', '0 -32px');
+                }else{
+                    $(this).css('background-position', '0 0');
+                }
+            });
+        };
+
+        LightEntire.prototype.bindEvent = function () {
+            var _this = this,
+                _total = _this.$item.length;
+            this.$el.on('mouseover', '.rating-item', function () {
+                var _num = $(this).index() + 1;
+                _this.lightOn(_num);
+                // && 短路符 =》 当前面成立时执行后面
+                // select函数内部的this指向为opts对象，使用call改变成当前事件下的每一个星星（这里的this即为每一颗星星）
+                (typeof _this.opts.select === 'function') && _this.opts.select.call(this, _num, _total);
+                // 为元素绑定事件
+                _this.$el.trigger('select', [_num, _total]);
+            }).on('mouseout', function () {
+                _this.lightOn(_this.opts.num);
+                (typeof _this.opts.after === 'function') && _this.opts.after.call(this, _this.opts.num, _total);
+                _this.$el.trigger('after', [_this.opts.num, _total]);
+            }).on('click', '.rating-item', function () {
+                _this.opts.num = $(this).index() + 1;
+                (typeof _this.opts.chosen === 'function') && _this.opts.chosen.call(this, _this.opts.num, _total);
+                _this.$el.trigger('chosen', [_this.opts.num, _total]);
+            })
+        };
+
+        // 默认参数
+        var defaults = {
+            num: 0,
+            readOnly: false,
+            select: function () {},
+            chosen: function () {},
+            after: function () {}
+        };
+
+        // 初始化
+        var init = function (el, options) {
+            options = $.extend({}, defaults, options);
+            new LightEntire(el, options).init();
+        };
+
+        return {
+            init: init
+        }
+    })();
+
+    rating.init('#rating1', {
+        num: 2,
+        select: function (num, total) {
+            // console.log(this); // 使用call改变this的指向
+            console.log(num + '/' + total);
+        }
+    });
+
+    $('#rating1').on('select', function (e, num, total) {
+        $(this).find('.text').text(num + '/' + total);
+    });
+    $('#rating1').on('chosen', function (e, num, total) {
+        $(this).find('.text').text(num + '/' + total);
+    });
+    $('#rating1').on('after', function (e, num, total) {
+        $(this).find('.text').text(num + '/' + total);
+    });
+
+</script>
+</html>

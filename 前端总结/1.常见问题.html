@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /* 1.JS中typeof能得到哪些类型     考点：JS变量类型 */
+        // function undefined string number boolean object({},[],null)
+
+    /* 2.何时使用== 何时使用===     考点：强制类型转换 */
+        //if(obj.a == null) {
+            // obj.a == null 相当于 obj.a === null || obj.a === undefined 的简写
+            // 一般在判断对象属性或函数传入参数是否存在使用==
+        //}
+
+    /* 3.window.onload 和 DOMContentLoaded 的区别     考点：浏览器渲染过程 */
+
+    /* 4.用JS创建10个<a>标签，点击的时候出来对应的序号     考点：作用域 */
+
+    /* 5.简述如何实现一个模块加载器，实现类似require.js的基本功能      考点：JS模块化 */
+
+    /* 6.实现数组的随机排序      考点：JS基础算法 */
+
+    /* 7.JS中有哪些内置函数与属性 */
+        // 函数：Object Array Boolean Number String Function Date RegExp Error
+        // 属性：Math JSON
+
+    /* 8.JS变量按照存储方式区分为哪些类型，并描述其特点 */
+
+    /* 9.如何理解JSON */
+    // JSON是一个js对象 同时也是一种数据类型
+
+    /* 10.如何准确判断一个变量是数组类型 */
+        // console.log([1,2,3] instanceof Array);
+
+    /* 11.写一个原型链继承例子 */
+        function Main(){
+            this.test = function(){
+                console.log('this is Main');
+            }
+        }
+        Main.prototype.name = 'MainName';
+        
+        function FnA(){ };
+        FnA.prototype = new Main();
+        FnA.prototype.constructor = FnA;
+        var fna = new FnA();
+        fna.test();
+        console.log(fna.constructor);
+
+    /* 12.描述new一个对象的过程 */
+        function Foo(name){
+            this.name = name;
+        }
+        var foo = new Foo('zhangsan');
+
+    /* 13.zepto(或其他框架)源码中如何使用原型链 */
+
+    /* 14.数组去重 */
+    // 1
+    var arr1 = [2,3,4,4,5,2,3,6];
+    var arr2 = arr1.filter(function(item,index,self){
+        // 原数组中的元素下标是否与遍历的元素索引相同，相同则说明已存在
+        return self.indexOf(item) === index;
+    });
+    console.log(arr2);
+    // 2
+    var obj_unique = [1,1,2];
+    Array.prototype.unique = function() {
+        const tmp = new Map(); 
+        return this.filter(item => { 
+            return !tmp.has(item) && tmp.set(item, 1);
+        })
+    }
+    // obj_unique.unique();
+    // 3
+    console.log(Array.from(new Set(obj_unique)));
+
+    /* 15.递归 */
+    var listArr = [2,3,4,4,5,2,3,6]
+    var nextListItem = function () {
+        var item = listArr.pop()
+        if(item) {
+            console.log(listArr)
+            setTimeout(nextListItem, 0)
+        }
+    }
+    nextListItem();
+   
+</script>
+</html>

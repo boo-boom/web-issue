@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>JQ</title>
+    <style>
+        .tab .tab-title:after{content: '';display: block;clear: both;width: 0;height: 0;line-height: 0;overflow: hidden;}
+        .tab .title-btn{width: 60px;margin-right: 10px;text-align: center;cursor: pointer;float: left;}
+        .tab .info{width: 200px;height: 200px;border: 1px solid red;display: none;}
+        .tab .tab-title .active{background: red;color: #ffffff;}
+        .tab .tab-main .active{display: block;}
+    </style>
+</head>
+<body>
+<div class="tab" id="tab1">
+    <div class="tab-title">
+        <div class="title-btn active">111</div>
+        <div class="title-btn">222</div>
+        <div class="title-btn">333</div>
+    </div>
+    <div class="tab-main">
+        <div class="info active">111111</div>
+        <div class="info">222222</div>
+        <div class="info">333333</div>
+    </div>
+</div>
+</body>
+<script src="./../js/jquery.min.js"></script>
+<script src="js/plugin.js"></script>
+<script>
+    $('#tab1').PluginName({
+        event: 'mouseenter'
+    });
+</script>
+</html>

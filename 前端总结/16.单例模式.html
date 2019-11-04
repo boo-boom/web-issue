@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    function A(name){
+        this.name = name
+    }
+    A.prototype.say = function(){
+        console.log(this.name + ':123')
+    }
+
+    var B = (function() {
+        var instance = null
+        function BB(name) {
+            if(instance) return instance
+            this.name = 'b'
+            this.id = Math.random()
+            return instance = this
+        }
+        BB.prototype.say = function() {
+            console.log(this.name + '-' + this.id + ':456')
+        }
+        return BB
+    })()
+
+    // B始终只有一个
+    var a1 = new A('a').say()
+    var b1 = new B('qwe').say()
+    var a2 = new A('a').say()
+    var b2 = new B().say()
+
+
+
+    var test = {
+        init: function() {
+            return arguments[0]
+        },
+        a: function() {
+            // 修改this.init的作用域为this.a
+            return this.init.apply(this, arguments)
+        }
+    }
+    console.log(test.a([1,2,3]))
+</script>
+</html>

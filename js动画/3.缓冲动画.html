@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .div1{
+            position: fixed;
+            top: 0;
+            left: -200px;
+        }
+        .div1 .main{
+            position: relative;
+            width: 230px;
+            height: 300px;
+        }
+        .div1 .main .content{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 300px;
+            background: #ccc;
+        }
+        .div1 .main .btn{
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 300px;
+            background: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="div1">
+        <div class="main">
+            <div class="content"></div>
+            <div class="btn"></div>
+        </div>
+    </div>
+</body>
+<script>
+    window.onload = function(){
+        var oDiv = document.querySelector('.div1');
+        oDiv.onmouseover = function(){
+            startMove(0);
+        };
+        oDiv.onmouseout = function(){
+            startMove(-200);
+        };
+
+        var timer = null;
+        function startMove(iTarget){
+            clearInterval(timer);
+            var oDiv = document.querySelector('.div1');
+            timer = setInterval(function(){
+                var speed = (iTarget - oDiv.offsetLeft) / 10;
+                speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                if(oDiv.offsetLeft == iTarget){
+                    clearInterval(timer);
+                }else{
+                    oDiv.style.left = oDiv.offsetLeft + speed + 'px';
+                }
+            }, 30);
+        };
+    };
+</script>
+</html>

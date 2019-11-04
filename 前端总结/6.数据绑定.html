@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="inp1">
+    <input type="text" id="inp2">
+    <p id="text"></p>
+</body>
+<script>
+    /*
+        将user.name看做是nameValue的一个别名
+    */
+    var user = {}
+    var nameValue = 'Joe';
+    Object.defineProperty(user, 'name', {
+        get: function () {
+            return nameValue
+        },
+        set: function (newValue) {
+            nameValue = newValue;
+        },
+        configurable: true // 允许在稍后重定义这个属性 
+    });
+
+    var inp1 = document.getElementById('inp1');
+    var inp2 = document.getElementById('inp2');
+    var text = document.getElementById('text');
+    var user1 = {}
+    Object.defineProperty(user1, 'name', {
+        get: function () {
+            return inp1.value;
+        },
+        set: function (newValue) {
+            inp1.value = newValue;
+            inp2.value = newValue;
+        },
+        configurable: true
+    });
+    inp1.oninput = function () {
+        user1.name = this.value;
+    }
+
+    /*-------------------------------------------------*/
+    var obj = {};
+    var initValue = 'hello';
+    Object.defineProperty(obj,"newKey",{
+        get:function (){
+            //当获取值的时候触发的函数
+            return initValue;    
+        },
+        set:function (value){
+            //当设置值的时候触发的函数,设置的新值通过参数value拿到
+            initValue = value;
+        }
+    });
+    //获取值
+    console.log( obj.newKey );  //hello
+
+    //设置值
+    obj.newKey = 'change value';
+
+    console.log( obj.newKey ); //change value
+</script>
+
+</html>

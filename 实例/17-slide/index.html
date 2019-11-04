@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="slide-banner" id="slide_banner">
+    <div class="list">
+        <div class="slide">
+            <img src="img/1.jpg"/>
+        </div>
+        <div class="slide">
+            <img src="img/2.jpg"/>
+        </div>
+        <div class="slide">
+            <img src="img/3.jpg"/>
+        </div>
+        <div class="slide">
+            <img src="img/4.jpg"/>
+        </div>
+    </div>
+    <div class="arrow prev">&lt;</div>
+    <div class="arrow next">&gt;</div>
+    <div class="positions"></div>
+</div>
+</body>
+<script src="./../js/jquery.min.js"></script>
+<script src="js/slide.js"></script>
+<script>
+var s = new Slide('#slide_banner', {
+    loop: true,
+    positions: true
+});
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

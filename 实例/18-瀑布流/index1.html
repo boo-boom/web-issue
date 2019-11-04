@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- div.main>(div.box>div.pic>img[src="images/$.jpg"])*23 -->
+    <div class="main">
+        <div class="box">
+            <div class="pic"><img src="images/0.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/1.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/2.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/3.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/4.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/5.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/6.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/7.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/8.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/9.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/10.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/11.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/12.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/13.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/14.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/15.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/16.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/17.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/18.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/19.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/20.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/21.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/22.jpg" alt=""></div>
+        </div>
+        <div class="box">
+            <div class="pic"><img src="images/23.jpg" alt=""></div>
+        </div>
+    </div>
+</body>
+<script src="./../jquery.min.js"></script>
+<script>
+    $(function(){
+        var waterfall = (function(){
+            var WFall = function (el, options) {
+                this.$el = $(el);
+                this.$boxs = this.$el.find('.box');
+                this.options = options;
+            };
+
+            WFall.prototype.init = function () {
+                var boxW = this.$boxs.eq(0).outerWidth();
+                var cols = Math.floor($(window).width() / boxW);
+                this.$el.width(boxW * cols);
+                this.setMinPos(boxW, cols);
+                if(this.options.scrollMore){
+                    var _this = this;
+                    $(window).on('scroll', function(){
+                        if(_this.onScrollMore()){
+                            _this.options.loadMore && _this.options.loadMore();
+                        }else{
+                            console.log('请滚动...');
+                        }
+                    });  
+                }
+            };
+
+            WFall.prototype.setMinPos = function (boxW, cols) {
+                var _this = this;
+                var hArr = [];
+                for (var i = 0; i < this.$boxs.length; i++) {
+                    var curBoxH = Math.floor(this.$boxs.eq(i).outerHeight());
+                    if (i < cols) {
+                        hArr.push(curBoxH);
+                    } else {
+                        var minH = Math.min.apply(null, hArr);
+                        var minIndex = $.inArray(minH, hArr);
+                        this.$boxs.eq(i).css({
+                            position: 'absolute',
+                            top: minH,
+                            left: boxW * minIndex
+                        });
+                        hArr[minIndex] += curBoxH;
+                    }
+                }
+            };
+
+            WFall.prototype.onScrollMore = function () {
+                var _this = this;
+                var lastBox = _this.$boxs.eq(_this.$boxs.length - 1);
+                var lastBoxTop = lastBox.offset().top;
+                var winH = $(window).height();
+                var scrollTop = $(window).scrollTop();
+                return lastBoxTop < (winH + scrollTop) ? true : false;
+            };
+
+            var defaults = {
+                scrollMore: false,
+                loadMore: function(){}
+            };
+            var init = function(el, options){
+                options = $.extend({}, defaults, options);
+                new WFall(el, options).init();
+            };
+            return {
+                init: init
+            }
+        })();
+
+        waterfall.init('.main', {
+            scrollMore: true,
+            loadMore: function(){
+                console.log(this);
+            }
+        });
+    });
+</script>
+</html>

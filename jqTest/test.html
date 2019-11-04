@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <ul>
+        <li><em>0</em><span>4</span></li>
+        <li><em>0</em><span>1</span></li>
+        <li><em>0</em><span>5</span></li>
+        <li><em>0</em><span>2</span></li>
+    </ul>
+</body>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script>
+    $('ul>li').find('span').each(function (index) {
+        // var _this = $(this);
+        // console.log($(this).prev('em').text($(this).text()));
+
+        /*setTimeout(function () {
+            $('ul>li').find('em').eq(index).text(_this.text());
+        },100)*/
+
+        (function (obj) {
+            setTimeout(function () {
+                $('ul>li').find('em').eq(index).text(obj.text());
+            },100)
+        })($(this));
+    });
+</script>
+</html>

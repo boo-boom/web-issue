@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body, ul, li {
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            list-style: none;
+        }
+        .rating {
+            width: 130px;
+            height: 26px;
+            margin: 100px auto;
+        }
+        .rating-item {
+            float: left;
+            width: 26px;
+            height: 26px;
+            cursor: pointer;
+            background: url("img/stars.png") no-repeat;
+            background-size: 100% auto;
+        }
+    </style>
+</head>
+<body>
+<!--第一种实现方式-->
+<ul class="rating" id="rating1">
+    <li class="rating-item" title="很不好"></li>
+    <li class="rating-item" title="不好"></li>
+    <li class="rating-item" title="一般"></li>
+    <li class="rating-item" title="好"></li>
+    <li class="rating-item" title="很好"></li>
+    <li class="text"></li>
+</ul>
+<ul class="rating" id="rating2">
+    <li class="rating-item" title="很不好"></li>
+    <li class="rating-item" title="不好"></li>
+    <li class="rating-item" title="一般"></li>
+    <li class="rating-item" title="好"></li>
+    <li class="rating-item" title="很好"></li>
+    <li class="text"></li>
+</ul>
+</body>
+<script src="./../js/jquery.min.js"></script>
+<script>
+    var rating = (function () {
+        // 整颗星星
+        var LightEntire = function (el, options) {
+            this.$el = $(el);
+            this.$item = this.$el.find('.rating-item');
+            this.opts = options;
+        };
+
+        LightEntire.prototype.init = function () {
+            this.lightOn(this.opts.num);
+            if (!this.opts.readOnly) {
+                this.bindEvent();
+            }
+        };
+
+        LightEntire.prototype.lightOn = function (num) {
+            num = parseInt(num);
+
+            this.$item.each(function (index) {
+                if (index < num) {
+                    $(this).css('background-position', '0 -32px');
+                } else {
+                    $(this).css('background-position', '0 0');
+                }
+            })
+        };
+
+        LightEntire.prototype.bindEvent = function () {
+            var _this = this;
+            this.$el.on('mouseover', '.rating-item', function () {
+                _this.lightOn($(this).index() + 1);
+            }).on('mouseout', function () {
+                _this.lightOn(_this.opts.num);
+            }).on('click', '.rating-item', function () {
+                _this.opts.num = $(this).index() + 1;
+                _this.lightOn(_this.opts.num);
+            });
+        };
+
+        // 半颗星星
+        var LightHalf = function (el, options) {
+            this.$el = $(el);
+            this.$item = this.$el.find('.rating-item');
+            this.opts = options;
+            this.add = 0;
+        };
+
+        LightHalf.prototype.init = function () {
+            this.lightOn(this.opts.num);
+            if (!this.opts.readOnly) {
+                this.bindEvent();
+            }
+        };
+
+        LightHalf.prototype.lightOn = function (num) {
+            var count = parseInt(num),
+                isHalf = num !== count;
+            this.$item.each(function (index) {
+                if (index < count) {
+                    $(this).css('background-position', '0 -32px');
+                } else {
+                    $(this).css('background-position', '0 0');
+                }
+            });
+            if (isHalf) {
+                this.$item.eq(count).css('background-position', '0 -63px');
+            }
+        };
+
+        LightHalf.prototype.bindEvent = function () {
+            var _this = this;
+            this.$el.on('mousemove', '.rating-item', function (e) {
+                if(e.pageX - $(this).offset().left > $(this).width() / 2){
+                    _this.add = 1;
+                }else{
+                    _this.add = 0.5;
+                }
+                _this.lightOn($(this).index() + _this.add);
+
+            }).on('mouseout', function () {
+                _this.lightOn(_this.opts.num);
+
+            }).on('click', '.rating-item', function () {
+                _this.opts.num = $(this).index() + _this.add;
+                _this.lightOn(_this.opts.num);
+
+            });
+        };
+
+        var init = function (el, options) {
+            options = $.extend({}, defaults, options);
+            // new LightEntire(el, options).init();
+            // new LightHalf(el, options).init();
+            new mode[options.mode](el, options).init();
+        };
+
+        var defaults = {
+            mode: 'LightEntire',
+            num: 0,
+            readOnly: false
+        };
+
+        var mode = {
+            'LightEntire': LightEntire,
+            'LightHalf': LightHalf
+        };
+
+        return {
+            init: init
+        }
+    })();
+
+    rating.init('#rating1', {
+        num: 3,
+        mode: 'LightEntire'
+    });
+
+    rating.init('#rating2', {
+        num: 2.5,
+        mode: 'LightHalf'
+    });
+</script>
+</html>

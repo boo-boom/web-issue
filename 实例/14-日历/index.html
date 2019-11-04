@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		* {
+			margin: 0px;
+			padding: 0px;
+		}
+
+		li {
+			list-style: none;
+		}
+
+		#calendar {
+			width: 567px;
+			height: 455px;
+			background: url(./images/bg1.jpg) no-repeat 0px 0px;
+			margin: 20px auto;
+			overflow: hidden;
+			font-family: '微软雅黑';
+		}
+
+		#calendar .select {
+			width: 143px;
+			height: 38px;
+			margin: 14px auto;
+
+		}
+
+		#calendar .select .time {
+			width: 143px;
+			height: 32px;
+			padding-top: 6px;
+			background: url(./images/bg.jpg) no-repeat -12px -12px;
+			position: relative;
+			z-index: 1;
+		}
+
+		#calendar .select .time a {
+			display: block;
+			width: 15px;
+			height: 27px;
+			float: left;
+			margin-left: 2px;
+		}
+
+		#calendar .select .time .btnPre:hover {
+			background: url(./images/bg.jpg) no-repeat -14px -61px;
+		}
+
+		#calendar .select .time .btnNext:hover {
+			background: url(./images/bg.jpg) no-repeat -138px -61px;
+		}
+
+		#calendar .select .time .year {
+			width: 64px;
+			height: 27px;
+			float: left;
+			margin-left: 2px;
+			position: relative;
+			z-index: 1;
+		}
+
+		#calendar .select .time .month {
+			width: 39px;
+			height: 27px;
+			float: left;
+			margin-left: 2px;
+			position: relative;
+			z-index: 1;
+		}
+
+		#calendar .select .time span {
+			display: block;
+			width: 100%;
+			height: 27px;
+			line-height: 27px;
+			color: #503f25;
+			font-size: 12px;
+			text-indent: 3px;
+			cursor: pointer;
+		}
+
+		#calendar .select .time span i {
+			font-style: normal;
+		}
+
+		#calendar .select .time select {
+			position: absolute;
+			width: 64px;
+			top: 27px;
+			border: 0px;
+			display: none;
+			z-index: 1;
+		}
+
+		#calendar table {
+			width: 358px;
+			height: 294px;
+			margin: 50px auto;
+			position: relative;
+			border-collapse: collapse;
+			z-index: 0;
+		}
+
+		#calendar table thead th {
+			width: 50px;
+			height: 32px;
+			background: #fbfbf9;
+			font-size: 14px;
+			font-weight: 100;
+		}
+
+		#calendar table thead th.red {
+			color: #ba4f2d;
+		}
+
+		#calendar table tbody td {
+			text-align: center;
+			width: 50px;
+			height: 43px;
+			cursor: pointer;
+			font-family: Arial;
+		}
+
+		#calendar table tbody td span {
+			color: #ccc;
+		}
+
+		#calendar table tbody td:hover {
+			background: url(./images/bg.jpg) no-repeat -436px -297px;
+		}
+
+		#calendar table tbody td.active {
+			color: #000;
+			background: url(./images/bg.jpg) no-repeat -384px -297px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="calendar">
+		<div class="select">
+			<div class="time" id="time">
+				<a href="javascript:void(0);" class="btnPre" id="btnPre"> </a>
+				<div class="year">
+					<span class="current">
+						<i id="yearNum">2013</i>年
+					</span>
+					<select id="yearSelect" size="12">
+
+					</select>
+				</div>
+				<div class="month">
+					<span class="current">
+						<i id="monthNum">5</i>月
+					</span>
+					<select id="monthSelect" size="12">
+
+					</select>
+				</div>
+				<a href="javascript:void(0);" class="btnNext" id="btnNext"> </a>
+			</div>
+		</div>
+		<table border="1" bordercolor="#f0f0f0" class="rows6">
+			<thead>
+				<tr>
+					<th class="red">日</th>
+					<th>一</th>
+					<th>二</th>
+					<th>三</th>
+					<th>四</th>
+					<th>五</th>
+					<th class="red">六</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+<script>
+	// 每个月多少天 2月特殊 如果是闰年则是29天 getMonthDays中return
+	var aMonthDays = [31, null, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+	// 获取当前系统日期
+	var oDate = new Date();
+	var iYear = oDate.getFullYear();
+	var iMonth = oDate.getMonth(); // 此处不需要+1 当前的月份对应aMonthDays下标 从0开始
+	var iDay = oDate.getDate();
+	var oCalendar = document.querySelector('#calendar');
+	var aTd = oCalendar.querySelectorAll('td');
+	var btnPre = oCalendar.querySelector('#btnPre');
+	var btnNext = oCalendar.querySelector('#btnNext');
+	var oTime = oCalendar.querySelector('#time');
+	var aSelect = oTime.querySelectorAll('select');
+	var aSpan = oTime.querySelectorAll('span');
+
+	createSelect();
+	loadDate();
+
+	function loadDate() {
+		if (iMonth < 0) {
+			iMonth = 11;
+			iYear--;
+		}
+		if (iMonth > 11) {
+			iMonth = 0;
+			iYear++;
+		}
+		// 获取本月1号是星期几
+		var iWeek = new Date(iYear, iMonth, 1).getDay();
+		// 本月多少天
+		var iCurDays = getMonthDays(iYear, iMonth);
+		// 上月多少天
+		var iPreDays = getMonthDays(iYear, iMonth - 1);
+		document.querySelector('#yearNum').innerHTML = iYear;
+		document.querySelector('#monthNum').innerHTML = iMonth + 1;
+		// 当前月份显示数据
+		var data = [];
+		clearClass();
+		// 上月
+		for (var i = 0; i < iWeek; i++) {
+			data.unshift('<span>' + (iPreDays - i) + '</span>');
+		}
+		// console.log(iMonth);
+		// 本月
+		for (var i = 1; i < iCurDays + 1; i++) {
+			// 当前日期高亮
+			if (i === iDay) { //  && iYear === new Date().getFullYear() && iMonth === new Date().getMonth()
+				aTd[data.length].className = 'active';
+			}
+			data.push(i);
+		}
+		// 下月
+		var iLackNum = aTd.length - data.length;
+		for (var i = 1; i < iLackNum + 1; i++) {
+			data.push('<span>' + i + '</span>');
+		}
+		// 渲染data
+		for (var i = 0; i < data.length; i++) {
+			aTd[i].innerHTML = data[i];
+			aTd[i].index = i;
+			aTd[i].onclick = function () {
+				clearClass();
+				iDay = Number(this.innerHTML.match(/\d+/));
+				if (this.index <= iWeek - 1) {
+					iMonth--;
+					loadDate();
+				} else if (this.index > iCurDays + (iWeek - 1)) {
+					iMonth++;
+					loadDate();
+				} else {
+					this.className = 'active';
+				}
+			}
+		}
+	};
+
+	// 创建select
+	function createSelect() {
+		for (var i = 1990; i <= 2050; i++) {
+			var options = document.createElement('option');
+			options.innerHTML = i + '年';
+			options.value = i;
+			if (i === iYear) options.selected = true;
+			aSelect[0].appendChild(options);
+		}
+		for (var i = 0; i <= 11; i++) {
+			var options = document.createElement('option');
+			options.innerHTML = (i + 1) + '月';
+			options.value = i;
+			if (i === iMonth) options.selected = true;
+			aSelect[1].appendChild(options);
+		}
+	};
+
+	// 显示select
+	for (var i = 0; i < aSpan.length; i++) {
+		aSpan[i].index = i;
+		aSpan[i].onclick = function (e) {
+			e.stopPropagation();
+			var index = this.index;
+			aSelect[index].style.display = 'block';
+			aSelect[index].focus();
+			aSelect[index].onchange = function () {
+				if (index === 0) {
+					iYear = Number(this.value);
+					this.style.display = 'none';
+				} else {
+					iMonth = Number(this.value);
+					this.style.display = 'none';
+				}
+				loadDate();
+			}
+		}
+	};
+
+	// 切换月份
+	btnPre.onclick = function () {
+		iMonth--;
+		loadDate();
+	};
+	btnNext.onclick = function () {
+		iMonth++;
+		loadDate();
+	};
+
+	// 清除class
+	function clearClass() {
+		for (var i = 0; i < aTd.length; i++) {
+			aTd[i].className = '';
+		}
+	};
+
+	// 获取每月的天数
+	function getMonthDays(y, m) {
+		if (m < 0) m = 11;
+		if (m > 11) m = 0;
+		// 二月份需要判断是否是闰年29天或28天
+		if (m === 1) {
+			// 判断年份是否是闰年
+			return ((y % 4 === 0 && y % 100 !== 0) || y % 400 === 0) ? 29 : 28;
+		} else {
+			return aMonthDays[m];
+		}
+	};
+
+	document.onclick = function () {
+		for (var i = 0; i < aSelect.length; i++) {
+			aSelect[i].style.display = 'none';
+		}
+	}
+</script>
+
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        /*工厂方式：面向对象模式中的封装函数*/
+        function createPerson(name) {
+            var obj = new Object();
+            obj.name = name;
+            obj.showName = function () {
+                alert(this.name);
+            };
+            return obj;     //将对象return出来，在外面调用  此时的obj相当于createPerson('小明')
+        }
+
+        var p1 = createPerson('小明');
+        p1.showName();
+        var p2 = createPerson('小强');
+        p2.showName();
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="./../jquery.min.js"></script>
+    <script src="js/tabs.js"></script>
+    <script>
+        $(function () {
+            /*var tab1 = new Tab('.tab', {
+                'triggerType': 'click',
+                'effect': 'fade',
+                'auto': 2000,
+                'invoke': 3
+            });*/
+            $('.tab').tab({
+                'triggerType': 'click',
+                'effect': 'fade',
+                'auto': 2000,
+                'invoke': 3,
+                'afterFun': function (param) {
+                    console.log(param);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="tab">
+    <ul class="tab-nav">
+        <li class="item"><a href="#">新闻</a></li>
+        <li class="item"><a href="#">娱乐</a></li>
+        <li class="item"><a href="#">电影</a></li>
+        <li class="item"><a href="#">科技</a></li>
+    </ul>
+    <div class="content-wrap">
+        <div class="content-item"><img src="img/1.jpg"/></div>
+        <div class="content-item"><img src="img/2.jpg"/></div>
+        <div class="content-item"><img src="img/3.jpg"/></div>
+        <div class="content-item"><img src="img/4.jpg"/></div>
+    </div>
+</div>
+</body>
+</html>

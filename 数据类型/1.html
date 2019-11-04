@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        /*
+        *** typeof: 操作符（返回字符串除了function） ***
+        * undefined: 未定义
+        * boolean: 布尔值
+        * string: 字符串
+        * number: 数值
+        * object: 对象或null
+        * function: 函数
+        * */
+        var str = '';
+        if(str){
+            alert('非空字符串为true');
+        }else{
+            alert('空字符串为false');
+        }
+
+        var num = 0;
+        if(num){
+            alert('非0为true');
+        }else{
+            alert('0或NaN为false');
+        }
+
+        var obj = {};
+        if(obj){
+            alert('任何对象为true');
+        }else{
+            alert('null为false');
+        }
+
+        //转换成字符串（undefined和null无法转型）
+        var num1 = 10;
+        alert(typeof num1.toString());
+        alert(num1.toString(2));//2进制转换
+    </script>
+</head>
+<body>
+
+</body>
+</html>

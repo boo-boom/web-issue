@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        /*instanceof:
+        * 对象与构造函数在原型链上是否有关系*/
+        function Aaa() {}
+        var a1 = new Aaa();
+        alert(a1 instanceof Aaa);      //true
+        alert(a1 instanceof Object);      //true  每个对象原型链最外层都是Object
+
+        //利用instanceof判断数据类型(并不是最好的方案)
+        var arr = [];
+        alert(arr instanceof Array);
+    </script>
+</head>
+<body>
+
+</body>
+</html>

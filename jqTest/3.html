@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table{width: 700px;margin: auto;border: 1px solid black;border-collapse: collapse;}
+        td{border: 1px solid black;}
+    </style>
+    <script src="jquery-3.1.1.min.js"></script>
+    <script>
+        $(function () {
+            $('table').setTableColor('#ccc','#eee');
+        });
+        $.fn.setTableColor = function (c1,c2) {
+            this.find('tr:first').css('background-color',c1);
+            this.find('tr:gt(0):odd').css('background-color',c2);
+        };
+    </script>
+</head>
+<body>
+<table>
+    <tr><td>序号</td><td>名称</td><td>价格</td><td>数量</td></tr>
+    <tr><td>1</td><td>name1</td><td>201</td><td>11</td></tr>
+    <tr><td>2</td><td>name2</td><td>202</td><td>12</td></tr>
+    <tr><td>3</td><td>name3</td><td>203</td><td>13</td></tr>
+    <tr><td>4</td><td>name4</td><td>204</td><td>14</td></tr>
+    <tr><td>5</td><td>name5</td><td>205</td><td>15</td></tr>
+</table>
+</body>
+</html>

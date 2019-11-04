@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background: #ccc;
+        }
+        div {
+            width: 750px;
+            margin: 0 auto;
+            font-size: 28px;
+            background: #fff;
+        }
+        p{
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <p>订单未发货</p>
+    </div>
+</body>
+<script>
+    // 直接使用px最便捷，只修改meta
+    var resetStyle = function () {
+        var win = window;
+        var doc = win.document;
+        var scale = win.screen.width / 750;
+        var metaEl = doc.querySelector('meta[name="viewport"]');
+        if (!metaEl) {
+            metaEl = doc.createElement('meta');
+            metaEl.setAttribute('name', 'viewport');
+            doc.head.appendChild(metaEl);
+        }
+        metaEl.setAttribute('content', 'width=750, user-scalable=no,initial-scale=' + scale + ',maximum-scale=' + scale + ',minimum-scale=' + scale);
+        // doc.documentElement.style.fontSize = '100px';
+        // doc.documentElement.style.margin = '0 auto';
+    };
+
+    resetStyle();
+    window.addEventListener('resize', resetStyle, false);
+
+    // 手淘解决方案  需要在vs配置初始默认值进行rem换算
+    /* (function flexible(window, document) {
+        var docEl = document.documentElement
+        var dpr = window.devicePixelRatio || 1
+
+        // adjust body font size
+        function setBodyFontSize() {
+            if (document.body) {
+                document.body.style.fontSize = (12 * dpr) + 'px'
+            } else {
+                document.addEventListener('DOMContentLoaded', setBodyFontSize)
+            }
+        }
+        setBodyFontSize();
+
+        // set 1rem = viewWidth / 10
+        function setRemUnit() {
+            var rem = docEl.clientWidth / 10
+            docEl.style.fontSize = rem + 'px'
+        }
+
+        setRemUnit()
+
+        // reset rem unit on page resize
+        window.addEventListener('resize', setRemUnit)
+        window.addEventListener('pageshow', function (e) {
+            if (e.persisted) {
+                setRemUnit()
+            }
+        })
+
+        // detect 0.5px supports
+        if (dpr >= 2) {
+            var fakeBody = document.createElement('body')
+            var testElement = document.createElement('div')
+            testElement.style.border = '.5px solid transparent'
+            fakeBody.appendChild(testElement)
+            docEl.appendChild(fakeBody)
+            if (testElement.offsetHeight === 1) {
+                docEl.classList.add('hairlines')
+            }
+            docEl.removeChild(fakeBody)
+        }
+    }(window, document)) */
+
+    // 自定义写法
+    // (function (window, document) {
+    //     // set rem unit
+    //     function setRemUnit() {
+    //         var html = document.documentElement;
+    //         var windowWidth = html.clientWidth;
+    //         html.style.fontSize = ((windowWidth / 750) * 100).toFixed(3) + 'px';
+    //     };
+    //     // set body font-size
+    //     window.addEventListener('DOMContentLoaded', setRemUnit, false);
+    //     // reset rem unit on page resize
+    //     window.addEventListener('resize', setRemUnit, false);
+
+    //     /*
+    //         orientationchange 事件是在用户水平或者垂直翻转设备（即方向发生变化）时触发的事件。
+    //         DOMContentLoaded是firefox下特有的Event, 当所有DOM解析完以后会触发这个事件。
+    //         DOMContentLoaded事件本身不会等待CSS文件、图片、iframe加载完成。
+    //         它的触发时机是：加载完页面，解析完所有标签（不包括执行CSS和JS），
+    //         并如规范中所说的设置interactive和执行每个静态的script标签中的JS，然后触发。
+    //         而JS的执行，需要等待位于它前面的CSS加载（如果是外联的话）、执行完成，
+    //         因为JS可能会依赖位于它前面的CSS计算出来的样式。
+    //     */
+    // })(window, document);
+</script>
+
+</html>

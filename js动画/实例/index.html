@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head>
+    <title>效果演示</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        #movebox{height:400px;width:400px;margin: 10px auto;background: #DCDCDC;border: 1px solid #ccc;}
+        a{display:block;height:70px;width:70px;background: #fff;float: left;margin: 20px;border: 1px solid #ccc;border-radius: 4px;text-align: center;position: relative;overflow: hidden;}
+        .lbox1,.lbox4{margin-left: 52px;}
+        .lbox1,.lbox2,.lbox3{margin-top: 108px;}
+        img{position: relative;top:12px;}
+        p{position: relative;left:-50%;font-size: 14px;font-family: Microsoft YaHei;color: #A9A9A9;}
+        a div{position: absolute;left: 50%;bottom: 7px;}
+    </style>
+</head>
+<body>
+	<div id="movebox">
+		<a href="#" class="lbox lbox1"><img src="./images/food.png"/><div><p>食品</p></div></a>
+		<a href="#" class="lbox lbox2"><img src="./images/game.png"/><div><p>游戏</p></div></a>
+		<a href="#" class="lbox lbox3"><img src="./images/insurance.png"/><div><p>保险</p></div></a>
+		<a href="#" class="lbox lbox4"><img src="./images/lottery.png"/><div><p>日期</p></div></a>
+		<a href="#" class="lbox lbox5"><img src="./images/movie.png"/><div><p>电影</p></div></a>
+		<a href="#" class="lbox lbox6"><img src="./images/travel.png"/><div><p>旅行</p></div></a>
+	</div>
+</body>
+<script src="js/move.js"></script>
+<script>
+    window.onload = function(){
+        var doms = document.querySelectorAll('.lbox');
+        for(var i=0;i<doms.length;i++){
+            var cur = doms[i];
+            cur.onmouseenter = function(){
+                var curImg = this.querySelector('img');
+                startMove(curImg, {
+                    top: -30
+                }, function(){
+                    curImg.style.top = '30px';
+                    curImg.style.opacity = 0;
+                    startMove(curImg, {
+                        top: 12,
+                        opacity: 1
+                    });
+                });
+            }
+            cur.onmouseleave = function(){
+                var curImg = this.querySelector('img');
+                startMove(curImg, {
+                    top: 30,
+                    opacity: 0
+                }, function(){
+                    curImg.style.top = '-30px';
+                    startMove(curImg, {
+                        top: 12,
+                        opacity: 1
+                    });
+                });
+            }
+        }
+    };
+</script>
+</html>

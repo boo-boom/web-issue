@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../css/base.css">
+    <!--<link rel="stylesheet" type="text/css" href="../css/nctouch_member.css">-->
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/simple-plugin.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/common.js"></script>
+    <style>
+        .div1{width: 200px;height: 200px;background: #f0ad4e}
+        .div2{width: 100px;height: 100px;background: #3BAEDA}
+    </style>
+</head>
+<body>
+    <div class="div1">
+        <div class="div2"></div>
+    </div>
+
+</body>
+<script>
+    $(function () {
+
+        $.sDialog({
+            skin:"red",
+            content:'eqweqwewqewqe',
+            okBtn:false,
+            cancelBtn:false
+        });
+
+
+        $('.div1').click(function () {
+            fn1();
+            alert(1);
+        });
+        $('.div2').click(function () {
+            fn1();
+            alert(2);
+            return false;
+        });
+
+        function fn1() {
+            console.log(3);
+        }
+    })
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

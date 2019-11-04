@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="slide-banner">
+    <div class="list">
+        <div class="slide">
+            <img src="img/1.jpg"/>
+        </div>
+        <div class="slide">
+            <img src="img/2.jpg"/>
+        </div>
+        <div class="slide">
+            <img src="img/3.jpg"/>
+        </div>
+        <div class="slide">
+            <img src="img/4.jpg"/>
+        </div>
+    </div>
+    <div class="arrow prev">&lt;</div>
+    <div class="arrow next">&gt;</div>
+    <div class="positions"></div>
+</div>
+</body>
+<script src="./../jquery.min.js"></script>
+<script>
+    $(function () {
+        var $container = $('.slide-banner');
+        var $list = $container.find('.list');
+        var cloneFirst = $list.find('.slide').first().clone();
+
+        $list.append(cloneFirst);
+
+        var $positions = $container.find('.positions');
+        var $prev = $container.find('.prev');
+        var $next = $container.find('.next');
+        var len = $list.find('.slide').length;
+        var mainWidth = $container.width();
+        var index = 0;
+        var timer = null;
+
+        $list.width(len * mainWidth);
+
+        for (var i = 0; i < len - 1; i++) {
+            $positions.append('<span></span>');
+        }
+        $positions.find('span').first().addClass('active');
+
+        $prev.click(function () {
+            index--;
+            move();
+        });
+
+        $next.click(function () {
+            index++;
+            move();
+        });
+
+        $positions.find('span').hover(function () {
+            var currentIndex = $(this).index();
+            index = currentIndex;
+            $list.stop().animate({'left': currentIndex * -mainWidth});
+            $(this).addClass('active').siblings().removeClass('active');
+        });
+
+        timer = setInterval(function () {
+            index++;
+            move();
+        }, 2000);
+
+        $container.hover(function () {
+            clearInterval(timer);
+        }, function () {
+            clearInterval(timer);
+            timer = setInterval(function () {
+                index++;
+                move();
+            }, 2000);
+        });
+
+        function move() {
+            if (index === -1) {
+                $list.css({'left': (len - 1) * -mainWidth});
+                index = len - 2;
+            }
+            if (index === len) {
+                $list.css({'left': 0});
+                index = 1;
+            }
+            $list.stop().animate({'left': index * -mainWidth}, 500);
+            if (index === len - 1) {
+                $positions.find('span').eq(0).addClass('active').siblings().removeClass('active');
+            } else {
+                $positions.find('span').eq(index).addClass('active').siblings().removeClass('active');
+            }
+        }
+    })
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

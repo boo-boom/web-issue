@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script src="./jquery.min.js"></script>
+<script>
+    /* 
+    建造者模式：
+        分步骤构建一个复杂的对象 =》 一个指挥者指挥建造者的完成结果 =》 各司其职 拆解流程
+    模式作用：
+        1.分步创建一个复杂的对象
+        2.解耦封装过程和具体创建的组件
+        3.无需关心组件如何组装
+    注意事项：
+        1.一定要有一个稳定的算法进行支持
+        2.加工工艺是暴露的
+    */
+
+    // 开发商 => 包工头 => 工人 == 房子
+    function Fangezi(){
+        this.woshi = '';
+        this.keting = '';
+    };
+    function Baogongtou(){
+        this.gaifangzi = function(gongren){
+            gongren.jian_woshi();
+            gongren.jian_keting();
+        }
+    };
+    function Gongren(){
+        this.jian_woshi = function(){
+            alert('卧室建好了');
+        }
+        this.jian_keting = function(){
+            alert('客厅建好了');
+        }
+        this.jiaogong = function(){
+            var _fangzi = new Fangezi();
+            _fangzi.woshi = 'ok';
+            _fangzi.keting = 'ok';
+            return _fangzi;
+        }
+    };
+    var gongren = new Gongren();
+    var baogongtou = new Baogongtou().gaifangzi(gongren);
+    var myfangzi = gongren.jiaogong();
+    console.log(myfangzi);
+</script>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .tab .title>div{width: 50px;height: 30px;line-height: 30px;background: #EEEEEE;float: left;border: 1px solid #CCCCCC;}
+        .tab .title:after{content: '';width: 0;height: 0;overflow: hidden;clear: both;display: block;}
+        .tab .main>div{width: 200px;height: 150px;border: 1px solid #CCCCCC;display: none;}
+        .tab .title>div.active{background: #3BAEDA;}
+        .tab .main>div.active{display: block;}
+    </style>
+</head>
+<body>
+<div class="tab">
+    <div class="title">
+        <!--<div class="active">1</div>
+        <div>2</div>
+        <div>3</div>-->
+    </div>
+    <div class="main">
+        <!--<div class="active">00001</div>
+        <div>00002</div>
+        <div>00003</div>-->
+    </div>
+</div>
+</body>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script>
+    $(function(){
+        $('.tab').tabs({
+            heads: ['阿萨德','223','34442','qweqwe'],
+            bodys: ['qwe','dasdas','fsdffsdf','dasfsd'],
+            events: 'mouseover'
+        });
+        $('.tab').on('beforeChange',function () {
+            alert($('.tab').find('.main>div:visible').html());
+        });
+        $('.tab').on('afterChange',function () {
+            alert($('.tab').find('.main>div:visible').html());
+        });
+    })
+
+    ;(function($){
+        var defaults = {
+            heads: ['1','2','3'],
+            bodys: ['11111','22222','33333'],
+            events: 'click'
+        };
+        var settings = {};
+        var $parent = null;
+        function fnTab(options){
+            $parent = this;
+            settings = $.extend(settings,defaults,options);
+            create();
+            bind();
+        }
+        function create() {
+            for(var i=0;i<settings.heads.length;i++){
+                var $title = $('<div>'+ settings.heads[i] +'</div>');
+                if(i == 0){
+                    $title.addClass('active');
+                }
+                $parent.find('.title').append($title);
+            }
+            for(var i=0;i<settings.bodys.length;i++){
+                var $div = $('<div>'+ settings.bodys[i] +'</div>');
+                if(i == 0){
+                    $div.addClass('active');
+                }
+                $parent.find('.main').append($div);
+            }
+        }
+        function bind() {
+            $parent.find('.title>div').on(settings.events,function () {
+                $parent.trigger('beforeChange');
+
+                $parent.find('.title>div').removeClass('active');
+                $(this).addClass('active');
+                $parent.find('.main>div').removeClass('active');
+                $parent.find('.main>div').eq($(this).index()).addClass('active');
+
+                $parent.trigger('afterChange');
+            })
+        }
+        $.fn.extend({
+            tabs: fnTab
+        });
+    })(jQuery);
+</script>
+</html>

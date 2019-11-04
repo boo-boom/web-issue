@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body, ul, li {
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            list-style: none;
+        }
+        .rating {
+            width: 130px;
+            height: 26px;
+            margin: 100px auto;
+        }
+        .rating-item {
+            float: left;
+            width: 26px;
+            height: 26px;
+            cursor: pointer;
+            background: url("img/stars.png") no-repeat;
+            background-size: 100% auto;
+        }
+    </style>
+</head>
+<body>
+<!--第一种实现方式-->
+<ul class="rating" id="rating1">
+    <li class="rating-item" title="很不好"></li>
+    <li class="rating-item" title="不好"></li>
+    <li class="rating-item" title="一般"></li>
+    <li class="rating-item" title="好"></li>
+    <li class="rating-item" title="很好"></li>
+    <li class="text"></li>
+</ul>
+<ul class="rating" id="rating2">
+    <li class="rating-item" title="很不好"></li>
+    <li class="rating-item" title="不好"></li>
+    <li class="rating-item" title="一般"></li>
+    <li class="rating-item" title="好"></li>
+    <li class="rating-item" title="很好"></li>
+    <li class="text"></li>
+</ul>
+</body>
+<script src="./../js/jquery.min.js"></script>
+<script>
+    var rating = (function () {
+        // 继承
+        var extend = function (subClass, superClass) {
+            var F = function F() {  };                      // 创建一个构造函数（目的为得到一个属性为空的构造函数,因为F()下为空）
+            F.prototype = superClass.prototype;             // 父类prototype赋值给F （F的属性为空，只会获得父类的prototype）
+            subClass.prototype = new F();                   // 将属性为空，prototype不为空的实例赋值给子类(调用extend会执行父类prototype下的方法)
+            subClass.prototype.constructor = subClass;      // 将subClass的构造函数修正为subClass，否则为F
+        };
+
+        // 父类
+        var Light = function (el, options) {
+            this.$el = $(el);
+            this.$item = this.$el.find('.rating-item');
+            this.opts = options;
+            this.add = 1;
+            this.selectEvent = 'mouseover';
+        };
+
+        Light.prototype.init = function () {
+            this.lightOn(this.opts.num);
+            if (!this.opts.readOnly) {
+                this.bindEvent();
+            }
+        };
+
+        Light.prototype.lightOn = function (num) {
+            var count = parseInt(num),
+                isHalf = num !== count;
+
+            this.$item.each(function (index) {
+                if (index < count) {
+                    $(this).css('background-position', '0 -32px');
+                } else {
+                    $(this).css('background-position', '0 0');
+                }
+            });
+            if (isHalf) {
+                this.$item.eq(count).css('background-position', '0 -63px');
+            }
+        };
+
+        Light.prototype.bindEvent = function () {
+            var _this = this,
+                _num = 0;
+            this.$el.on(this.selectEvent, '.rating-item', function (e) {
+                _num = $(this).index() + _this.add;
+                _this.select(e, $(this));
+                _this.lightOn(_num);
+                (typeof _this.opts.select === 'function') && _this.opts.select.call(this, _num, _this.$item.length);
+                _this.$el.trigger('select', [_num, _this.$item.length]);
+            }).on('mouseout', function () {
+                _this.lightOn(_this.opts.num);
+                (typeof _this.opts.after === 'function') && _this.opts.after.call(this, _this.opts.num, _this.$item.length);
+                _this.$el.trigger('after', [_this.opts.num, _this.$item.length]);
+            }).on('click', '.rating-item', function () {
+                _this.opts.num = $(this).index() + _this.add;
+                _this.lightOn(_this.opts.num);
+                (typeof _this.opts.chosen === 'function') && _this.opts.chosen.call(this, _this.opts.num, _this.$item.length);
+                _this.$el.trigger('chosen', [_this.opts.num, _this.$item.length]);
+            });
+        };
+
+        Light.prototype.select = function () {
+            throw new Error('子类必须重写该方法');
+        };
+
+        Light.prototype.unbindEvent = function () {
+            this.$el.off();
+        };
+
+        // 整颗星星
+        var LightEntire = function (el, options) {
+            Light.call(this, el, options);
+        };
+
+        extend(LightEntire, Light);
+
+        LightEntire.prototype.lightOn = function (num) {
+            Light.prototype.lightOn.call(this, num);
+        };
+
+        LightEntire.prototype.select = function () {
+            this.add = 1;
+        };
+
+
+        // 半颗星星
+        var LightHalf = function (el, options) {
+            Light.call(this, el, options);
+            this.selectEvent = 'mousemove';
+        };
+
+        extend(LightHalf, Light);
+
+        LightHalf.prototype.lightOn = function (num) {
+            var count = parseInt(num),
+                isHalf = num !== count;
+
+            Light.prototype.lightOn.call(this, count);
+
+            if (isHalf) {
+                this.$item.eq(count).css('background-position', '0 -63px');
+            }
+        };
+
+        LightHalf.prototype.select = function (e, $this) {
+            if (e.pageX - $this.offset().left > $this.width() / 2) {
+                this.add = 1;
+            } else {
+                this.add = 0.5;
+            }
+        };
+
+
+        var init = function (el, option) {
+            var $el = $(el),
+                rating = $el.data('rating'),
+                options = $.extend({}, defaults, typeof option === 'object' && option);
+            if (!mode[options.mode]) {
+                options.mode = 'LightEntire';
+            }
+            if (!rating) {
+                $el.data('rating', (rating = new mode[options.mode](el, options)));
+                rating.init();
+            }
+            if (typeof option === 'string') {
+                rating[option]();
+            }
+        };
+
+        var defaults = {
+            mode: 'LightEntire',
+            num: 0,
+            readOnly: false,
+            select: function () {
+            },
+            chosen: function () {
+            },
+            after: function () {
+            }
+        };
+
+        var mode = {
+            'LightEntire': LightEntire,
+            'LightHalf': LightHalf
+        };
+
+        // jq插件
+        $.fn.extend({
+            rating: function (options) {
+                return this.each(function () {
+                    init(this, options);
+                });
+            }
+        });
+
+        return {
+            init: init
+        }
+    })();
+
+    rating.init('#rating1', {
+        num: 3,
+        mode: 'LightEntire',
+        select: function (num, total) {
+            console.log(num + '/' + total);
+        }
+    });
+
+    /*$('#rating1').on('after', function (e, num, total) {
+        console.log(num + '/' + total);
+    });*/
+
+    /*rating.init('#rating2', {
+        num: 2.5,
+        mode: 'LightHalf',
+        chosen: function () {
+            rating.init('#rating2', 'unbindEvent');
+        }
+    });*/
+
+    $('#rating2').rating({
+        num: 2.5,
+        mode: 'LightHalf',
+        chosen: function () {
+            rating.init('#rating2', 'unbindEvent');
+        }
+    });
+</script>
+</html>

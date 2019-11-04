@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,minimum-scale=1"/>
+    <title>图片懒加载</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .box {
+            width: 400px;
+            margin: auto;
+        }
+        .box input {
+            height: 50px;
+        }
+        .box ul {
+            width: 310px;
+            background: #eee;
+        }
+        .box ul > li {
+            width: 30px;
+            display: inline-block;
+            text-align: center;
+        }
+        .box .panel {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <input type="button" value="选择表情" placeholder="text" class="inp"/>
+    <div class="panel">
+        <!--<ul class="list">
+            <li><img src="img/1.gif" alt=""></li>
+            <li><img src="img/2.gif" alt=""></li>
+            <li><img src="img/3.gif" alt=""></li>
+            <li><img src="img/4.gif" alt=""></li>
+            <li><img src="img/5.gif" alt=""></li>
+        </ul>-->
+    </div>
+    <div class="loading">
+        0%
+    </div>
+</div>
+<script src="./../jquery.min.js"></script>
+<script src="js/preload.js"></script>
+<script>
+    $(function () {
+        var $inp = $('.inp'),
+            $panel = $('.panel'),
+            $loading = $('.loading');
+        var imgs = [];
+
+        for (var i = 0; i < 132; i++) {
+            imgs[i] = 'img/' + (i+1) + '.gif';
+        }
+
+        $inp.on('click', function (e) {
+            e.stopPropagation();
+            $panel.show();
+            var index = 0,
+                len = imgs.length,
+                $loading = $('.loading');
+            $.preload(imgs, {
+                each: function (count) {
+                    $loading.html(Math.round((count + 1) / len * 100) + '%');
+                },
+                all: function () {
+                    var html = '';
+                    html += '<ul class="list">';
+                    for (var i = 0; i < len; i++) {
+                        html += '<li><img src="' + imgs[i] + '" alt=""></li>';
+                    }
+                    html += '</ul>';
+                    $panel.append(html);
+                }
+            });
+        });
+
+        $(document).click(function () {
+            $panel.html('');
+            $panel.hide();
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        div{
+            width: 200px;
+            height: 200px;
+            background: #f60;
+            /* 如果在div中添加border此时的offsetWidth即为202 */
+            border: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+</body>
+<script>
+    window.onload = function(){
+        var oDiv = document.querySelector('div');
+        timer = setInterval(function(){
+            if(oDiv.offsetWidth == 0){
+                clearInterval(timer);
+            };
+            // 没有添加border时width会逐渐减小
+            /* 添加border时width会逐渐变大，原因：每次获取offsetWidth时先减1，然后会加上border的2，所以每次定时器执行时都会+1 
+                202-1+2=201 201-1+2=202*/
+            // oDiv.style.width = oDiv.offsetWidth - 1 + 'px';
+            // 使用getStyle获取样式
+            oDiv.style.width = parseInt(getStyle(oDiv, 'width')) - 1 + 'px';
+        }, 20);
+    };
+    function getStyle(obj, attr){
+        if(obj.currentStyle){
+            return obj.currentStyle[attr];
+        }else{
+            // null: 元素伪类，没有传null
+            return getComputedStyle(obj, null)[attr];
+        }
+    };
+</script>
+</html>

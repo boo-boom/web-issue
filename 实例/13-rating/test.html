@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body, ul, li {
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            list-style: none;
+        }
+        .rating {
+            width: 130px;
+            height: 26px;
+            margin: 100px auto;
+        }
+        .rating-item {
+            float: left;
+            width: 26px;
+            height: 26px;
+            cursor: pointer;
+            background: url("img/stars.png") no-repeat;
+            background-size: 100% auto;
+        }
+    </style>
+</head>
+<body>
+<ul class="rating" id="rating1">
+    <li class="rating-item" title="很不好"></li>
+    <li class="rating-item" title="不好"></li>
+    <li class="rating-item" title="一般"></li>
+    <li class="rating-item" title="好"></li>
+    <li class="rating-item" title="很好"></li>
+    <li class="text"></li>
+</ul>
+</body>
+<script src="./../js/jquery.min.js"></script>
+<script>
+var rating = (function(){
+    var LightEntire = function(el, options){
+        this.$el = $(el);
+        this.$item = this.$el.find('.rating-item');
+        this.options = options;
+    };
+
+    LightEntire.prototype.init = function(){
+        this.lightOn(this.options.num);
+        if(!this.options.readOnly){
+            this.bindEvent();
+        }
+    };
+
+    LightEntire.prototype.lightOn = function(num){
+        var num = parseInt(num);
+        $.each(this.$item, function(index, item){
+            if(index < num){
+                $(this).css('background-position', '0 -32px');
+            }else{
+                $(this).css('background-position', '0 0');
+            }
+        });
+    };
+
+    LightEntire.prototype.bindEvent = function(){
+        var _this = this;
+        var _total = this.$item.length;
+        this.$item.on('mouseover', function(){
+            var _num = $(this).index() + 1;
+            _this.lightOn(_num);
+            (typeof _this.options.select === 'function') && _this.options.select.call(this, _num, _total);
+        }).on('mouseout', function(){
+            _this.lightOn(_this.options.num);
+        }).on('click', function(){
+            _this.options.num = $(this).index() + 1;
+        });
+    };
+
+    var defailts = {
+        num: 0,
+        readOnly: false,
+        select: function () {},
+        chosen: function () {},
+        after: function () {}
+    };
+    var init = function(el, options){
+        options = $.extend({}, defailts, options);
+        new LightEntire(el, options).init();
+    };
+
+    return {
+        init: init
+    }
+})();
+
+rating.init('#rating1', {
+    num: 2.5,
+    select: function(obj, total){
+        console.log(this, obj, total);
+    }
+});
+</script>
+</html>

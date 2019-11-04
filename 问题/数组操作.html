@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        /*
+        * 不使用reverse() sort()对数组进行排序*/
+        var arr = [9, 8, 6, 4, 7, 3, 1, 2, 5, 0];
+
+        for (var i = 0; i < arr.length; i++) {
+            for (var j = 0; j < arr.length - i; j++) {
+                if (arr[j] >= arr[j + 1]) {
+                    var temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+
+        console.log(arr);
+
+        /*
+        * 随机排序*/
+        for (var i = 0; i < arr.length; i++) {
+            var T = arr[i];
+            var R = random(0, i);
+            arr[i] = arr[R];
+            arr[R] = T;
+        }
+
+        function random(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+        console.log(arr);
+
+        /*
+        * 数组去重*/
+        var arr1 = [7, 7, 2, 2, 2, 3, 3, 6, 6, 6];
+        var newArr = [];
+        for (var i = 0; i < arr1.length; i++) {
+            if (newArr.indexOf(arr1[i]) === -1) {
+                newArr.push(arr1[i]);
+            }
+        }
+        console.log(newArr);
+    </script>
+</head>
+<body>
+
+</body>
+</html>

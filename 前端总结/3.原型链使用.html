@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <p id="text">这是一段文本内容</p>
+</body>
+<script>
+    function Elem(id){
+        this.el = document.getElementById(id);
+    };
+    Elem.prototype.html = function(val){
+        var el = this.el;
+        if(val){
+            el.innerHTML = val;
+            // 返回this => 将当期对象返回用于链式操作
+            return this;
+        }else{
+            return el.innerHTML;
+        }
+    };
+    Elem.prototype.on = function(type, fn){
+        this.el.addEventListener(type, fn);
+        // 返回this => 将当期对象返回用于链式操作
+        return this;
+    };
+    var div = new Elem('text');
+    // 链式操作
+    div.html('修改文本').on('click', function(){
+        div.html('点击修改文本');
+    });
+</script>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        li{
+            width: 200px;
+            height: 50px;
+            background: #f60;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</body>
+<script>
+    window.onload = function(){
+        var aLi = document.querySelectorAll('li');
+        for(var i=0;i<aLi.length;i++){
+            aLi[i].timer = null;
+            aLi[i].onmouseover = function(){
+                startMove(this, 400);
+            };
+            aLi[i].onmouseout = function(){
+                startMove(this, 200);
+            };
+        }
+
+        function startMove(obj, iTarget){
+            clearInterval(obj.timer);
+            obj.timer = setInterval(function(){
+                var speed = (iTarget - obj.offsetWidth) / 10;
+                speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                if(obj.offsetWidth == iTarget){
+                    clearInterval(obj.timer);
+                }else{
+                    obj.style.width = obj.offsetWidth + speed + 'px';
+                }
+            }, 30);
+        };
+    };
+</script>
+</html>

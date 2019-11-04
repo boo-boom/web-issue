@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>无标题文档</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            width: 328px;
+        }
+
+        li {
+            width: 100px;
+            height: 100px;
+            border: 1px #000 solid;
+            float: left;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            list-style: none;
+            text-align: center;
+        }
+
+        .active {
+            background: red;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="lottery">
+        <input id="btn" type="button" value="抽奖" />
+        <ul>
+            <li>1等奖</li>
+            <li>2等奖</li>
+            <li>3等奖</li>
+            <li>4等奖</li>
+            <li>5等奖</li>
+            <li>6等奖</li>
+            <li>7等奖</li>
+            <li>8等奖</li>
+            <li>9等奖</li>
+        </ul>
+    </div>
+</body>
+<script src="./../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $(function () {
+        var lottery = {
+            index: -1,
+            count: 0,
+            cycle: 1,
+            prize: 4,
+            delay: 20,
+            timer: null,
+            init: function (obj) {
+                if ($(obj).find('li').length > 0) {
+                    this.obj = $(obj);
+                    this.count = $(obj).find('li').length;
+                    this.cycle = this.count * this.cycle + this.prize;
+                }
+            },
+            roll: function () {
+                var obj = this.obj;
+                var count = this.count;
+                var index = this.index;
+                obj.find('li').eq(index).removeClass('active');
+                index++;
+                if (index > count - 1) {
+                    index = 0;
+                }
+                obj.find('li').eq(index).addClass('active');
+                this.index = index;
+                this.delay += 20;
+                if (this.delay > 1000) {
+                    this.delay = 1000;
+                }
+            }
+        };
+
+        function roll() {
+            if (lottery.cycle == 0) {
+                clearTimeout(lottery.timer);
+                lottery.delay = 20;
+                lottery.cycle = 1;
+                lottery.cycle = lottery.count * lottery.cycle + lottery.prize + (lottery.count - lottery.index - 1);
+                return false;
+            } else {
+                lottery.roll();
+            }
+            lottery.cycle--;
+
+            console.log(lottery.cycle);
+
+            lottery.timer = setTimeout(roll, lottery.delay);
+        };
+
+        lottery.init('#lottery');
+        $('#btn').on('click', function () {
+            roll();
+        });
+    });
+</script>
+
+</html>
