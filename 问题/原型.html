@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+</body>
+<script>
+  /*
+  * 创建对象的3种方式
+  */
+  // 字面量
+  var o1 = {name: "o1"};
+  var o2 = new Object({name: "o2"});
+  // 构造函数
+  var M = function(name) { this.name = name; };
+  var o3 = new M("o3");
+  // Object.create
+  var p = {name: "o4"};
+  var o4 = Object.create(p);
+</script>
+</html>
