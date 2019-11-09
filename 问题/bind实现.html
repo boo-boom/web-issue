@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    手写bind实现
+  </body>
+  <script>
+    // 直接调用时this指向为window
+    // 使用bind将this指向foo
+    var bar = function() {
+      console.log(this, arguments);
+    };
+
+    var foo = {
+      name: "foo"
+    };
+
+    Function.prototype.myBind = function(obj) {
+      var self = this;
+      // 接受参数：取除第一个参数的所有参数
+      var args = [].slice.call(arguments, 1);
+      return function() {
+        self.apply(obj, args.concat([].slice.call(arguments, 1)));
+      }
+    };
+
+    // bar();
+    bar.myBind(foo, [1,2,3])();
+  </script>
+</html>

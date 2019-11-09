@@ -222,7 +222,7 @@
 
     var a = new A().getName();
 
-    /* 
+    /*
     * 是否是回文：反向排序与正向排序相等 */
     document.getElementById('inp2').onclick = function () {
         var val = document.getElementById('inp1').value;
@@ -267,13 +267,13 @@
     }
 
     /*
-    * 题目：有人邀请ＡＢＣＤＥＦ６个人参加一项会议，这６个人有些奇怪，因为他们有很多要求，已知：
-    *    １．ＡＢ两人至少有１人参加会议。
-    *    ２．ＡＥＦ３人中有２人参加会议。
-    *    ３．Ｂ和Ｃ两人一致决定，要么两人都去，要么两人都不去。
-    *    ４．ＡＤ中１人参加。
-    *    ５．ＣＤ两人中也只要１人参加会议。
-    *    ６．如果Ｄ不去，那么Ｅ也决定不去。 
+    * 题目：有人邀请 ABCDEF ６个人参加一项会议，这６个人有些奇怪，因为他们有很多要求，已知：
+    *    １．AB两人至少有１人参加会议。
+    *    ２．AEF３人中有２人参加会议。
+    *    ３．B和C两人一致决定，要么两人都去，要么两人都不去。
+    *    ４．AD中１人参加。
+    *    ５．CD两人中也只要１人参加会议。
+    *    ６．如果D不去，那么E也决定不去。
     * */
     for (var a = 0; a < 2; a++) {
         for (var b = 0; b < 2; b++) {
@@ -299,7 +299,7 @@
         }
     }
 
-	
+
 	function Foo() {
 		getName = function () { console.log(1); };
 		return this;
@@ -308,7 +308,7 @@
 	Foo.prototype.getName = function () { console.log(3);};
 	var getName = function () { console.log(4);};
 	function getName() { console.log(5);}
-	 
+
 	//请写出以下输出结果：
 	Foo.getName();              //2
 	getName();                  //4
