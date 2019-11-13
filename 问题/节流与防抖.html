@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <div style="height:3000px;"></div>
+</head>
+<body>
+
+</body>
+<script>
+  // 函数节流
+  var throttle = function(fn, delay) {
+    var prevTime = 0;
+    return function() {
+      var nowDate = Date.now();
+      if (nowDate - prevTime > delay) {
+        fn.call(this);
+        prevTime = nowDate;
+      }
+    }
+  }
+
+  // 函数防抖
+  var debounce = function(fn, delay) {
+    var timer = null
+    return function() {
+      var args = arguments
+      clearTimeout(timer)
+      timer = setTimeout(function() {
+        fn.apply(this, args)
+      }, delay)
+    }
+  }
+
+
+  document.onscroll = debounce(function() {
+    console.log('scroll事件被触发了' + Date.now(), this)
+  }, 1200);
+</script>
+</html>

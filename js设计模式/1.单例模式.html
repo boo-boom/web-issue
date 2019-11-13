@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-</head>
-<body>
-    <input id="aBtn" type="button" value="A">
-    <input id="bBtn" type="button" value="B">
-</body>
-<script src="./jquery.min.js"></script>
-<script>
-    /* 
+  </head>
+  <body>
+    <input id="aBtn" type="button" value="A" />
+    <input id="bBtn" type="button" value="B" />
+  </body>
+  <script src="./jquery.min.js"></script>
+  <script>
+    /*
     单例模式：
         一个类只有一个实例；
         判断实例是否存在，存在则返回，不存在则创建再返回；
@@ -27,46 +27,64 @@
         3.有节制的使用new
     */
     var a = {
-        val: 'btnA',
-        init: function(){
-            this.render();
-            this.bind();
-        },
-        render: function(){
-            var self = this;
-            self.btn = $('#aBtn');
-        },
-        bind: function(){
-            var self = this;
-            self.btn.on('click', function(){
-                self.test();
-            });
-        },
-        test: function(){
-            this.btn.val(b.val);
-        }
+      val: "btnA",
+      init: function() {
+        this.render();
+        this.bind();
+      },
+      render: function() {
+        var self = this;
+        self.btn = $("#aBtn");
+      },
+      bind: function() {
+        var self = this;
+        self.btn.on("click", function() {
+          self.test();
+        });
+      },
+      test: function() {
+        this.btn.val(b.val);
+      }
     };
     var b = {
-        val: 'btnB',
-        init: function(){
-            this.render();
-            this.bind();
-        },
-        render: function(){
-            var self = this;
-            self.btn = $('#bBtn');
-        },
-        bind: function(){
-            var self = this;
-            self.btn.on('click', function(){
-                self.test();
-            });
-        },
-        test: function(){
-            this.btn.val(a.val);
-        }
+      val: "btnB",
+      init: function() {
+        this.render();
+        this.bind();
+      },
+      render: function() {
+        var self = this;
+        self.btn = $("#bBtn");
+      },
+      bind: function() {
+        var self = this;
+        self.btn.on("click", function() {
+          self.test();
+        });
+      },
+      test: function() {
+        this.btn.val(a.val);
+      }
     };
     a.init();
     b.init();
-</script>
+
+    // 多次调用只有一个实例
+    function A() {
+      this.name = "a";
+    }
+    A.init = (function() {
+      var instance;
+      return function() {
+        if (!instance) {
+          instance = new A();
+        }
+        return instance;
+      };
+    })();
+    var a1 = A.init();
+    var a2 = A.init();
+
+    console.log(a1 === a2);
+  </script>
 </html>

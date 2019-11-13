@@ -197,8 +197,8 @@
     // 元素为对象时，需要将对象内的元素重新赋值，否则对象的引用没有改变
     for (var ii = 0; ii < aaa.length; ii++) {
       var _obj = {};
-      _obj.a = aaa[i].a;
-      _obj.b = aaa[i].b;
+      _obj.a = aaa[ii].a;
+      _obj.b = aaa[ii].b;
       bbb.push(_obj);
     }
 
@@ -346,5 +346,31 @@
       var b = num.split(".")[1];
       console.log(a);
     }
+
+    // 多维数组转换为一维数组
+    let _arr1 = [[1], [2, 3], 4]
+    let _arr2 = _arr1.reduce(function(a, b) {
+      if (b instanceof Array) {
+        return a.concat(b);
+      } else {
+        a.push(b)
+        return a
+      }
+    });
+    console.log("es5多维数组转换为一维数组:", _arr2);
+    // es6: Infinity展开所有嵌套数组，默认是1；flat()方法会移除数组中的空项。但undefined、null仍会保留。
+    console.log("es6多维数组转换为一维数组:", _arr1.flat(Infinity));
+
+    // webpack插件基础写法
+    // class BasicWebpackPlugin {
+    //   constructor(options) {
+    //     this.options = options;
+    //   }
+    //   apply(compiler) {
+    //     compiler.plugin('compilation', (compilation) => {
+    //       //...
+    //     });
+    //   }
+    // }
   </script>
 </html>

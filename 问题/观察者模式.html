@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+</body>
+<script>
+function Subject() {
+  this.state = 0;
+  this.observers = [];
+}
+Subject.prototype.setState = function(state) {
+  this.state = state;
+  this.notify();
+}
+Subject.prototype.getState = function() {
+  return this.state;
+}
+Subject.prototype.notify = function() {
+  this.observers.forEach(function(observer) {
+    observer.update();
+  });
+}
+Subject.prototype.attach = function(observer) {
+  this.observers.push(observer);
+}
+// 观察者
+function Observer(name, subject) {
+  this.name = name;
+  this.subject = subject;
+  this.subject.attach(this);
+}
+Object.prototype.update = function() {
+  console.log(`${this.name} update, state: ${this.subject.getState()}`)
+}
+
+var s = new Subject();
+var o1 = new Observer('o1', s);
+var o2 = new Observer('o2', s);
+s.setState(1);
+s.setState(2);
+
+</script>
+</html>
