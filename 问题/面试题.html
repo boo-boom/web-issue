@@ -1,92 +1,91 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Title</title>
     <style>
-        .a,
-        .b {
-            float: left;
-        }
+      .a,
+      .b {
+        float: left;
+      }
 
-        .a {
-            width: 200px;
-        }
+      .a {
+        width: 200px;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="a">
-        <a href="#">1</a>
-        <a href="#">1</a>
-        <a href="#">1</a>
-        <a href="#">1</a>
-        <a href="#">1</a>
+      <a href="#">1</a>
+      <a href="#">1</a>
+      <a href="#">1</a>
+      <a href="#">1</a>
+      <a href="#">1</a>
     </div>
     <div class="b">2</div>
 
-    <input type="text" value="" id="inp1">
-    <input type="button" id="inp2" value="判断">
-</body>
-<script>
+    <input type="text" value="" id="inp1" />
+    <input type="button" id="inp2" value="判断" />
+  </body>
+  <script>
     /*
-    * 数据类型：
-    *   基础类型：String, Number, Boolean, Undefined
-    *   引用类型：Object(Array, Function, Null, Date, RegExp)*/
+     * 数据类型：
+     *   基础类型：String, Number, Boolean, Undefined
+     *   引用类型：Object(Array, Function, Null, Date, RegExp)*/
 
     /*
-    * 判断是否为数组：
-    *   obj instanceof Array*/
+     * 判断是否为数组：
+     *   obj instanceof Array*/
 
     /*
-    * js修改css:
-    *   document.getElementById('id').style.backgroundColor = 'red'*/
+     * js修改css:
+     *   document.getElementById('id').style.backgroundColor = 'red'*/
 
     /*
-    * 获取页面所有checkbox:
-    *   var domList = document.getElementsByTagName('input');
-    *   var checkbox = [];
-    *   var len = domList.length;
-    *   while(len--){
-    *       if(domList[len].type === 'checkbox'){
-    *           checkbox.push(domList[len]);
-    *       }
-    *   }*/
+     * 获取页面所有checkbox:
+     *   var domList = document.getElementsByTagName('input');
+     *   var checkbox = [];
+     *   var len = domList.length;
+     *   while(len--){
+     *       if(domList[len].type === 'checkbox'){
+     *           checkbox.push(domList[len]);
+     *       }
+     *   }*/
 
     /*
-    * 事件绑定方式：
-    *   直接绑定在dom中为：属性绑定
-    *   js绑定：onclick = 'test()'
-    *   通过事件添加绑定：addEventListener('click', test, false)*/
+     * 事件绑定方式：
+     *   直接绑定在dom中为：属性绑定
+     *   js绑定：onclick = 'test()'
+     *   通过事件添加绑定：addEventListener('click', test, false)*/
 
     /*
-    * 阻止冒泡与默认事件：
-    *   e.stopPropagation();
-    *   e.preventDefault();*/
+     * 阻止冒泡与默认事件：
+     *   e.stopPropagation();
+     *   e.preventDefault();*/
 
     /*
-    * 变量提升：
-    *   console.log(a);     //undefined
-    *   var a = 'test';*/
+     * 变量提升：
+     *   console.log(a);     //undefined
+     *   var a = 'test';*/
 
     /*
-    * style优先级：
-    *   !important > style(内联) > id(权重100) > class(权重10) > 标签(权重1) =》 后面的覆盖前面
-    *   class='red blue'  style覆盖与class顺序无关，与样式表中先后顺序有关*/
+     * style优先级：
+     *   !important > style(内联) > id(权重100) > class(权重10) > 标签(权重1) =》 后面的覆盖前面
+     *   class='red blue'  style覆盖与class顺序无关，与样式表中先后顺序有关*/
 
     /*
-    * 创建节点：
-    *   创建DOM片段：createDocumentFragment();
-    *   创建一个具体标签：createElement();
-    *   创建一个文本节点：createTextNode();*/
+     * 创建节点：
+     *   创建DOM片段：createDocumentFragment();
+     *   创建一个具体标签：createElement();
+     *   创建一个文本节点：createTextNode();*/
 
     /*
-    * 添加、移除、替换、插入
-    *   添加：appendChild();
-    *   移除：removeChild();
-    *   替换：replaceChild();
-    *   插入：insertBefore();*/
+     * 添加、移除、替换、插入
+     *   添加：appendChild();
+     *   移除：removeChild();
+     *   替换：replaceChild();
+     *   插入：insertBefore();*/
 
     /*
     * 输出循环结果：
@@ -107,12 +106,12 @@
     }*/
 
     /*
-    * 使用闭包将局部变量传递出来*/
+     * 使用闭包将局部变量传递出来*/
     function count() {
-        var num = 1;
-        return function () {
-            return num++;
-        }
+      var num = 1;
+      return function() {
+        return num++;
+      };
     }
 
     var fn = count();
@@ -121,101 +120,101 @@
     console.log(fn());
 
     /*
-    * 数组去重：*/
+     * 数组去重：*/
     var arr = [2, 3, 2, 4, 5, 8, 3, 3];
     var newArr = [];
     for (var i = 0; i < arr.length; i++) {
-        if (newArr.indexOf(arr[i]) === -1) {
-            newArr.push(arr[i]);
-        }
+      if (newArr.indexOf(arr[i]) === -1) {
+        newArr.push(arr[i]);
+      }
     }
     console.log(newArr);
 
     /*
-    * 左边固定200px;右边自适应*/
+     * 左边固定200px;右边自适应*/
 
     /*
-    * clone函数*/
+     * clone函数*/
     function clone(obj) {
-        var buf;
-        if (obj instanceof Array) {
-            buf = [];
-            var i = obj.length;
-            while (i--) {
-                buf[i] = clone(obj[i]);
-            }
-            return buf;
-        } else if (obj instanceof Object) {
-            buf = {};
-            for (var k in obj) {
-                buf[k] = clone(obj[k]);
-            }
-            return buf;
-        } else {
-            return obj;
+      var buf;
+      if (obj instanceof Array) {
+        buf = [];
+        var i = obj.length;
+        while (i--) {
+          buf[i] = clone(obj[i]);
         }
+        return buf;
+      } else if (obj instanceof Object) {
+        buf = {};
+        for (var k in obj) {
+          buf[k] = clone(obj[k]);
+        }
+        return buf;
+      } else {
+        return obj;
+      }
     }
 
     /*
-    * 随机数组*/
+     * 随机数组*/
     for (var i = 0; i < arr.length; i++) {
-        var T = arr[i];
-        var R = random(0, i);
-        arr[i] = arr[R];
-        arr[R] = T;
+      var T = arr[i];
+      var R = random(0, i);
+      arr[i] = arr[R];
+      arr[R] = T;
     }
     console.log(arr);
 
     function random(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
+      return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
     /*
-    * 比对数组 */
-    console.log(arrEqual([1,2,3], [1,2,3]));
-    function arrEqual(arr1, arr2){
-        var _is;
-        if(arr1.length != arr2.length) {
-            return false;
-        }else{
-            for(var i=0;i<arr1.length;i++){
-                if(arr1[i] != arr2[i]){
-                    _is = false;
-                    break;
-                }else{
-                    _is = true;
-                }
-            }
-            return _is;
+     * 比对数组 */
+    console.log(arrEqual([1, 2, 3], [1, 2, 3]));
+    function arrEqual(arr1, arr2) {
+      var _is;
+      if (arr1.length != arr2.length) {
+        return false;
+      } else {
+        for (var i = 0; i < arr1.length; i++) {
+          if (arr1[i] != arr2[i]) {
+            _is = false;
+            break;
+          } else {
+            _is = true;
+          }
         }
+        return _is;
+      }
     }
 
     /*
-    * 数组元素为对象时修改值：*/
-    var aaa = [{a: 1, b: 2}];
+     * 数组元素为对象时修改值：*/
+    var aaa = [{ a: 1, b: 2 }];
     // var bbb = aaa;          // 只数组指向，没有改变元素对象的引用
     var bbb = [];
     // 元素为对象时，需要将对象内的元素重新赋值，否则对象的引用没有改变
-    for(var ii=0;ii<aaa.length;ii++){
-        var _obj = {};
-        _obj.a = aaa[i].a;
-        _obj.b = aaa[i].b;
-        bbb.push(_obj);
+    for (var ii = 0; ii < aaa.length; ii++) {
+      var _obj = {};
+      _obj.a = aaa[i].a;
+      _obj.b = aaa[i].b;
+      bbb.push(_obj);
     }
 
     /*
-    * 继承：*/
+     * 继承：*/
     function Common() {
-        this.name = 'this is common';
+      this.name = "this is common";
     }
 
-    Common.prototype.getName = function () {
-        console.log(this.name);
+    Common.prototype.getName = function() {
+      console.log(this.name);
     };
 
     function A() {
-        this.name = '123123';
-        Common.call(this);
+      this.name = "123123";
+      Common.call(this);
     }
 
     A.prototype = new Common();
@@ -223,103 +222,117 @@
     var a = new A().getName();
 
     /*
-    * 是否是回文：反向排序与正向排序相等 */
-    document.getElementById('inp2').onclick = function () {
-        var val = document.getElementById('inp1').value;
-        var valArr = val.split('').reverse().join('');
-        if (val === valArr) {
-            alert('是一个回文');
-        } else {
-            alert('不是一个回文');
-        }
-        console.log(valArr);
+     * 是否是回文：反向排序与正向排序相等 */
+    document.getElementById("inp2").onclick = function() {
+      var val = document.getElementById("inp1").value;
+      var valArr = val
+        .split("")
+        .reverse()
+        .join("");
+      if (val === valArr) {
+        alert("是一个回文");
+      } else {
+        alert("不是一个回文");
+      }
+      console.log(valArr);
     };
 
     /*
-    * 字符出现次数最多*/
-    var str1 = 'abbcccdddddeeeee';
+     * 字符出现次数最多*/
+    var str1 = "abbcccdddddeeeee";
     console.log(mostStr(str1));
 
     function mostStr(str) {
-        var obj = {};
-        for (var i = 0; i < str.length; i++) {
-            if (!obj[str[i]]) {
-                obj[str[i]] = 1;
-            } else {
-                obj[str[i]]++;
-            }
+      var obj = {};
+      for (var i = 0; i < str.length; i++) {
+        if (!obj[str[i]]) {
+          obj[str[i]] = 1;
+        } else {
+          obj[str[i]]++;
         }
-        var maxKey = str[0];
-        var maxVal = obj[maxKey];
-        var tArr = [];
-        for (var k in obj) {
-            if (obj[k] >= maxVal) {
-                maxKey = k;
-                maxVal = obj[k];
-            }
+      }
+      var maxKey = str[0];
+      var maxVal = obj[maxKey];
+      var tArr = [];
+      for (var k in obj) {
+        if (obj[k] >= maxVal) {
+          maxKey = k;
+          maxVal = obj[k];
         }
-        for (var k in obj) {
-            if (obj[k] === maxVal) {
-                tArr.push(k);
-            }
+      }
+      for (var k in obj) {
+        if (obj[k] === maxVal) {
+          tArr.push(k);
         }
-        return tArr.join('');
+      }
+      return tArr.join("");
     }
 
     /*
-    * 题目：有人邀请 ABCDEF ６个人参加一项会议，这６个人有些奇怪，因为他们有很多要求，已知：
-    *    １．AB两人至少有１人参加会议。
-    *    ２．AEF３人中有２人参加会议。
-    *    ３．B和C两人一致决定，要么两人都去，要么两人都不去。
-    *    ４．AD中１人参加。
-    *    ５．CD两人中也只要１人参加会议。
-    *    ６．如果D不去，那么E也决定不去。
-    * */
+     * 题目：有人邀请 ABCDEF ６个人参加一项会议，这６个人有些奇怪，因为他们有很多要求，已知：
+     *    １．AB两人至少有１人参加会议。
+     *    ２．AEF３人中有２人参加会议。
+     *    ３．B和C两人一致决定，要么两人都去，要么两人都不去。
+     *    ４．AD中１人参加。
+     *    ５．CD两人中也只要１人参加会议。
+     *    ６．如果D不去，那么E也决定不去。
+     * */
     for (var a = 0; a < 2; a++) {
-        for (var b = 0; b < 2; b++) {
-            if (a || b) {
-                for (var c = 0; c < 2; c++) {
-                    if (b === c) {
-                        for (var d = 0; d < 2; d++) {
-                            if ((c !== d) && (a !== d)) {
-                                for (var e = 0; e < 2; e++) {
-                                    if ((!d && !e) || d) {
-                                        for (var f = 0; f < 2; f++) {
-                                            if (a + e + f === 2) {
-                                                console.log('A.' + a + ';B.' + b + ';C.' + c + ';D.' + d + ';E.' + e + ';F.' + f + ';');
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+      for (var b = 0; b < 2; b++) {
+        if (a || b) {
+          for (var c = 0; c < 2; c++) {
+            if (b === c) {
+              for (var d = 0; d < 2; d++) {
+                if (c !== d && a !== d) {
+                  for (var e = 0; e < 2; e++) {
+                    if ((!d && !e) || d) {
+                      for (var f = 0; f < 2; f++) {
+                        if (a + e + f === 2) {
+                          console.log(
+                            "A." + a + ";B." + b + ";C." + c + ";D." + d + ";E." + e + ";F." + f + ";"
+                          );
                         }
+                      }
                     }
+                  }
                 }
+              }
             }
+          }
         }
+      }
     }
 
+    function Foo() {
+      getName = function() {
+        console.log(1);
+      };
+      return this;
+    }
+    Foo.getName = function() {
+      console.log(2);
+    };
+    Foo.prototype.getName = function() {
+      console.log(3);
+    };
+    var getName = function() {
+      console.log(4);
+    };
+    function getName() {
+      console.log(5);
+    }
 
-	function Foo() {
-		getName = function () { console.log(1); };
-		return this;
-	}
-	Foo.getName = function () { console.log(2);};
-	Foo.prototype.getName = function () { console.log(3);};
-	var getName = function () { console.log(4);};
-	function getName() { console.log(5);}
-
-	//请写出以下输出结果：
-	Foo.getName();              //2
-	getName();                  //4
-	Foo().getName();            //1
-	getName();                  //1
-	new Foo.getName();          //2
-	new Foo().getName();        //3
-	new new Foo().getName();    //3
+    //请写出以下输出结果：
+    Foo.getName(); //2
+    getName(); //4
+    Foo().getName(); //1
+    getName(); //1
+    new Foo.getName(); //2
+    new Foo().getName(); //3
+    new new Foo().getName(); //3
 
     /*
-    * 数字转换成中文大写*/
+     * 数字转换成中文大写*/
     var numbers = ["零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"];
     var smallUnit = ["拾", "佰", "仟"];
     var bigUnit = ["万", "亿"];
@@ -328,14 +341,10 @@
 
     changeNum(amount);
     function changeNum(num) {
-        num = num.toString();
-        var a = num.split('.')[0];
-        var b = num.split('.')[1];
-        console.log(a);
+      num = num.toString();
+      var a = num.split(".")[0];
+      var b = num.split(".")[1];
+      console.log(a);
     }
-
-
-
-</script>
-
+  </script>
 </html>
