@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+</body>
+<script>
+  console.log(validBraces("(){}[]"));
+  console.log(validBraces("(}"));
+  console.log(validBraces("[(])"));
+  console.log(validBraces("([{}])"));
+
+  function validBraces(braces) {
+    var allBraces = {'(': ')', '{': '}', '[': ']'};
+    var leftBraces = [];
+    var curBrace;
+    for(var i = 0; i < braces.length; i++) {
+      curBrace = braces[i];
+      if(allBraces[curBrace]) {
+        leftBraces.push(curBrace);
+      } else {
+        if(curBrace !== allBraces[leftBraces.pop()]) {
+          return false
+        }
+      }
+    }
+    return leftBraces.length === 0;
+  };
+</script>
+</html>
