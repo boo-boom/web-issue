@@ -40,23 +40,23 @@
 
 
     // 对象拷贝
-    var a = {
-        name: "哈哈",
-        ob: {
-            name: "呼呼",
-            age: 22
-        }
-    }
-    function extend(obj, target) {
-        var newObj = {};
-        for (var k in obj) {
-            if(typeof obj[k] === 'object'){
-                
-            }else{
-                newObj[k] = obj[k];
-            }
+    function clone(obj) {
+      var newObj;
+      if(obj instanceof Array) {
+        newObj = [];
+        var i = obj.length;
+        while(i--) {
+          newObj[i] = clone(obj[i]);
         }
         return newObj;
+      } else if(obj instanceof Object) {
+        var newObj = {};
+        for(var k in obj) {
+          newObj[k] = clone(obj[k]);
+        }
+        return newObj;
+      }
+      return obj;
     }
 </script>
 

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      html, body{
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body></body>
+  <script>
+    bgWatermark({
+      container: document.body
+    });
+    function bgWatermark(opts = {}) {
+      const defaults = {
+        container: document.body,
+        width: "100px",
+        height: "50px",
+        textAlign: "center",
+        textBaseline: "middle",
+        font: "14px Microsoft Yahei",
+        fillStyle: "rgba(230, 230, 230, 0.8)",
+        content: "背景水印",
+        rotate: "10",
+        zIndex: -1000
+      };
+      const args = Object.assign({}, defaults, opts);
+      const canvas = document.createElement("canvas");
+      canvas.setAttribute("width", args.width);
+      canvas.setAttribute("height", args.height);
+      const ctx = canvas.getContext("2d");
+      if (ctx === null) {
+        console.error("this browser is not support canvas.");
+        return;
+      }
+      ctx.textAlign = args.textAlign;
+      ctx.textBaseline = args.textBaseline;
+      ctx.font = args.font;
+      ctx.fillStyle = args.fillStyle;
+      ctx.rotate((Math.PI / 180) * args.rotate);
+      ctx.fillText(args.content, parseFloat(args.width) / 2, parseFloat(args.height) / 2);
+      const base64Url = canvas.toDataURL();
+      const __wm = document.querySelector(".__wm");
+      const watermarkDiv = __wm || document.createElement("div");
+      const styleStr = `
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        z-index:${args.zIndex};
+        pointer-events:none;
+        background-repeat:repeat;
+        background-image:url('${base64Url}')`;
+      watermarkDiv.setAttribute("style", styleStr);
+      watermarkDiv.classList.add("__wm");
+      if (!__wm) {
+        args.container.style.position = "relative";
+        args.container.insertBefore(watermarkDiv, args.container.firstChild);
+      }
+      const MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+      if (MutationObserver) {
+        let mo = new MutationObserver(function() {
+          const __wm = document.querySelector(".__wm");
+          // 只在__wm元素变动才重新调用 bgWatermark
+          if ((__wm && __wm.getAttribute("style") !== styleStr) || !__wm) {
+            // 避免一直触发
+            mo.disconnect();
+            mo = null;
+            bgWatermark(args);
+          }
+        });
+        mo.observe(document.body, {
+          attributes: true,
+          subtree: true,
+          childList: true
+        });
+      }
+    }
+  </script>
+</html>
