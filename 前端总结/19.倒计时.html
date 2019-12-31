@@ -17,6 +17,7 @@
           this.minute = minute || 0;
           this.second = second || 0;
           this.init();
+          // var endtime = new Date(endTimess.replace(/\-/g, "/"));
         }
         TimeEnd.prototype = {
           init: function() {
@@ -47,8 +48,7 @@
                 self.getTimer();
               }, 1000);
             }
-            document.querySelector(this.$el).innerHTML =
-              days + "天" + hours + "小时" + minutes + "分" + seconds + "秒";
+            document.querySelector(this.$el).innerHTML = days + "天" + hours + "小时" + minutes + "分" + seconds + "秒";
           },
           checkTime: function(i) {
             //将0-9的数字前面加上0，例1变为01

@@ -23,6 +23,25 @@
     }
   }
 
+  // 待验证版本
+  // var throttle = function(fn, delay) {
+  //   var prevTime, timer;
+  //   return function() {
+  //     var nowDate = Date.now();
+  //     var _args = arguments;
+  //     if(timer && nowDate - prevTime > delay) {
+  //       clearTimeout(timer);
+  //       timer = setTimeout(function() {
+  //         fn.call(this, _args);
+  //         prevTime = nowDate;
+  //       }, delay);
+  //     } else {
+  //       fn.call(this, _args);
+  //       prevTime = nowDate;
+  //     }
+  //   }
+  // }
+
   // 函数防抖
   var debounce = function(fn, delay) {
     var timer = null
