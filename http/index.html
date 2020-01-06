@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  Hello World!!!
+</body>
+<!-- <script>
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "http://127.0.0.1:9008/");
+  xhr.send();
+</script> -->
+
+<script type="text/javascript">
+  var localHandler = function (data) {
+    alert('我是本地函数，可以被跨域调用，远程js带来的数据是：' + data.result);
+  };
+</script>
+<script type="text/javascript" src="http://127.0.0.1:9008/"></script>
+
+</html>
