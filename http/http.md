@@ -237,3 +237,59 @@ response.writeHead(200, {
 - `Etag`: 数据签名
   - 配合 `If-Match` 或者 `If-Non-Match` 使用
   - 对比资源的签名判断是否使用缓存（如文件添加hash）
+
+## Cookie
+
+- 通过 `Set-Cookie` 设置
+- 下次请求会自动在 `Header` 带上
+- 键值对，可以设置多个
+- 单条Cookie总长度 `4KB` 左右（据浏览器而定）
+- 每个域Cookie个数 `50~150` 个（据浏览器而定）
+  IE | Firefox | Opera | Chrome | Safari
+  ---|---|---|---|---
+  原先为20个，后来升级为50个 | 50个 | 30个 | 150个 | 无限制
+  > 当Cookie数超过限制数时浏览器的行为：
+  > - IE和Opera会采用LRU算法将老的不常使用的Cookie清除掉
+  > - Firefox的行为是随机踢出某些Cookie的值
+
+### Cookie属性
+
+- `max-age` 和 `expires` 设置过期时间
+- `Secure` 只在 `https` 的时候发送
+- `HttpOnly` 无法通过 `js` 的 `document.cookie` 访问
+- `domain` 设置同域 `Cookie`, 同域下所有 `Cookie` 可公用
+
+```js
+response.writeHead(200, {
+  "Set-Cookie": ["id=123; max-age=2", "age=456; HttpOnly", "test=789; domain=test.com"]
+});
+```
+
+## HTTP长连接
+
+chrome最多只创建6个TCP连接，等待有连接完成后加载后面的。
+
+- `Connection`
+  - `keep-alive`: 保持连接，复用同一个TCP连接
+  - `close`: http请求完毕后关闭连接
+
+```js
+response.writeHead(200, {
+  "Connection": "close"
+});
+```
+
+## 数据协商
+
+### Accept
+
+- `Accept`: 数据类型
+- `Accept-Encoding`: 数据编码（服务端代码的压缩类型）
+- `Accept-Language`: 数据语言（判断返回的数据时的语言中文还是英文）
+- `User-Agent`: 浏览器信息
+
+### Content
+
+- `Content-Type`: 从 `Accept` 中挑选一个实际返回的数据类型
+- `Content-Encoding`: 对应 `Accept-Encoding`，判断服务端用了哪种编码格式，如 `gzip`
+- `Content-Language`: 对应 `Accept-Language`
