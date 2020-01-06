@@ -12,16 +12,27 @@
   Hello World!!!
 </body>
 <!-- <script>
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", "http://127.0.0.1:9008/");
-  xhr.send();
+  // var xhr = new XMLHttpRequest();
+  // xhr.open("GET", "http://127.0.0.1:9008/");
+  // xhr.send();
+
+  fetch("http://127.0.0.1:9008/", {
+    method: "PUT",
+    headers: {
+      "X-Test-Cors": "123"        // 自定义头
+    }
+  });
 </script> -->
 
-<script type="text/javascript">
+<!-- JSONP -->
+<!-- <script type="text/javascript">
   var localHandler = function (data) {
-    alert('我是本地函数，可以被跨域调用，远程js带来的数据是：' + data.result);
+    console.log('我是本地函数，可以被跨域调用，远程js带来的数据是：' + data.result);
   };
-</script>
-<script type="text/javascript" src="http://127.0.0.1:9008/"></script>
+</!-->
+<!-- <script type="text/javascript" src="http://127.0.0.1:9008/?callback=localHandler"></script> -->
+
+<!-- 缓存 -->
+<script src="/script.js"></script>
 
 </html>

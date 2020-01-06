@@ -121,3 +121,119 @@ curl -v "www.baidu.com"   # 返回http信息
 // 接口返回的内容则为与客户端约定的函数，并将服务端数据通过函数传参的方式响应给客户端
 response.end('localHandler({"result":"我是远程js带来的数据"});');
 ```
+
+- 封装一个完整的JSONP方法
+
+```js
+function JSONP(url, data) {
+  let dataStr = "";
+  if (data instanceof Object) {
+    for (let k in data) {
+      dataStr = `&${k}=${data[k]}`;
+    }
+  }
+  return new Promise((resolve, reject) => {
+    // cb函数不能重复，可利用uuid库生成唯一随机值
+    const callbackName = `JSONP_${Date.now()}`;
+    window[callbackName] = function(result) {
+      resolve(result);
+    }
+    const script = document.createElement("script");
+    script.src = `${url}?callback=${callbackName}${dataStr}`;
+    document.body.append(script);
+  });
+}
+
+JSONP("http://127.0.0.1:9008/", { a: 1 }).then(res => {
+  console.log(res);
+});
+```
+
+## CORS预请求
+
+跨域时浏览器允许的只有以下列出的不需要经过预请求验证，其他方法或类型均需要经过预请求验证之后才能请求。
+
+### 允许的方法
+
+- `GET`
+- `POST`
+- `HEAD`
+
+### 允许 Content-Type
+
+- text/plain
+- multipart/form-data
+- application/x-www-form-urlencoded
+
+### 其他限制
+
+- [请求头限制](https://fetch.spec.whatwg.org/#cors-safelisted-request-header) (自定义头需要预请求验证)
+- `XMLHttpRequestUpload` 对象均没有注册任何事件监听器
+- 请求中没有使用 `ReadableStream` 对象
+
+#### 服务端设置预请求验证
+
+预请求时，我们可以在 `Chrome` 的 `Network` 看到多一次 `OPTIONS` 类型的请求，这次请求则为 `预请求`， 它的请求结果与正式请求一致。
+
+> 当预请求没有通过时，不会访问正式请求
+
+```js
+response.writeHead(200, {
+  "Access-Control-Allow-Origin": "*",             // 即使设置 * ，但请求不满足上面列出但请求依然会报对应的跨域错误
+  "Access-Control-Allow-Headers": "X-Test-Cors",  // 允许自定义头信息
+  "Access-Control-Allow-Methods": "PUT, DELETE",  // 允许跨域请求的方法
+  "Access-Control-Max-Age": "1000"                // 当前跨域请求最大的访问时间，在此时间间隔内不需要预请求验证，直接正式请求
+});
+```
+
+## 缓存 `Cache-Control`
+
+以下头信息均为声明，无法对实际场景的代理服务器进行约束。
+
+### 可缓存性
+
+- `public`: http经过的任何地方均可以缓存（代理服务器/客户端等）
+
+- `private`: 只有发起请求的这个浏览器才可以缓存
+
+- `no-cache`: 任何节点均不可缓存（允许使用缓存，但需要通过服务器验证是否可使用缓存）
+
+### 到期
+
+- `max-age=<seconds>`: 客户端缓存时间（单位：秒）
+  ```bash
+  # 设置缓存时间后，浏览器会从本地缓存中获取内容（需关闭chrome中Network的Disable cache选项）
+  # 即使服务端更新了内容，客户端是无法知晓的
+  # 前端处理更新缓存的方法为：构建项目时给文件添加hash，内容改变则hash改变，从而达到文件路径的更新
+  "Cache-Control": "max-age=200"
+  ```
+
+- `s-maxage=<seconds>`: 会代替 `max-age` ，只有在代理服务器中才会生效
+
+- `max-stale=<seconds>`: 由浏览器发起的过期时间，`max-stale` 期间，当 `max-age` 过期时仍然可以使用过期的 `max-age`，`max-stale` 只有在发起端设置才会生效，服务端返回的内容是无效的。
+
+### 重新验证
+
+- `must-revalidate`: `max-age` 过期，必须去原服务发送请求重新获取数据来验证是否是真的过期，而不能直接使用缓存
+
+- `proxy-revalidate`: 与 `must-revalidate` 相同，但是只作用于缓存服务器
+
+### 其他
+
+- `no-store`: 本地或缓存服务器均不可缓存数据，每次都需要到服务器获取最新的数据
+
+- `no-transform`: 告知代理服务器不要去改动返回的内容（代理服务器有可能会对大型数据进行压缩或格式转换对操作）
+
+## 资源验证
+
+![image](http://notes.hoohmm.com/20200106001.png)
+
+### 验证头
+
+- `Last-Modified`: 上次修改时间
+  - 配合 `If-Modified-Since` 或 `If-Unmodified-Since` 使用
+  - 对比上次修改时间以验证资源是否需要更新
+
+- `Etag`: 数据签名
+  - 配合 `If-Match` 或者 `If-Non-Match` 使用
+  - 对比资源的签名判断是否使用缓存（如文件添加hash）

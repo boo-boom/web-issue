@@ -1,4 +1,5 @@
 const http = require("http");
+const querystring = require("querystring");
 
 http.createServer(function(request, response) {
   /**
@@ -8,12 +9,15 @@ http.createServer(function(request, response) {
    *  3.浏览器有跨域问题，curl没有跨域的限制
    */
   response.writeHead(200, {
-    // "Access-Control-Allow-Origin": "*",
-    "Content-Type": "text/html"
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "X-Test-Cors",
+    "Access-Control-Allow-Methods": "PUT, DELETE"
   });
-  console.log("request.url: ", request.url);
+  // console.log("request.url: ", request.url);
   // JSONP
-  response.end('localHandler({"result":"我是远程js带来的数据"});');
+  // response.end(`${querystring.parse(request.url.split("?")[1]).callback}({"result":"我是远程js带来的数据"})`);
+
+  response.end("hello");
 }).listen(9008);
 
 console.log("Server running at http://127.0.0.1:9008/");
