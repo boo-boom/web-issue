@@ -8,85 +8,160 @@
   </head>
   <body></body>
   <script>
+    // 创建一个父类
+    function Person(name) {
+      this.name = name || "子类向父类传参[false]";
+      this.orgName = "继承父类构造函数属性[true]";
+      this.arrs = [];
+    }
+    Person.prototype.getName = function() {
+      return `继承父类原型属性[true]`;
+    }
+    // Person.staticAttr = "继承父类静态属性[true]";
+
     /**
      * 原型链继承
+     *    重点：让新实例的原型等于父类的实例
+     *    特点：
+     *      1. 实例可继承的属性有：父类构造函数属性，父类原型的属性
      *    缺点：
      *      1. 子类实例化时无法向父类传参
-     *      2. 引用类型的属性被所有实例共享
+     *      2. 引用类型的属性不可被其它实例共享
      */
-    function Obj1(nike) {
-      this.name = "Obj1";
-      this.nike = nike; // 子类实例化时无法传入该参数
-      this.arr = [1, 2];
-    }
-    Obj1.prototype.getName = function() {
-      console.log(this.name);
-    };
-    function Child1() {}
-    Child1.prototype = new Obj1();
-    var c1_1 = new Child1();
-    var c1_2 = new Child1();
-    c1_1.getName();
-    c1_1.arr.push(3); // 属性为饮用类型时，该属性在多个实例中指向一致
+    function Child1() {};
+    Child1.prototype = new Person();
 
-    console.log(c1_1.name, c1_1.nike, c1_1.arr, c1_2.arr);
+    var child1_1 = new Child1("无法传参");
+    var child1_2 = new Child1();
+    child1_2.arrs.push("来自child1_2.arrs.push");
+    console.group("原型链继承");
+    console.table([child1_1.orgName, child1_1.name, child1_1.getName(), `是否可识别是父级的实例[${child1_1 instanceof Person}]`, `引用类型的属性不可被其它实例共享[${!child1_1.arrs.length}]`]);
+    console.groupEnd();
 
     /**
-     * 构造函数继承：复制父类构造函数内的属性
-     *    优点：
-     *      1. 避免了引用类型的属性被所有实例共享
+     * 构造函数继承：复制父类构造函数内的属性，在子类函数中做了父类函数的自执行
+     *    特点：
+     *      1. 避免了引用类型的属性不可被其它实例共享
      *      2. 可以在Child中向Parent传参
      *    缺点：
-     *      1. c2_1 instanceof Obj2 => false 无法识别是父级的实例
-     *      2. 方法都在构造函数中定义，每次创建实例都会创建一遍方法
+     *      1. Child instanceof Person => false 无法识别是父级的实例
+     *      2. 方法都在构造函数中定义，无法复用构造函数，每次创建实例都会创建一遍方法
+     *      3. 无法继承父类原型属性
      */
-    function Obj2(name) {
-      this.name = name;   // 可以利用构造函数向父级传参
-      this.arr = [1, 2];
-    }
-    Obj2.prototype.getName = function() {
-      console.log(this.name);
-    };
     function Child2(name) {
-      Obj2.call(this, name);
-    }
-    var c2_1 = new Child2("Obj2_1");
-    var c2_2 = new Child2("Obj2_2");
-    c2_1.arr.push(3);     // 引用类型属性不会被公用
-    console.log(c2_1, c2_2, c2_1 instanceof Obj2);
+      Person.call(this, name);
+    };
+
+    var child2_1 = new Child2("子类向父类传参[true]");
+    var child2_2 = new Child2();
+    child2_2.arrs.push("来自child2_2.arrs.push");
+    console.group("构造函数继承");
+    console.table([child2_1.orgName, child2_1.name, "继承父类原型属性[false]", `是否可识别是父级的实例[${child2_1 instanceof Person}]`, `引用类型的属性不可被其它实例共享[${!child2_1.arrs.length}]`]);
+    console.groupEnd();
 
     /**
      * 组合继承: 组合 原型链继承 和 借用构造函数继承
      *    使用原型链实现对原型方法的继承，而通过借用构造函数来实现对实例属性的继承
-     *    优点：融合原型链继承和构造函数的优点，是JavaScript中最常用的继承模式
-     *    缺点：调用了两次父类构造函数 => 组合继承最大的问题是无论什么情况下，都会调用两次超类型构造函数：一次是在创建子类型原型的时候，另一次是在子类型构造函数内部
+     *    重点：结合了两种模式的优点，传参和复用
+     *    优点：
+     *      1. 可以继承父类原型上的属性
+     *      2. 可以传参
+     *      3. 可复用构造函数
+     *      4. 是JavaScript中最常用的继承模式
+     *    缺点：
+     *      调用了两次父类构造函数 => 组合继承最大的问题是无论什么情况下，都会调用两次父类构造函数：一次是在创建子类原型的时候，另一次是在子类构造函数内部；
+     *      子类的构造函数会代替原型上的那个父类构造函数
      */
-    function Obj3(name) {
-      this.name = name;
-      this.arr = [1, 2];
-    }
-    Obj3.prototype.getName = function() {
-      console.log(this.name);
-    };
     function Child3(name) {
-      Obj3.call(this, name);    // 第二次调用 Obj3()
-    }
-    Child3.prototype = new Obj3();    // 第一次调用 Obj3()
-    var c3_1 = new Obj3("Obj3_1");
-    var c3_2 = new Obj3("Obj3_2");
-    c3_1.arr.push(3);
-    c3_1.getName();
-    c3_2.getName();
-    console.log(c3_1, c3_2, c3_1 instanceof Obj3);
+      Person.call(this, name);            // 第二次调用
+    };
+    Child3.prototype = new Person();      // 第一次调用
+
+    var child3_1 = new Child3("子类向父类传参[true]");
+    var child3_2 = new Child3();
+    child3_2.arrs.push("来自child3_2.arrs.push");
+    console.group("组合继承");
+    console.table([child3_1.orgName, child3_1.name, child3_1.getName(), `是否可识别是父级的实例[${child3_1 instanceof Person}]`, `引用类型的属性不可被其它实例共享[${!child3_1.arrs.length}]`]);
+    console.groupEnd();
 
     /**
      * 原型式继承
+     *    重点：用一个函数包装一个对象，然后返回这个函数的调用，这个函数就变成了个可以随意增添属性的实例或对象，object.create()就是这个原理。
+     *    特点：类似于复制一个对象，用函数来包装
+     *    缺点：
+     *      1. 所有实例都会继承原型上的属性
+　　　*　　　 2. 无法实现复用（新实例属性都是后面添加的）
      */
-    function Created(obj) {
-      function F();
-      F.prototype = obj;
+    function Child4(person) {
+      function F() {};
+      F.prototype = person;   // 继承传入的实例
       return new F();
     }
+    var person_1 = new Person("子类向父类传参[true]");
+    var person_2 = new Person("子类向父类传参[true]");
+    var child4_1 = Child4(person_1);
+    var child4_2 = Child4(person_2);
+    child4_2.arrs.push("来自child4_2.arrs.push");
+    console.group("原型式继承");
+    console.table([child4_1.orgName, child4_1.name, child4_1.getName(), `是否可识别是父级的实例[${child4_1 instanceof Person}]`, `引用类型的属性不可被其它实例共享[${!child4_1.arrs.length}]`]);
+    console.groupEnd();
+
+    /**
+     * 寄生式继承
+     *    重点：就是给原型式继承外面封装一层function
+     *    优点：因为封装了一层并返回对象，这个函数顺理成章就成了创建的新对象
+     *    缺点：无法复用
+     */
+    function CreateInstance1(person) {
+      var F = function(){};
+      F.prototype = person;
+      return new F();
+    };
+    // 以上是原型式继承，再给原型式继承函数包装一层进行参数传递
+    function Child5_1(obj) {
+      var sub = CreateInstance1(obj);
+      sub.testName = "寄生式继承创建属性";
+      return sub;
+    }
+    function Child5_2(obj) {
+      var sub = CreateInstance1(obj);
+      return sub;
+    }
+    var person_3 = new Person("子类向父类传参[true]");
+    var person_4 = new Person("子类向父类传参[true]");
+    var child5_1 = Child5_1(person_3);
+    var child5_2 = Child5_2(person_4);
+    child5_2.arrs.push("来自child5_2.arrs.push");
+    console.group("寄生式继承");
+    console.table([child5_1.orgName, child5_1.name, child5_1.getName(), `是否可识别是父级的实例[${child5_1 instanceof Person}]`, `引用类型的属性不可被其它实例共享[${!child5_1.arrs.length}]`]);
+    console.groupEnd();
+
+    /**
+     * 寄生组合式继承（常用）
+     *     寄生：在函数内返回对象然后调用
+     *     组合：
+     *        1、函数的原型等于另一个实例。
+     *        2、在函数中用apply或者call引入另一个构造函数，可传参
+     *     重点：修复了组合继承的问题
+     */
+    function CreateInstance2(person) {
+      function F() {};
+      F.prototype = person;
+      return new F();
+    }
+    var instance = CreateInstance2(Person.prototype);
+    function Child6(name) {
+      Person.call(this, name);
+    }
+    Child6.prototype = instance;
+    instance.constructor = Child6;
+
+    var child6_1 = new Child6("子类向父类传参[true]");
+    var child6_2 = new Child6();
+    child6_2.arrs.push("来自child6_2.arrs.push");
+    console.group("寄生组合式继承");
+    console.table([child6_1.orgName, child6_1.name, child6_1.getName(), `是否可识别是父级的实例[${child6_1 instanceof Person}]`, `引用类型的属性不可被其它实例共享[${!child6_1.arrs.length}]`]);
+    console.groupEnd();
 
   </script>
 </html>
