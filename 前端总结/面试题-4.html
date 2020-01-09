@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="test">123</div>
+</body>
+<script>
+  // 1. 以下表达式的运⾏结果是 ____________________________
+  console.log(typeof null); // object
+  console.log(10 + "20"); // 1020
+  console.log(0.1 + 0.2 == 0.3); // false
+
+  // 2. 请问下述代码执⾏输出的结果是 ____________________________
+  // var i, j, k;
+  // for (i = 0, j = 0; i < 8, j < 5; i++, j++) {
+  //   k = i + j;
+  // }
+  // console.log(i, j, k); // 5 5 8
+
+  // 3. 请问下述代码执⾏输出的结果是 ____________________________
+  var foo = "Hello";
+  (function() {
+    var bar = " World";
+    console.log(foo + bar, this); // Hello World
+  })();
+  // console.log(foo + bar);              // Uncaught ReferenceError: bar is not defined
+
+  // 4. 请问下述代码执⾏输出的结果是 ____________________________
+  for (var i = 0; i < 2; i++) {
+    setTimeout(() => {
+      console.log(i);
+    }, 0);
+  }
+  Promise.resolve().then(() => console.log(3));
+  (() => console.log(4))();
+  // 4 3 2 2
+
+  // 5. 请问下述代码执⾏输出的结果是 ____________________________
+  var F = function() {};
+  Object.prototype.a = function() {
+    console.log("Object");
+  };
+  Function.prototype.b = function() {
+    console.log("Function");
+  };
+  var f = new F();
+  // typeof f == object  /  typeof F == function
+  try {
+    f.a();                          // Object
+  } catch (e) {
+    console.log("faerror");
+  }
+  try {
+    f.b();
+  } catch (e) {
+    console.log("fberror");         // fberror
+  }
+  try {
+    F.a();                          // Object
+  } catch (e) {
+    console.log("Faerror");
+  }
+  try {
+    F.b();                          // Function
+  } catch (e) {
+    console.log("Fberror");
+  }
+
+  // 6. [多选] 下列列关于 es6 说明正确的是 ____________
+  // A. 对象的解构赋值中，var {a,b,c} = { “c”:10, ”b”:9, ”a”:8 } 结果中，a、b、c的值分别是( 8、9、10 )    ❌
+  // B. 关键字 let，只在 let 命令所在的代码块内有效，也会产⽣生变量量提升现象
+  // C. JavaScript的类class本质上是基于原型prototype的实现⽅方式做了了进⼀一步的封装    ❌
+  // D. Symbol('same') === Symbol('same') 结果为 true
+
+  // 7. 请问下述代码执⾏输出的结果是 ____________________________
+  var obj1 = {
+    name: "obj1",
+    sayName: function sayName1() {
+      console.log(this.name);
+    }
+  };
+  name = "name";
+  var obj2 = { name: "obj2" };
+  var obj3 = {
+    name: "obj3",
+    sayName: function() {
+      (function() {
+        console.log(this.name);
+      })();
+    }
+  };
+  var obj4 = {
+    name: "obj4",
+    sayName: () => {
+      console.log(this.name);
+    }
+  };
+  obj1.sayName();                   // obj1
+  obj3.sayName();                   // name
+  obj4.sayName();                   // name
+  obj1.sayName.call(obj2);          // obj2
+  obj3.sayName.call(obj2);          // name
+  obj4.sayName.call(obj2);          // name
+
+  // 8. [单选] React框架中关于性能优化描述错误的是 ____________
+  // A. 减少setState次数
+  // B. 减少频繁改变prop值
+  // C. 增加在shouldComponentUpdate中进⾏更更细致的条件判断
+  // D. 减少使用纯函数    ❌
+
+  // 9. [多选] 给定⼀一个模块请求加载 var xx= require("aaa") 以下 webpack 配置中哪⼏几项影响打包时候模块的解析 ____________
+  // A. resolve.alias
+  // B. resolve.extensions
+  // C. resolve.modules
+  // D. module.rules
+
+  // 10. [多选] 以下说明不不正确的是 ____________
+  // A. AJAX是“Asynchronous JavaScript and XML”的缩写，是指⼀一种有⻚页⾯面刷新的交互式⽹网⻚页应⽤用的⽹网⻚页开发技术。
+  // B. AJAX 使⽤用异步⽅方式与服务器器通信，具有更更加迅速的响应能⼒，减轻服务器器和带宽的负担
+  // C. ajax 支持浏览器back按钮
+  // D. ajax 对搜索引擎的⽀持比较弱     ❌
+  // E. ajax 的运⾏过程的异常可使⽤ try{}catch(){} 捕获   ❌
+
+  // 11. 执⾏以下代码输出的是 ____________
+  const promise = new Promise((resolve, reject) => {
+    console.log(1);
+    resolve();
+    console.log(2);
+  });
+  promise.then(() => {
+    console.log(3);
+  });
+  console.log(4);
+  // 1 2 4 3
+
+  // 12. 在空白处说明该函数的作用，并为这个函数写两个分支的单元测试案例(只要写明输⼊入输出项即可)
+  function filterReportUrl(locationHref) {
+    const matchs = (locationHref || "").match(/[^?]+/g) || [];
+    const len = matchs.length;
+    if (len <= 1) {
+      return matchs[0] || "";
+    } else {
+      matchs.splice(len - 1, 1);
+      return matchs.join("?");
+    }
+  }
+
+  // 13. [单选] event对象中 target 和 currentTarget 的区别描述正确的是 _________D_________
+  // A. 前者和后者都是添加listener的dom节点
+  // B. 前者和后者都是触发listener的dom节点
+  // C. 前者是添加listener的dom节点，后者是触发listener的dom节点
+  // D. 前者是触发listener的dom节点，后者是添加listener的dom节点   ✅
+
+  // 14. [多选] 有关移动端适配问题说法正确的是 _____________
+  // <meta name="viewport" content="initial-scale=2, maximum-scale=2, minimum-scale=1, user-scalable=no">
+  // A. 物理理像素是显示器器(⼿手机屏幕)上最⼩小的物理理显示单元，在操作系统的调度下，每⼀一个设备像素都有⾃自⼰己的颜⾊色值和亮度值,对应等同 于 CSS 样式中的数据⼤大⼩小
+  // B. 设备独⽴立像素(也叫密度⽆无关像素)，可以认为是计算机坐标系统中得⼀一个点，这个点代表⼀一个可以由程序使⽤用的虚拟像素，然后由 相关系统转换为物理理像素。
+  // C. 设备像素⽐比(简称dpr)定义了了物理理像素和设备独⽴立像素的对应关系，有如下公式: 设备像素⽐比 = 设备独⽴立像素 / 物理理像素
+  // D. 有如下 meta 标签的⻚页⾯面，可计算出该⻚页⾯面在 iphone7P ⼿手机下的 document.documentElement.clientWidth 值是 ( 414 / 2 = 207 )
+
+  // 15. 有以下三种元素(内联元素 a、块状元素 p、浮动元素 div)，请在空⽩处写出对应元素的样式代码，使得各自元素做到⽔平居中
+  // <div>
+  //   <a href="#">内联元素a</a>
+  //   <p>块状元素p</p>
+  //   <div style="float: left;">浮动元素 div</div>
+  // </div>
+
+  // 16. 多维数组转为一维
+  const arr1 = [[0, 1], [2, 3, [4, 5]]];
+  // 1. reduce + 递归  （不会保留empty[空项]）
+  const reduce = arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? reduce(b) : b), []);
+  console.log(reduce(arr1));
+  // 2. ES6 flat: flat()方法会移除数组中的空项。但undefined、null仍会保留。
+  // console.log(arr1.flat(Infinity));
+
+  // 17. 实现一个深拷贝函数
+  function deepClone(obj) {
+    if (typeof obj !== "object" || typeof obj == null) {
+      return obj;
+    }
+    const result = obj instanceof Array ? [] : {};
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        result[key] = deepClone(obj[key]);
+      }
+    }
+    return result;
+  }
+</script>
+
+</html>

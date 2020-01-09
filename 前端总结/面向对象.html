@@ -40,23 +40,37 @@
 
 
     // 对象拷贝
-    function clone(obj) {
-      var newObj;
-      if(obj instanceof Array) {
-        newObj = [];
-        var i = obj.length;
-        while(i--) {
-          newObj[i] = clone(obj[i]);
-        }
-        return newObj;
-      } else if(obj instanceof Object) {
-        var newObj = {};
-        for(var k in obj) {
-          newObj[k] = clone(obj[k]);
-        }
-        return newObj;
+    // function clone(obj) {
+    //   var newObj;
+    //   if(obj instanceof Array) {
+    //     newObj = [];
+    //     var i = obj.length;
+    //     while(i--) {
+    //       newObj[i] = clone(obj[i]);
+    //     }
+    //     return newObj;
+    //   } else if(obj instanceof Object) {
+    //     var newObj = {};
+    //     for(var k in obj) {
+    //       newObj[k] = clone(obj[k]);
+    //     }
+    //     return newObj;
+    //   }
+    //   return obj;
+    // }
+
+    function deepClone(obj) {
+      if (typeof obj !== "object" || typeof obj == null) {
+        return obj;
       }
-      return obj;
+      const result = obj instanceof Array ? [] : {};
+      for (let key in obj) {
+        // hasOwnProperty：判断是否是对象属性，不会检查原型上属性
+        if (obj.hasOwnProperty(key)) {
+          result[key] = deepClone(obj[key]);
+        }
+      };
+      return result;
     }
 </script>
 
