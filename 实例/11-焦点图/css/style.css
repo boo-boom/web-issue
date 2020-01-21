@@ -42,7 +42,8 @@ body {
   height: 50px;
   line-height: 50px;
   text-align: center;
-  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
   cursor: pointer;
   font-size: 20px;
   color: rgba(255, 255, 255, 0.5);
@@ -52,6 +53,7 @@ body {
 
 .slide-banner .arrow.prev {
   left: 0;
+  -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
 
@@ -62,6 +64,7 @@ body {
 
 .slide-banner .arrow.next {
   right: 0;
+  -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
 

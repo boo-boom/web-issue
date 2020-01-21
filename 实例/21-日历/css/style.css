@@ -1,0 +1,106 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.calendar .title {
+  font-family: PingFangSC-Regular, PingFang SC;
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 22px;
+}
+
+.calendar .time-container {
+  width: 100%;
+}
+
+.calendar .time-container .week {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  list-style: none;
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.65);
+  line-height: 17px;
+}
+
+.calendar .time-container .week > li {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-align: center;
+}
+
+.calendar .time-container .content .year-month {
+  height: 32px;
+  padding: 0 20px;
+  margin: 20px 0;
+  background: #fafafa;
+}
+
+.calendar .time-container .content .year-month > span {
+  font-size: 18px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #262626;
+  line-height: 32px;
+}
+
+.calendar .time-container .content .day {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  list-style: none;
+}
+
+.calendar .time-container .content .day > li {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 calc(100% / 7);
+          flex: 0 0 calc(100% / 7);
+  width: calc(100% / 7);
+  text-align: center;
+  height: 50px;
+  font-size: 16px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 50px;
+  cursor: pointer;
+}
+
+.calendar .time-container .content .day > li.disabled {
+  color: #c8c9cc;
+  cursor: default;
+}
+
+.calendar .time-container .content .day > li.current {
+  color: #fff;
+  position: relative;
+}
+
+.calendar .time-container .content .day > li.current::before {
+  content: "";
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background: #FF163A;
+  border-radius: 25px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: -1;
+  width: 50px;
+  height: 50px;
+  margin-left: -25px;
+}
+/*# sourceMappingURL=style.css.map */

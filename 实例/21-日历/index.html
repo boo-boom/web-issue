@@ -1,0 +1,97 @@
+<!--
+ * @Author: czx
+ * @Date: 2020-01-20 17:25:36
+ * @Description: 文件描述
+ * @LastEditors: czx
+ * @LastEditTime: 2020-01-21 17:39:52
+ * @FilePath: /web-issue/实例/21-日历/index.html
+ -->
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="calendar">
+    <!-- <p class="title">日历</p>
+    <div class="time-container">
+      <ul class="week">
+        <li>日</li>
+        <li>一</li>
+        <li>二</li>
+        <li>三</li>
+        <li>四</li>
+        <li>五</li>
+        <li>六</li>
+      </ul>
+      <div class="content">
+        <div class="timerWarp">
+          <div class="year-month">
+            <span class="year">2019</span>
+            <span>年</span>
+            <span class="month">12</span>
+            <span>月</span>
+          </div>
+          <ul class="day">
+            <li></li>
+            <li class="blank"></li>
+            <li class="disabled">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>3</li>
+            <li>3</li>
+            <li>3</li>
+            <li>3</li>
+            <li>3</li>
+            <li>3</li>
+            <li>3</li>
+            <li>3</li>
+            <li>3</li>
+          </ul>
+        </div>
+        <div class="timerWarp">
+          <div class="year-month">
+            <span class="year">2019</span>
+            <span>年</span>
+            <span class="month">12</span>
+            <span>月</span>
+          </div>
+          <ul class="day">
+            <li></li>
+            <li class="blank"></li>
+            <li class="disabled">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>3</li>
+            <li>3</li>
+            <li>3</li>
+            <li>3</li>
+            <li>3</li>
+            <li>3</li>
+            <li>3</li>
+            <li>3</li>
+            <li>3</li>
+          </ul>
+        </div>
+      </div>
+    </div> -->
+  </div>
+  <script src="js/index.js"></script>
+  <script>
+    window.onload = function () {
+      var calendar = new Calendar(".calendar", {
+        changeDate: function (date) {
+          console.log(date);
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>

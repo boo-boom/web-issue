@@ -8,8 +8,6 @@
 }
 
 .wipe-list .wipe-item {
-  width: -webkit-calc(100% + 100px);
-  width: -moz-calc(100% + 100px);
   width: calc(100% + 100px);
   display: -webkit-box;
   display: -ms-flexbox;
