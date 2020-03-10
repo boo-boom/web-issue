@@ -1,0 +1,138 @@
+const sku_list = [
+  {
+    id: 2,
+    price: 77.76,
+    discount_price: null,
+    online: true,
+    img: "",
+    title: "金属灰·七龙珠",
+    spu_id: 2,
+    category_id: 17,
+    root_category_id: 3,
+    specs: [
+      {
+        key_id: 1,
+        key: "颜色",
+        value_id: 45,
+        value: "金属灰",
+        lock: true
+      },
+      {
+        key_id: 3,
+        key: "图案",
+        value_id: 9,
+        value: "七龙珠"
+      },
+      {
+        key_id: 4,
+        key: "尺码",
+        value_id: 14,
+        value: "小号 S"
+      }
+    ],
+    code: "2$1-45#3-9#4-14",
+    stock: 5
+  },
+  {
+    id: 3,
+    price: 66,
+    discount_price: 59,
+    online: true,
+    img: "",
+    title: "青芒色·灌篮高手",
+    spu_id: 2,
+    category_id: 17,
+    root_category_id: 3,
+    specs: [
+      {
+        key_id: 1,
+        key: "颜色",
+        value_id: 42,
+        value: "青芒色"
+      },
+      {
+        key_id: 3,
+        key: "图案",
+        value_id: 10,
+        value: "灌篮高手"
+      },
+      {
+        key_id: 4,
+        key: "尺码",
+        value_id: 15,
+        value: "中号 M"
+      }
+    ],
+    code: "2$1-42#3-10#4-15",
+    stock: 999
+  },
+  {
+    id: 4,
+    price: 88,
+    discount_price: null,
+    online: true,
+    img: "",
+    title: "青芒色·圣斗士",
+    spu_id: 2,
+    category_id: 17,
+    root_category_id: 3,
+    specs: [
+      {
+        key_id: 1,
+        key: "颜色",
+        value_id: 42,
+        value: "青芒色"
+      },
+      {
+        key_id: 3,
+        key: "图案",
+        value_id: 11,
+        value: "圣斗士"
+      },
+      {
+        key_id: 4,
+        key: "尺码",
+        value_id: 16,
+        value: "大号  L"
+      }
+    ],
+    code: "2$1-42#3-11#4-16",
+    stock: 8
+  },
+  {
+    id: 5,
+    price: 77,
+    discount_price: 59,
+    online: true,
+    img:
+      "http://i1.sleeve.7yue.pro/assets/09f32ac8-1af4-4424-b221-44b10bd0986e.png",
+    title: "橘黄色·七龙珠",
+    spu_id: 2,
+    category_id: 17,
+    root_category_id: 3,
+    specs: [
+      {
+        key_id: 1,
+        key: "颜色",
+        value_id: 44,
+        value: "橘黄色"
+      },
+      {
+        key_id: 3,
+        key: "图案",
+        value_id: 9,
+        value: "七龙珠"
+      },
+      {
+        key_id: 4,
+        key: "尺码",
+        value_id: 14,
+        value: "小号 S"
+      }
+    ],
+    code: "2$1-44#3-9#4-14",
+    stock: 7
+  }
+];
+
+export { sku_list };
