@@ -47,6 +47,20 @@
         }
       }
       console.log(newArr);
+
+      // 代码实现：给一个数组如：[[“a”,”b”,”c”],[“d”,”e”],…..]得到[ad,ae,bd,be,cd,ce]
+      let a = [[1, 2, 3, 4, 5], ["a", "b", "d"], [6, 7, 8, 9], ["a", "s", "d", "w"], [11, 12, 13, 14, 15]]
+      let result = []
+      for (let i = 0; i < a.length; i++) {
+        for (let j = 0; j < a[i].length; j++) {
+          for (let k = i + 1; k < a.length; k++) {
+            for (let l = 0; l < a[k].length; l++) {
+              result.push(a[i][j] + a[k][l])
+            }
+          }
+        }
+      }
+      console.log(result)
     </script>
   </head>
   <body></body>
