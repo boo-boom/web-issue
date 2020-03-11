@@ -49,7 +49,7 @@ export default {
     getCurrentSkuList() {
       this.currentSkuList = sku_list.map(item => item.specs);
     },
-    // 测试-数据转换
+    // 数据转换
     transMatrix() {
       this.getCurrentSkuList();
 
@@ -202,7 +202,7 @@ export default {
     },
     handleSelectOneOption(x, y, key_id, value_id) {
       // console.log(x, y, key_id, value_id);
-      this.allSpecsList[x].value_list[y].selected = true;
+      // this.allSpecsList[x].value_list[y].selected = true;
       this.allSpecsList[x].value_list.forEach((specs, index) => {
         if (index === y) {
           specs.selected = true;

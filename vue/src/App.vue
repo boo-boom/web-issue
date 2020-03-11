@@ -2,7 +2,8 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">SKU选择器</router-link> |
-      <router-link to="/about">邻接矩阵</router-link>
+      <router-link to="/about">邻接矩阵</router-link> |
+      <router-link to="/skuAdjoin">SKU矩阵</router-link>
     </div>
     <router-view />
   </div>
