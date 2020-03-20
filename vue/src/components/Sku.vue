@@ -133,22 +133,13 @@ export default {
               currentVlaueId = specsItem.value_id;
             }
           });
-          if (
-            !this.selectable[key_id].selectableList[currentVlaueId].matchItems
-          ) {
-            this.selectable[key_id].selectableList[
-              currentVlaueId
-            ].matchItems = matchItems;
+          if (!this.selectable[key_id].selectableList[currentVlaueId].matchItems) {
+            this.selectable[key_id].selectableList[currentVlaueId].matchItems = matchItems;
           } else {
-            Object.keys(
-              this.selectable[key_id].selectableList[currentVlaueId].matchItems
-            ).forEach(k => {
-              this.selectable[key_id].selectableList[currentVlaueId].matchItems[
-                k
-              ].push(...matchItems[k]);
+            Object.keys(this.selectable[key_id].selectableList[currentVlaueId].matchItems).forEach(k => {
+              this.selectable[key_id].selectableList[currentVlaueId].matchItems[k].push(...matchItems[k]);
             });
           }
-          // console.log(matchItems, currentVlaueId);
         });
       }
       // console.log(this.selectable, this.allSpecsList);
