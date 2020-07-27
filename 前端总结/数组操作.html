@@ -61,6 +61,25 @@
         }
       }
       console.log(result)
+
+      // 快速排序
+      const arr = [13, 2, 4, 15, 23, 123, 5, 2, 234, 23, 634, 8, 23, 567, 8, 5, 4, 9];
+      function quickSock(arr) {
+        if (arr.length <= 1) return arr;
+        const l = [];
+        const r = [];
+        const temp = arr.splice(Math.floor(arr.length / 2), 1)[0];
+        for (let i = 0; i < arr.length; i++) {
+          if (arr[i] < temp) {
+            l.push(arr[i]);
+          } else {
+            r.push(arr[i]);
+          }
+        }
+        return quickSock(l).concat([temp], quickSock(r));
+      }
+      console.log(quickSock(arr));
+
     </script>
   </head>
   <body></body>

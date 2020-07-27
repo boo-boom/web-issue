@@ -33,5 +33,28 @@
     div.html('修改文本').on('click', function(){
         div.html('点击修改文本');
     });
+
+
+    // 原型
+    Array.prototype.a = 1
+    Object.prototype.b = 2
+
+    let arr = []
+    let obj = {}
+
+    console.log(arr.a, arr.b)   // 1, 2
+    console.log(obj.a, obj.b)   // undefined, 2
+    console.log(arr.__proto__ == Array.prototype)   // true
+    console.log(Array.__proto__)
+    console.log(Function.__proto__)
+    console.log(Object.__proto__)
+    console.log(Array.prototype)
+    console.log(Function.prototype)
+    console.log(Object.prototype)
+    console.log(Array.prototype.__proto__)
+    console.log(Function.prototype.__proto__)
+    console.log(Object.prototype)
+    console.log(Object.__proto__ === Function.prototype)    // true
+    console.log(Function.prototype.__proto__ === Object.prototype)  // true
 </script>
 </html>
