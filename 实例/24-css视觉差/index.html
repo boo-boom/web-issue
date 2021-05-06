@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      font-family: Helvetica, "PingFang SC", "Microsoft Yahei", sans-serif;
+      background: #eee;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 50vh;
+      height: 50vh;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      perspective: 1px;
+    }
+
+    .parallax-child {
+      width: 50vh;
+      height: 50vh;
+      border: 1px solid black;
+      /* transform-origin: 0 0; */
+      transform: translateZ(-2px) scale(3);
+      background: rgba(255, 255, 255, 0.5)
+    }
+
+    .another {
+      width: 50vh;
+      height: 50vh;
+      border: 1px solid black;
+      background: rgba(0, 0, 0, 0.5)
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="parallax-child"></div>
+    <div class="another">2333333333333333</div>
+  </div>
+</body>
+
+</html>
