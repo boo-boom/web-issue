@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no"/>
+	<title></title>
+	<link rel="stylesheet" href="photo.css" />
+	<style>
+		html,
+		body{
+			height: 100%;
+			overflow: hidden;
+		}
+		body{
+			margin: 0;
+			background-color: rgba(216, 243, 239, 0.79);
+		}
+		#c{
+			box-shadow: 0 0 10px #ccc;
+			background-color: #000;
+		}
+		#c2{
+			position: absolute;
+			left: 0;
+			top: 0;
+			z-index: 999;
+		}
+		#pannel{
+			position: relative;
+			width: 100%;
+		}
+		#grayslider,
+		#lightnessslider,
+		#saturateslider{
+			width: 80%;
+			margin-left: 5vw;
+		}
+		#sliders .hide{
+			display: none;
+		}
+		#mode{
+			margin-top: 10px;
+			display: flex;
+		}
+		#mode>div{
+			font: 12px/1 "微软雅黑";
+			flex: 1;
+			text-align: center;
+		}
+		#mode .sel{
+			color: cornflowerblue;
+		}
+		#mode .disabled{
+			color: #ccc;
+		}
+		#tip{
+			position: absolute;
+			left: 10px;
+			top: 10px;
+			color: #fff;
+			font: 30px/2 "微软雅黑";
+		}
+	</style>
+	
+</head>
+<body>
+	<div id="pannel">
+		<canvas id="c"></canvas>
+		<canvas id="c2"></canvas>
+	</div>
+	<div id="sliders">
+		<div id="grayslider"></div>
+		<div id="lightnessslider"></div>
+		<div id="saturateslider"></div>
+	</div>
+	<div id="mode">
+		<div>
+			<span class="icon brightness"></span>	
+			<span>灰度</span>
+		</div>
+		<div>
+			<span class="icon sharpening"></span>	
+			<span>亮度</span>
+		</div>
+		<div>
+			<span class="icon image"></span>	
+			<span>饱和度</span>
+		</div>
+		<div class="disabled">
+			<span class="icon temperature"></span>
+			<span>色相</span>
+		</div>
+		<div class="disabled">
+			<span class="icon saturation"></span>
+			<span>对比度</span>
+		</div>
+		<pre id="tip"></pre>
+	</div>
+	
+	<script src="./tool.js"></script>
+	<script src="./index.js"></script>
+	<script>
+		var html = document.documentElement;
+		var htmlWidth = html.getBoundingClientRect().width;
+		html.style.fontSize = htmlWidth/16 +"px";
+		
+		var c = document.getElementById("c");
+		var ctx = c.getContext("2d");
+		
+		var c2 = document.getElementById("c2");
+		var ctx2 = c2.getContext("2d");
+		
+		var windowW = window.innerWidth;
+		var windowH = window.innerHeight;
+		
+		var rectData,oriData;
+		c.setAttribute("width",windowW);
+		c.setAttribute("height",windowH*0.8);
+		c2.setAttribute("width",windowW);
+		c2.setAttribute("height",windowH*0.8);
+		
+		var img = new Image();
+		img.src = "./2.jpg";
+		img.onload = function(){
+			var imgL = 0,
+				imgT = 0,
+				imgW = 0,
+				imgH = 0;
+			var canvasWHscale = c.width / c.height;
+			var imgWHscale = img.width / img.height;
+//			console.log( canvasWHscale,imgWHscale );
+//			如果  图片的 宽高比  大于  画布的宽高比  那么 就按照 画布的 宽度做适配
+			if( imgWHscale > canvasWHscale ){
+				imgW = c.width;
+				imgL = 0;
+				imgH = imgW / imgWHscale;
+				imgT = (c.height - imgH) / 2 ;
+			}else{
+				imgH = c.height;
+				imgT = 0;
+				imgW = imgWHscale * imgH;
+				imgL = (c.width - imgW) / 2;
+			}
+			ctx.drawImage( img,imgL,imgT,imgW,imgH );
+//			rectData = ctx.getImageData( 0,0,100,200 );
+			rectData = ctx.getImageData( 0,0,c.width,c.height );
+			oriData = Array.from(rectData.data); // 拷贝 一份 原像素数据出来,变成数组
+//			console.log( rectData );
+		}
+		
+		
+		var grayslider = document.getElementById("grayslider");
+		var lightnessslider = document.getElementById("lightnessslider");
+		var saturateslider = document.getElementById("saturateslider");
+		var stateObj = {
+			g: 0, //0 ~ 100
+			l: 0,// -50 ~ 50
+			s: 0 // -50 ~ 50
+		}
+		
+		slider( {
+			wrap: saturateslider,
+			min: -50,
+			val: 0,
+			max: 50,
+			inputFn: dealWith( function(v){
+				stateObj.s = v;
+				calcImg(stateObj);
+			},200,500 )
+		} )
+		
+		slider( {
+			wrap: lightnessslider,
+			min: -50,
+			val: 0,
+			max: 50,
+			inputFn: dealWith( function(v){
+				stateObj.l = v;
+				calcImg(stateObj);
+			},200,500 )
+		} )
+		
+		slider( {
+			wrap: grayslider,
+			min: 0,
+			val: 0,
+			max: 100,
+			inputFn: dealWith( function(v){
+				stateObj.g = v;
+				calcImg(stateObj);
+			},200,500 )
+		} )
+		
+		var minArea = 40;
+		
+		var rect = {
+			l:50,
+			t:50,
+			r:200,
+			b:200
+		}
+		
+		drawRect( {
+			c: c2,
+			rect
+		} );
+		
+//		实现底部的 选项切换
+		tabBtn();
+//------------------------------------------
+//------------------------------------------
+//------------------------------------------
+//------------------------------------------
+
+		var c2 = document.getElementById("c2");
+		var ctx2 = c2.getContext("2d");
+		var touchArea = 40;
+//		var lastX,lastY ;
+//		var flag = "";
+//------------------------------------------
+//		var flag = {
+//			"0": { // 这根手指头的 详细信息
+//				lastX,lastY,
+//				dir:"r"
+//			},
+//			"3": {
+//				lastX,lastY,
+//				dir:"b"
+//			}
+//		};
+//------------------------------------------
+		var flag = {};
+		
+//		var obj = {
+//			a:1,
+//			b:2,
+//			c:3
+//		}
+//		tlog( JSON.stringify( obj,null,"\t" ) )
+		
+		c2.addEventListener("touchstart",function(){
+			({pageX:lastX,pageY:lastY,identifier} = event.changedTouches[0]);
+			
+			flag[identifier] = {
+				lastX,lastY,
+				dir: ""
+			};
+			
+//			console.log( flag );
+			if( Math.abs( lastX - rect.r ) < touchArea ){ // 在右边上按下了
+				console.log( "在右边上按下了" );
+				flag[identifier].dir += "r";
+			}else if( Math.abs( lastX - rect.l ) < touchArea ){ // 在左边上按下了
+				console.log( "在左边上按下了" );
+				flag[identifier].dir += "l";
+			}
+			
+			if( Math.abs( lastY - rect.t ) < touchArea ){ // 在上边上按下了
+				console.log( "在上边上按下了" );
+				flag[identifier].dir += "t";
+			}else if( Math.abs( lastY - rect.b ) < touchArea ){ // 在底边上按下了
+				console.log( "在底边上按下了" );
+				flag[identifier].dir += "b";
+			}
+			
+			if( lastY > rect.t + touchArea 
+				&& lastY < rect.b - touchArea
+				&& lastX > rect.l + touchArea
+				&& lastX < rect.r - touchArea){
+				flag[identifier].dir = "m"; 
+			}
+			
+//			console.log( flag );
+			tlog( JSON.stringify( flag,null,"\t" ) );
+			event.preventDefault();
+		})
+		
+		c2.addEventListener("touchmove",function(){
+//			tlog( event.changedTouches.length );
+			
+			var finger = event.changedTouches;
+//			console.log( Array.from(finger) );
+			Array.from(finger).forEach( item=>{
+				({pageX:nowX,pageY:nowY,identifier} = item );
+				var temp = flag[identifier];
+				
+				if( temp.dir.includes("r") ){
+					rect.r += nowX - temp.lastX;
+					temp.lastX = nowX; 
+				}
+				if( temp.dir.includes("l") ){
+					rect.l += nowX - temp.lastX;
+					temp.lastX = nowX; 
+				}
+				if( temp.dir.includes("t") ){
+					rect.t += nowY - temp.lastY;
+					temp.lastY = nowY; 
+				}
+				if( temp.dir.includes("b") ){
+					rect.b += nowY - temp.lastY;
+					temp.lastY = nowY; 
+				}
+				
+				if( temp.dir === "m" ){// 移动
+					rect.r += nowX - temp.lastX;
+					rect.l += nowX - temp.lastX;
+					rect.t += nowY - temp.lastY;
+					rect.b += nowY - temp.lastY;
+					
+					temp.lastY = nowY; 
+					temp.lastX = nowX; 
+				}
+				
+				
+			});
+			
+			
+			
+			drawRect( {
+				c: c2,
+				rect
+			} );
+			event.preventDefault();
+		})
+		
+	</script>
+</body>
+</html>

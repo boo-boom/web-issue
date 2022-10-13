@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,user-scalable=no"/>
+		<title></title>
+	</head>
+	<body>
+		<div id="box"></div>
+		<script src="./tool.js"></script>
+		<script>
+			var box = document.getElementById("box");
+//			slider({
+//				wrap: box, // 滑块所在 容器
+//				max:100,	// 滑动 范围 的 最大值
+//				min:0,		// 滑动 范围 的 最小值
+//				val:20,    // 初始值
+//				inputFn: function( v ){ // 滑动过程中 执行 的 函数
+//					console.log("滑动了!",v);
+//				},
+////				extend:true // 是否 拓展 原点 按下区域
+//			});
+			
+//			函数节流
+			var fn = dealWith( function( v ){ // 滑动过程中 执行 的 函数
+				console.log("滑动了!",v);
+			},200,500 );
+			
+			
+			slider({
+				wrap: box, // 滑块所在 容器
+				max:100,	// 滑动 范围 的 最大值
+				min:0,		// 滑动 范围 的 最小值
+				val:20,    // 初始值
+				inputFn: fn,
+//				extend:true // 是否 拓展 原点 按下区域
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		
+	</head>
+	<body>
+		<canvas id="c" width="100" height="100"></canvas>
+		<script>
+			var ctx = document.getElementById("c").getContext("2d");
+			
+			var img = new Image();
+			img.src = "./2.jpg";
+			img.onload = function(){
+				ctx.drawImage( img,0,0 );
+				
+				var d = ctx.getImageData( 0,0,100,100 );
+				var oriData = d.data;
+				for (var i = 0; i < oriData.length; i+=4) {
+					var r = oriData[i],
+						g = oriData[i+1],
+						b = oriData[i+2];
+					
+					var avg = (r+g+b)/3;
+					d.data[i] = avg;
+					d.data[i+1] = avg;
+					d.data[i+2] = avg;
+				}
+				ctx.putImageData( d,0,0,0,0,100,100 );
+			}
+		</script>
+	</body>
+</html>

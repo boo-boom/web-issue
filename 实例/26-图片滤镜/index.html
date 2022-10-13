@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,user-scalable=no" />
+  <title>canvas滤镜</title>
+  <link rel="stylesheet" href="css/photo.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      margin: 0;
+      background-color: rgba(216, 243, 239, 0.79);
+    }
+
+    #c {
+      box-shadow: 0 0 10px #ccc;
+      background-color: #000;
+    }
+
+    #c2 {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    #pannel {
+      position: relative;
+      width: 100%;
+    }
+
+    #grayslider,
+    #lightnessslider,
+    #saturateslider {
+      width: 80%;
+      margin-left: 5vw;
+    }
+
+    #sliders .hide {
+      display: none;
+    }
+
+    #mode {
+      margin-top: 10px;
+      display: flex;
+    }
+
+    #mode>div {
+      font: 12px/1 "微软雅黑";
+      flex: 1;
+      text-align: center;
+    }
+
+    #mode .sel {
+      color: cornflowerblue;
+    }
+
+    #mode .disabled {
+      color: #ccc;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="pannel">
+    <canvas id="c"></canvas>
+    <canvas id="c2"></canvas>
+  </div>
+  <div id="sliders">
+    <div id="grayslider"></div>
+    <div id="lightnessslider"></div>
+    <div id="saturateslider"></div>
+  </div>
+  <div id="mode">
+    <div>
+      <span class="icon brightness"></span>
+      <span>灰度</span>
+    </div>
+    <div>
+      <span class="icon sharpening"></span>
+      <span>亮度</span>
+    </div>
+    <div>
+      <span class="icon image"></span>
+      <span>饱和度</span>
+    </div>
+    <div class="disabled">
+      <span class="icon temperature"></span>
+      <span>色相</span>
+    </div>
+    <div class="disabled">
+      <span class="icon saturation"></span>
+      <span>对比度</span>
+    </div>
+  </div>
+  <script src="./js/tool.js"></script>
+  <script src="./js/index.js"></script>
+  <script>
+
+  </script>
+</body>
+
+</html>
